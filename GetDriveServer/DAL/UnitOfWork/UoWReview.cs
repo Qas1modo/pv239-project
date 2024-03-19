@@ -4,17 +4,17 @@ using DAL.UnitOfWork.Interface;
 
 namespace DAL.UnitOfWork
 {
-    public class UoWHolding : IUoWHolding
+    public class UoWReview : IUoWReview
     {
-        public IRepository<Holding> HoldingRepository { get; }
+        public IRepository<Review> ReviewRepository { get; }
 
-        private readonly FundParserDbContext context;
+        private readonly GetDriveDbContext context;
 
-        public UoWHolding(FundParserDbContext context,
-            IRepository<Holding> holdingRepository)
+        public UoWReview(GetDriveDbContext context,
+            IRepository<Review> reviewRepository)
         {
             this.context = context;
-            HoldingRepository = holdingRepository;
+            ReviewRepository = reviewRepository;
         }
 
         public async Task CommitAsync()

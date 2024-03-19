@@ -16,13 +16,14 @@ namespace Configuration
             services.AddSingleton<IMapper>(new Mapper(new MapperConfiguration(MappingConfig.ConfigureMapping)));
 
             //Repository DI Setup
-            services.AddScoped<IRepository<Holding>, Repository<Holding>>();
+            services.AddScoped<IRepository<Review>, Repository<Review>>();
+            services.AddScoped<IRepository<User>, Repository<User>>();
 
             // UnitOfWork DI Setup
-            services.AddScoped<IUoWHolding, UoWHolding>();
+            services.AddScoped<IUoWReview, UoWReview>();
 
             //Services DI Setup
-            services.AddScoped<IHoldingService, HoldingService>();
+            services.AddScoped<IAuthService, AuthService>();
         }
     }
 }

@@ -5,11 +5,11 @@ namespace DAL.Repository
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : BaseEntity
     {
-        internal FundParserDbContext context;
+        internal GetDriveDbContext context;
 
         internal DbSet<TEntity> dbSet;
 
-        public Repository(FundParserDbContext dbcontext)
+        public Repository(GetDriveDbContext dbcontext)
         {
             this.context = dbcontext;
             this.dbSet = context.Set<TEntity>();

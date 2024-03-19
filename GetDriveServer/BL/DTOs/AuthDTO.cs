@@ -8,12 +8,9 @@ using System.Threading.Tasks;
 
 namespace BL.DTOs
 {
-    public class HoldingDTO
+    public class AuthDTO
     {
-        public int Id { get; set; }
-        public DateTime Date { get; set; }
-        public decimal Shares { get; set; }
-        public decimal MarketValue { get; set; }
-        public decimal Weight { get; set; }
+        public int UserId { get; set; }
+        public string UserName { get; set; }
     }
 }

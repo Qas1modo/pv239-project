@@ -12,23 +12,25 @@ namespace DAL.Data
     {
         public static void Seed(this ModelBuilder modelBuilder)
         {
-            Fund fund1 = new Fund { Id = 1, Name = "Fund1" };
-            modelBuilder.Entity<Fund>().HasData(fund1);
+            User user1 = new User { Id = 1, Name = "testuser", Password="test" };
+            modelBuilder.Entity<User>().HasData(user1);
 
-            Company company1 = new Company { Id = 1, Name = "Company1", Cusip = "CUSIP1", Ticker = "TICK1" };
-            modelBuilder.Entity<Company>().HasData(company1);
+            User user2 = new User { Id = 2, Name = "marek", Password = "test" };
+            modelBuilder.Entity<User>().HasData(user2);
 
-            Holding holding1 = new Holding
-            {
-                Id = 1,
-                Date = DateTime.Now,
-                FundId = fund1.Id,
-                CompanyId = company1.Id,
-                Shares = 1000,
-                MarketValue = 50000,
-                Weight = 0.05m
-            };
-            modelBuilder.Entity<Holding>().HasData(holding1);
+            User user3 = new User { Id = 3, Name = "samuel", Password = "test" };
+            modelBuilder.Entity<User>().HasData(user3);
+
+            Ride ride1 = new Ride { Id = 1, DriverId=1, Departure=DateTime.Now, Note="Nebereme nikoho po cestě", Destination="Bratislava", Start="Brno", Price=2.1m,
+                MaxPassangerCount = 4 };
+            modelBuilder.Entity<Ride>().HasData(ride1);
+
+            UserRide userRide1 = new UserRide { RideId = 1, PassengerId = 2, PassengerCount = 2, Id = 1 };
+            modelBuilder.Entity<UserRide>().HasData(userRide1);
+
+
+            Review review1 = new Review { Id = 1, AuthorId = 2, ReviewText = "Pretty Good!", Score = 5, UserId = 1 };
+            modelBuilder.Entity<Review>().HasData(review1);
         }
     }
 }

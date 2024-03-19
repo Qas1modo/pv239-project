@@ -9,12 +9,12 @@ namespace Configuration
     {
         public static void AddServices(IServiceCollection services, IConfigurationManager config)
         {
-            services.AddDbContext<FundParserDbContext>(options =>
+            services.AddDbContext<GetDriveDbContext>(options =>
             {
                 var folder = Environment.SpecialFolder.LocalApplicationData;
                 var path = Environment.GetFolderPath(folder);
                 var dbPath = Path.Join(path, config.GetConnectionString("DbName"));
-                options.UseSqlite($"Data Source={dbPath}", b => b.MigrationsAssembly("FundParser"));
+                options.UseSqlite($"Data Source={dbPath}", b => b.MigrationsAssembly("GetDriveServer"));
             });
         }
     }

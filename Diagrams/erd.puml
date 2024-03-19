@@ -1,0 +1,48 @@
+@startuml erd
+
+hide circle
+
+skinparam linetype ortho
+
+Entity User {
+    * id
+    --
+    * name: String
+    * password: String
+}
+
+
+Entity Ride {
+  * id
+  --
+  * start: string
+  * destination: string
+  * price: decimal
+  * departure: DateTime
+  * note: string
+}
+
+Entity Review {
+    * id
+    ---
+    * userId: <<FK>>
+    * authorId: <<FK>>
+    * reviewText: String
+    * score: int
+}
+
+Entity UserRide {
+    * id
+    --
+    * driverID: <<FK>>
+    * passangerId: <<FK>>
+    * rideId: <<FK>>
+    * passangerCount: int
+}
+
+
+User ||--o{ Ride
+User ||--o{ Review
+Ride ||--o{ UserRide
+
+@enduml
