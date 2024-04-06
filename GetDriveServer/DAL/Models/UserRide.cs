@@ -19,5 +19,9 @@ namespace DAL.Models
 
         [Required]
         public int PassengerCount { get; set; }
+        public bool Accepted { get; set; }
+
+        [MaxLength(1000)]
+        public string PassangerNote { get; set; }
     }
 }

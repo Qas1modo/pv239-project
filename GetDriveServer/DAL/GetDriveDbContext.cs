@@ -6,10 +6,10 @@ namespace DAL
 {
     public class GetDriveDbContext : DbContext
     {
-        public DbSet<Review> Reviews { get; set; }
-        public DbSet<Ride> Rides { get; set; }
-        public DbSet<User> Users { get; set; }
-        public DbSet<UserRide> UserRides { get; set; }
+        public DbSet<Review> Review { get; set; }
+        public DbSet<Ride> Ride { get; set; }
+        public DbSet<User> User { get; set; }
+        public DbSet<UserRide> UserRide { get; set; }
 
         public GetDriveDbContext()
         {

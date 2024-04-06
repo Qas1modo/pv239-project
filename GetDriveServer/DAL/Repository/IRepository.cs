@@ -13,6 +13,7 @@ namespace DAL.Repository
         IQueryable<TEntity> GetQueryable();
         Task<IEnumerable<TEntity>> GetAll();
         void Insert(TEntity entity);
+        Task InsertAsync(TEntity entity);
         void Delete(int id);
         void Delete(TEntity entityToDelete);
         void Update(TEntity entityToUpdate);

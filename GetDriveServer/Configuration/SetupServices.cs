@@ -14,7 +14,7 @@ namespace Configuration
                 var folder = Environment.SpecialFolder.LocalApplicationData;
                 var path = Environment.GetFolderPath(folder);
                 var dbPath = Path.Join(path, config.GetConnectionString("DbName"));
-                options.UseSqlite($"Data Source={dbPath}", b => b.MigrationsAssembly("GetDriveServer"));
+                options.UseSqlite($"Data Source={dbPath}.sqllite", b => b.MigrationsAssembly("GetDriveServer"));
             });
         }
     }

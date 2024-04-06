@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace BL.DTOs
 {
-    public class ResponseDTO<T>
+    public class AcceptRideDTO
     {
-        public int status { get; set; }
-        public string message { get; set; }
-        public T result { get; set; }
+        public int UserId { get; set; }
+        public int UserRideId { get; set; }
     }
 }

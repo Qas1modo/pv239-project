@@ -15,11 +15,12 @@ Entity User {
 Entity Ride {
   * id
   --
+  * driverID: <<FK>>
   * start: string
   * destination: string
   * price: decimal
   * departure: DateTime
-  * note: string
+  driverNote: string
 }
 
 Entity Review {
@@ -27,17 +28,18 @@ Entity Review {
     ---
     * userId: <<FK>>
     * authorId: <<FK>>
-    * reviewText: String
     * score: int
+    reviewText: string
 }
 
 Entity UserRide {
     * id
     --
-    * driverID: <<FK>>
     * passangerId: <<FK>>
     * rideId: <<FK>>
     * passangerCount: int
+    note: string
+    accepted: bool
 }
 
 

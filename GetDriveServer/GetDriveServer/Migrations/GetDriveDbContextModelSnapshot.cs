@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GetDriveServer.Migrations
 {
     [DbContext(typeof(GetDriveDbContext))]
-    partial class FundParserDbContextModelSnapshot : ModelSnapshot
+    partial class GetDriveDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -42,7 +42,7 @@ namespace GetDriveServer.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Reviews");
+                    b.ToTable("Review");
 
                     b.HasData(
                         new
@@ -66,42 +66,98 @@ namespace GetDriveServer.Migrations
 
                     b.Property<string>("Destination")
                         .IsRequired()
+                        .HasMaxLength(200)
                         .HasColumnType("TEXT");
 
                     b.Property<int>("DriverId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("DriverNote")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("MaxPassangerCount")
                         .HasColumnType("INTEGER");
-
-                    b.Property<string>("Note")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Start")
                         .IsRequired()
+                        .HasMaxLength(200)
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
                     b.HasIndex("DriverId");
 
-                    b.ToTable("Rides");
+                    b.ToTable("Ride");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            Departure = new DateTime(2024, 3, 19, 22, 12, 18, 447, DateTimeKind.Local).AddTicks(585),
+                            Departure = new DateTime(2024, 4, 5, 22, 48, 45, 974, DateTimeKind.Local).AddTicks(1262),
                             Destination = "Bratislava",
                             DriverId = 1,
+                            DriverNote = "Nebereme nikoho po cestě",
                             MaxPassangerCount = 4,
-                            Note = "Nebereme nikoho po cestě",
                             Price = 2.1m,
                             Start = "Brno"
+                        });
+                });
+
+            modelBuilder.Entity("DAL.Models.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Salt")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("User");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Email = "Test",
+                            Name = "testuser",
+                            Password = "test",
+                            Salt = "test"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Email = "Test",
+                            Name = "marek",
+                            Password = "test",
+                            Salt = "test"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Email = "Test",
+                            Name = "samuel",
+                            Password = "test",
+                            Salt = "test"
                         });
                 });
 
@@ -126,7 +182,7 @@ namespace GetDriveServer.Migrations
 
                     b.HasIndex("RideId");
 
-                    b.ToTable("UserRides");
+                    b.ToTable("UserRide");
 
                     b.HasData(
                         new
@@ -138,57 +194,15 @@ namespace GetDriveServer.Migrations
                         });
                 });
 
-            modelBuilder.Entity("User", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
-
-                    b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "testuser",
-                            Password = "test"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "marek",
-                            Password = "test"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "samuel",
-                            Password = "test"
-                        });
-                });
-
             modelBuilder.Entity("DAL.Models.Review", b =>
                 {
-                    b.HasOne("User", "Author")
+                    b.HasOne("DAL.Models.User", "Author")
                         .WithMany()
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("User", "User")
+                    b.HasOne("DAL.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -201,7 +215,7 @@ namespace GetDriveServer.Migrations
 
             modelBuilder.Entity("DAL.Models.Ride", b =>
                 {
-                    b.HasOne("User", "Driver")
+                    b.HasOne("DAL.Models.User", "Driver")
                         .WithMany()
                         .HasForeignKey("DriverId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -212,7 +226,7 @@ namespace GetDriveServer.Migrations
 
             modelBuilder.Entity("DAL.Models.UserRide", b =>
                 {
-                    b.HasOne("User", "Passenger")
+                    b.HasOne("DAL.Models.User", "Passenger")
                         .WithMany()
                         .HasForeignKey("PassengerId")
                         .OnDelete(DeleteBehavior.Cascade)

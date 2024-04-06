@@ -12,9 +12,11 @@ namespace DAL.Models
         public virtual User Driver { get; set; }
 
         [Required]
-        public string Start { get; set; }
+        [MaxLength(200)]
+        public string StartLocation { get; set; }
 
         [Required]
+        [MaxLength(200)]
         public string Destination { get; set; }
 
         [Required]
@@ -26,6 +28,12 @@ namespace DAL.Models
         [Required]
         public DateTime Departure { get; set; }
 
-        public string Note { get; set; }
+        [Required]
+        public int AvailableSeats { get; set; }
+
+        [MaxLength(1000)]
+        public string DriverNote { get; set; }
+
+        public bool Canceled { get; set; }
     }
 }

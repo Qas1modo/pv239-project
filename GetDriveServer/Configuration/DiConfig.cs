@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using BL.Services.HoldingService;
+using BL.Services;
+using DAL;
 using DAL.Models;
 using DAL.Repository;
 using DAL.UnitOfWork;
@@ -18,12 +19,18 @@ namespace Configuration
             //Repository DI Setup
             services.AddScoped<IRepository<Review>, Repository<Review>>();
             services.AddScoped<IRepository<User>, Repository<User>>();
+            services.AddScoped<IRepository<Ride>, Repository<Ride>>();
+            services.AddScoped<IRepository<UserRide>, Repository<UserRide>>();
 
             // UnitOfWork DI Setup
-            services.AddScoped<IUoWReview, UoWReview>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            //Context DI Setup
+            services.AddScoped<GetDriveDbContext, GetDriveDbContext>();
 
             //Services DI Setup
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IRideService, RideService>();
         }
     }
 }

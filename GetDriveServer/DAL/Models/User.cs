@@ -2,12 +2,23 @@
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
-[Index(nameof(Name), IsUnique = true)]
-public class User: BaseEntity
+namespace DAL.Models
 {
-    [Required]
-    public string Name { get; set; }
+    public class User : BaseEntity
+    {
+        [Required]
+        public string Name { get; set; }
 
-    [Required]
-    public string Password { get; set; }
+        [Required]
+        public string Email { get; set; }
+
+        [Required]
+        public string Phone { get; set; }
+
+        [Required]
+        public string Password { get; set; }
+
+        [Required]
+        public string Salt { get; set; }
+    }
 }
