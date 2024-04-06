@@ -8,176 +8,178 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace GetDriveServer.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Users",
+                name: "User",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Password = table.Column<string>(type: "TEXT", nullable: false)
+                    Email = table.Column<string>(type: "TEXT", nullable: false),
+                    Phone = table.Column<string>(type: "TEXT", nullable: false),
+                    Password = table.Column<string>(type: "TEXT", nullable: false),
+                    Salt = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.PrimaryKey("PK_User", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Reviews",
+                name: "Review",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     UserId = table.Column<int>(type: "INTEGER", nullable: false),
                     AuthorId = table.Column<int>(type: "INTEGER", nullable: false),
-                    ReviewText = table.Column<string>(type: "TEXT", nullable: false),
-                    Score = table.Column<int>(type: "INTEGER", nullable: false)
+                    Score = table.Column<int>(type: "INTEGER", nullable: false),
+                    ReviewText = table.Column<string>(type: "TEXT", nullable: true),
+                    PostedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Reviews", x => x.Id);
+                    table.PrimaryKey("PK_Review", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Reviews_Users_AuthorId",
+                        name: "FK_Review_User_AuthorId",
                         column: x => x.AuthorId,
-                        principalTable: "Users",
+                        principalTable: "User",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Reviews_Users_UserId",
+                        name: "FK_Review_User_UserId",
                         column: x => x.UserId,
-                        principalTable: "Users",
+                        principalTable: "User",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Rides",
+                name: "Ride",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     DriverId = table.Column<int>(type: "INTEGER", nullable: false),
-                    Start = table.Column<string>(type: "TEXT", nullable: false),
-                    Destination = table.Column<string>(type: "TEXT", nullable: false),
-                    MaxPassangerCount = table.Column<int>(type: "INTEGER", nullable: false),
+                    StartLocation = table.Column<string>(type: "TEXT", maxLength: 200, nullable: false),
+                    Destination = table.Column<string>(type: "TEXT", maxLength: 200, nullable: false),
+                    MaxPassengerCount = table.Column<int>(type: "INTEGER", nullable: false),
                     Price = table.Column<decimal>(type: "TEXT", nullable: false),
                     Departure = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Note = table.Column<string>(type: "TEXT", nullable: false)
+                    AvailableSeats = table.Column<int>(type: "INTEGER", nullable: false),
+                    DriverNote = table.Column<string>(type: "TEXT", maxLength: 1000, nullable: true),
+                    Canceled = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Rides", x => x.Id);
+                    table.PrimaryKey("PK_Ride", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Rides_Users_DriverId",
+                        name: "FK_Ride_User_DriverId",
                         column: x => x.DriverId,
-                        principalTable: "Users",
+                        principalTable: "User",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserRides",
+                name: "UserRide",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     PassengerId = table.Column<int>(type: "INTEGER", nullable: false),
                     RideId = table.Column<int>(type: "INTEGER", nullable: false),
-                    PassengerCount = table.Column<int>(type: "INTEGER", nullable: false)
+                    PassengerCount = table.Column<int>(type: "INTEGER", nullable: false),
+                    Accepted = table.Column<bool>(type: "INTEGER", nullable: false),
+                    PassengerNote = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserRides", x => x.Id);
+                    table.PrimaryKey("PK_UserRide", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserRides_Rides_RideId",
+                        name: "FK_UserRide_Ride_RideId",
                         column: x => x.RideId,
-                        principalTable: "Rides",
+                        principalTable: "Ride",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserRides_Users_PassengerId",
+                        name: "FK_UserRide_User_PassengerId",
                         column: x => x.PassengerId,
-                        principalTable: "Users",
+                        principalTable: "User",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
-                table: "Users",
-                columns: new[] { "Id", "Name", "Password" },
+                table: "User",
+                columns: new[] { "Id", "Email", "Name", "Password", "Phone", "Salt" },
                 values: new object[,]
                 {
-                    { 1, "testuser", "test" },
-                    { 2, "marek", "test" },
-                    { 3, "samuel", "test" }
+                    { 1, "Test", "testuser", "test", "+421123456789", "test" },
+                    { 2, "Test", "marek", "test", "+421123456789", "test" },
+                    { 3, "Test", "samuel", "test", "+421123456789", "test" }
                 });
 
             migrationBuilder.InsertData(
-                table: "Reviews",
-                columns: new[] { "Id", "AuthorId", "ReviewText", "Score", "UserId" },
-                values: new object[] { 1, 2, "Pretty Good!", 5, 1 });
+                table: "Review",
+                columns: new[] { "Id", "AuthorId", "PostedAt", "ReviewText", "Score", "UserId" },
+                values: new object[] { 1, 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Pretty Good!", 5, 1 });
 
             migrationBuilder.InsertData(
-                table: "Rides",
-                columns: new[] { "Id", "Departure", "Destination", "DriverId", "MaxPassangerCount", "Note", "Price", "Start" },
-                values: new object[] { 1, new DateTime(2024, 3, 19, 22, 12, 18, 447, DateTimeKind.Local).AddTicks(585), "Bratislava", 1, 4, "Nebereme nikoho po cestě", 2.1m, "Brno" });
+                table: "Ride",
+                columns: new[] { "Id", "AvailableSeats", "Canceled", "Departure", "Destination", "DriverId", "DriverNote", "MaxPassengerCount", "Price", "StartLocation" },
+                values: new object[] { 1, 2, false, new DateTime(2024, 4, 26, 17, 13, 41, 980, DateTimeKind.Local).AddTicks(594), "Bratislava", 1, "Nebereme nikoho po cestě", 4, 2.1m, "Brno" });
 
             migrationBuilder.InsertData(
-                table: "UserRides",
-                columns: new[] { "Id", "PassengerCount", "PassengerId", "RideId" },
-                values: new object[] { 1, 2, 2, 1 });
+                table: "UserRide",
+                columns: new[] { "Id", "Accepted", "PassengerCount", "PassengerId", "PassengerNote", "RideId" },
+                values: new object[] { 1, true, 2, 2, "Test", 1 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reviews_AuthorId",
-                table: "Reviews",
+                name: "IX_Review_AuthorId",
+                table: "Review",
                 column: "AuthorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reviews_UserId",
-                table: "Reviews",
+                name: "IX_Review_UserId",
+                table: "Review",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Rides_DriverId",
-                table: "Rides",
+                name: "IX_Ride_DriverId",
+                table: "Ride",
                 column: "DriverId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserRides_PassengerId",
-                table: "UserRides",
+                name: "IX_UserRide_PassengerId",
+                table: "UserRide",
                 column: "PassengerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserRides_RideId",
-                table: "UserRides",
+                name: "IX_UserRide_RideId",
+                table: "UserRide",
                 column: "RideId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_Name",
-                table: "Users",
-                column: "Name",
-                unique: true);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Reviews");
+                name: "Review");
 
             migrationBuilder.DropTable(
-                name: "UserRides");
+                name: "UserRide");
 
             migrationBuilder.DropTable(
-                name: "Rides");
+                name: "Ride");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "User");
         }
     }
 }

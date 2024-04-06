@@ -18,9 +18,10 @@ namespace DAL.Models
         public virtual User Author { get; set; }
 
         [Required]
-        public string ReviewText { get; set; }
-
-        [Required]
         public int Score { get; set; }
+
+        public string? ReviewText { get; set; }
+
+        public DateTime PostedAt { get; set; }
     }
 }

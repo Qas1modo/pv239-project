@@ -1,11 +1,12 @@
 using BL.DTOs;
-using BL.Services.HoldingService;
+using BL.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GetDriveServer.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("auth")]
     public class AuthController : ControllerBase
     {
         private readonly IAuthService authService;
@@ -15,11 +16,55 @@ namespace GetDriveServer.Controllers
             this.authService = authService;
         }
 
-        [HttpPost(Name = "Login")]
-        public JsonResult Login([FromBody] LoginDto loginDto)
+        [HttpPost("login")]
+        [AllowAnonymous]
+        public IActionResult Login([FromBody] LoginDto loginDto)
         {
+            if (loginDto == null)
+            {
+                return BadRequest("Invalid Data");
+            }
             var data = authService.Login(loginDto);
-            return new JsonResult(data);
+            if (data == null)
+            {
+                return BadRequest("Invalid email or password");
+            }
+            return Ok(data);
+        }
+
+        [HttpPost("register")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Register([FromBody] RegistrationDTO registrationDTO)
+        {
+            if (registrationDTO == null)
+            {
+                return BadRequest("Invalid Data");
+            }
+            var result = await authService.RegisterUserAsync(registrationDTO);
+            if (result == null)
+            {
+                return BadRequest("User with this name or email already exists");
+            }
+            return Ok(result);
+        }
+
+        [HttpPost("changepassword")]
+        [Authorize]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDTO changePasswordDTO)
+        {
+            if (changePasswordDTO == null)
+            {
+                return BadRequest("Invalid Data");
+            }
+            if (!int.TryParse(User.Identity?.Name, out int userId))
+            {
+                return BadRequest("Cannot get logged in user!");
+            }
+            if (!await authService.ChangePasswordAsync(changePasswordDTO, userId))
+            {
+                return BadRequest("Invalid old password");
+            }
+            return Ok("Password changed");
         }
     }
 }

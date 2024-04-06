@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.InteropServices;
 
 namespace DAL.Models
 {
@@ -19,5 +20,9 @@ namespace DAL.Models
 
         [Required]
         public int PassengerCount { get; set; }
+        public bool Accepted { get; set; }
+
+        [MaxLength(100)]
+        public string? PassengerNote { get; set; }
     }
 }

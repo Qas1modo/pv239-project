@@ -6,11 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BL.DTOs
+namespace BL.ResponseDTOs
 {
-    public class AuthDTO
+    public class AuthResponseDTO
     {
         public int UserId { get; set; }
         public string UserName { get; set; }
+        public string Token { get; set; }
     }
 }

@@ -15,14 +15,9 @@ namespace DAL.Repository
             this.dbSet = context.Set<TEntity>();
         }
 
-        public async virtual Task<TEntity> GetByID(int id)
+        public async virtual Task<TEntity?> GetByID(int id)
         {
-            TEntity? entity = await dbSet.FindAsync(id);
-            if (entity == null)
-            {
-                throw new Exception("Entity with given Id does not exist.");
-            }
-            return entity;
+            return await dbSet.FindAsync(id);
         }
 
         public virtual void Insert(TEntity entity)
@@ -34,13 +29,18 @@ namespace DAL.Repository
             dbSet.Add(entity);
         }
 
+        public virtual async Task InsertAsync(TEntity entity)
+        {
+            if (entity == null)
+            {
+                throw new Exception("Arugment entity is null");
+            }
+            await dbSet.AddAsync(entity);
+        }
+
         public virtual void Delete(int id)
         {
-            TEntity? entityToDelete = dbSet.Find(id);
-            if (entityToDelete == null)
-            {
-                throw new Exception("Entity with given Id does not exist.");
-            }
+            TEntity? entityToDelete = dbSet.Find(id) ?? throw new Exception("Entity with given Id does not exist.");
             dbSet.Remove(entityToDelete);
         }
 
