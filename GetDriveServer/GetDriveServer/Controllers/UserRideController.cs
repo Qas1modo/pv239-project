@@ -39,7 +39,7 @@ namespace GetDriveServer.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> JoinRide([FromBody] PassengerDTO requestRideDTO)
+        public async Task<IActionResult> RequestRide([FromBody] PassengerDTO requestRideDTO)
         {
             if (requestRideDTO == null)
             {
@@ -49,10 +49,26 @@ namespace GetDriveServer.Controllers
             {
                 return BadRequest("Cannot get logged in user!");
             }
-            var result = await userRideService.JoinRide(requestRideDTO, userId);
+            var result = await userRideService.RequestRide(requestRideDTO, userId);
             if (!result)
             {
                 return BadRequest("You cannot join this ride, it does not have necessary capacity or you are the owner");
+            }
+            return Ok("Request to join ride has been sended");
+        }
+
+        [HttpDelete("{id}")]
+        [Authorize]
+        public async Task<IActionResult> DeleteRequest(int id)
+        {
+            if (!int.TryParse(User.Identity?.Name, out int userId))
+            {
+                return BadRequest("Cannot get logged in user!");
+            }
+            var result = await userRideService.DeleteRequest(id, userId);
+            if (!result)
+            {
+                return BadRequest("You cannot delete this ride ");
             }
             return Ok("Request to join ride has been sended");
         }

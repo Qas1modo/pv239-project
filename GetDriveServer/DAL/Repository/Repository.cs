@@ -38,10 +38,15 @@ namespace DAL.Repository
             await dbSet.AddAsync(entity);
         }
 
-        public virtual void Delete(int id)
+        public virtual async Task<bool> Delete(int id)
         {
-            TEntity? entityToDelete = dbSet.Find(id) ?? throw new Exception("Entity with given Id does not exist.");
+            TEntity? entityToDelete = await dbSet.FindAsync(id);
+            if (entityToDelete == null)
+            {
+                return false;
+            }
             dbSet.Remove(entityToDelete);
+            return true;
         }
 
         public virtual void Delete(TEntity entityToDelete)

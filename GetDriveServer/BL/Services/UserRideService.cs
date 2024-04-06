@@ -15,8 +15,9 @@ namespace BL.Services
 
     public interface IUserRideService
     {
-        Task<bool> JoinRide(PassengerDTO requestRideDTO, int userId);
+        Task<bool> RequestRide(PassengerDTO requestRideDTO, int userId);
         Task<bool> AcceptRide(int userRideId, int driverId);
+        Task<bool> DeleteRequest(int userRideId, int userId);
         IEnumerable<PassengerDetailResponseDTO> GetDriverRequests(int userId);
         IEnumerable<PassengerDetailResponseDTO> GetUserRequests(int userId);
     }
@@ -31,7 +32,7 @@ namespace BL.Services
             this.uow = uow;
             this.mapper = mapper;
         }
-        public async Task<bool> JoinRide(PassengerDTO requestRideDTO, int userId)
+        public async Task<bool> RequestRide(PassengerDTO requestRideDTO, int userId)
         {
             var allRides = uow.UserRideRepository.GetQueryable()
                 .Where(ur => ur.RideId == requestRideDTO.RideId);
@@ -95,6 +96,18 @@ namespace BL.Services
             var requests = uow.UserRideRepository.GetQueryable()
                 .Where(ur => ur.PassengerId == userId && !ur.Accepted && !ur.Ride.Canceled);
             return mapper.Map<IEnumerable<PassengerDetailResponseDTO>>(requests);
+        }
+
+        public async Task<bool> DeleteRequest(int userRideId, int userId)
+        {
+            var userRide = await uow.UserRideRepository.GetByID(userRideId);
+            if (userRide == null || userRide.PassengerId != userId)
+            {
+                return false;
+            }
+            uow.UserRideRepository.Delete(userRide);
+            await uow.CommitAsync();
+            return true;
         }
     }
 }
