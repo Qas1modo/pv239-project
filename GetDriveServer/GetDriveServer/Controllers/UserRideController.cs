@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GetDriveServer.Controllers
 {
+    [Route("requests")]
     public class UserRideController : Controller
     {
         private readonly IUserRideService userRideService;
@@ -14,76 +15,62 @@ namespace GetDriveServer.Controllers
             this.userRideService = userRideService;
         }
 
-        [HttpGet("Driver")]
+        [HttpGet("driver")]
         [Authorize]
-        public IActionResult GetDriverRequests(int requestUserId)
+        public IActionResult GetDriverRequests()
         {
             if (!int.TryParse(User.Identity?.Name, out int userId))
             {
                 return BadRequest("Cannot get logged in user!");
             }
-            if (requestUserId != userId)
-            {
-                return BadRequest("You are not allowed to get rides as this user");
-            }
-            var result = userRideService.GetDriverRequests(requestUserId);
-            return Ok(result);
+            return Ok(userRideService.GetDriverRequests(userId));
         }
 
-        [HttpGet("User")]
+        [HttpGet("user")]
         [Authorize]
-        public IActionResult GetUserRequests(int requestUserId)
+        public IActionResult GetUserRequests()
         {
             if (!int.TryParse(User.Identity?.Name, out int userId))
             {
                 return BadRequest("Cannot get logged in user!");
             }
-            if (requestUserId != userId)
-            {
-                return BadRequest("You are not allowed to get rides as this user");
-            }
-            var result = userRideService.GetUserRequests(requestUserId);
-            return Ok(result);
+            return Ok(userRideService.GetUserRequests(userId));
         }
 
-        [HttpPost("Join")]
+        [HttpPost("add")]
         [Authorize]
-        public async Task<IActionResult> JoinRide([FromBody] RequestRideDTO requestRideDTO)
+        public async Task<IActionResult> JoinRide([FromBody] PassengerDTO requestRideDTO)
         {
+            if (requestRideDTO == null)
+            {
+                return BadRequest("Invalid Data");
+            }
             if (!int.TryParse(User.Identity?.Name, out int userId))
             {
                 return BadRequest("Cannot get logged in user!");
             }
-            if (requestRideDTO.UserId != userId)
-            {
-                return BadRequest("You are not allowed to join rides as this user");
-            }
-            var result = await userRideService.JoinRide(requestRideDTO);
+            var result = await userRideService.JoinRide(requestRideDTO, userId);
             if (!result)
             {
-                return BadRequest("You cannot join this ride, its already full");
+                return BadRequest("You cannot join this ride, it does not have necessary capacity or you are the owner");
             }
             return Ok("Request to join ride has been sended");
         }
 
-        [HttpPut("Accept")]
+        [HttpPut("accept/{id}")]
         [Authorize]
-        public async Task<IActionResult> AcceptRide([FromBody] AcceptRideDTO acceptRideDTO)
+        public async Task<IActionResult> AcceptRide(int id)
         {
-            if (!int.TryParse(User.Identity?.Name, out int userId))
+            if (!int.TryParse(User.Identity?.Name, out int driverId))
             {
                 return BadRequest("Cannot get logged in user!");
             }
-            if (acceptRideDTO.UserId != userId)
-            {
-                return BadRequest("You are not allowed to accept rides as this user");
-            }
-            var result = await userRideService.AcceptRide(acceptRideDTO.UserRideId);
+            var result = await userRideService.AcceptRide(id, driverId);
             if (!result)
             {
-                return BadRequest("You cannot accept this request, ride is already full");
+                return BadRequest("You cannot accept this request, ride is already full, you are not the owner or you already joined this ride");
             }
-            return Ok("Request to join ride has been sended");
+            return Ok("Request accepted");
         }
     }
 }

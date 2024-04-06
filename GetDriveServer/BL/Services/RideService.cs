@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BL.DTOs;
+using BL.ResponseDTOs;
 using DAL.Models;
 using DAL.Repository;
 using DAL.UnitOfWork.Interface;
@@ -13,9 +14,9 @@ namespace BL.Services
 {
     public interface IRideService
     {
-        Task<Ride> CreateRide(RideDTO rideDto);
+        Task<Ride> CreateRide(RideDTO rideDto, int driverId);
         IEnumerable<Ride> GetRides(RideFilterDTO filter);
-        Task<RideDetailDTO> GetRide(int id);
+        Task<RideDetailResponseDTO?> GetRide(int id);
         Task<bool> CancelRide(int id, int userId);
     }
 
@@ -30,11 +31,12 @@ namespace BL.Services
             this.mapper = mapper;
         }
 
-        public async Task<Ride> CreateRide(RideDTO rideDto)
+        public async Task<Ride> CreateRide(RideDTO rideDto, int driverId)
         {
             var ride = mapper.Map<Ride>(rideDto);
             ride.Canceled = false;
-            ride.AvailableSeats = rideDto.MaxPassangerCount;
+            ride.DriverId = driverId;
+            ride.AvailableSeats = rideDto.MaxPassengerCount;
             await uow.RideRepository.InsertAsync(ride);
             await uow.CommitAsync();
             return ride;
@@ -43,35 +45,44 @@ namespace BL.Services
         public IEnumerable<Ride> GetRides(RideFilterDTO filter)
         {
             var query = uow.RideRepository.GetQueryable();
+            if (!(filter.ShowCanceled ?? false))
+            {
+                query = query.Where(r => !r.Canceled);
+            }
             if (filter?.Date != null)
             {
-                query.Where(r => r.Departure.Date == filter.Date);
+                query = query.Where(r => r.Departure.Date == filter.Date);
             }
             if (filter?.StartLocation != null)
             {
-                query.Where(r => r.StartLocation.Contains(filter.StartLocation));
+                query = query.Where(r => r.StartLocation.Contains(filter.StartLocation));
             }
             if (filter?.Destination != null)
             {
-                query.Where(r => r.Destination.Contains(filter.Destination));
+                query = query.Where(r => r.Destination.Contains(filter.Destination));
             }
             if (filter?.AvailableSeats != null)
             {
-                query.Where(r => r.AvailableSeats >= filter.AvailableSeats);
+                query = query.Where(r => r.AvailableSeats >= filter.AvailableSeats);
             }
             if (filter?.MaximumPrice != null)
             {
-                query.Where(r => r.Price <= filter.MaximumPrice);
+                query = query.Where(r => r.Price <= filter.MaximumPrice);
             }
             return query.ToList();
         }
 
-        public async Task<RideDetailDTO> GetRide(int id)
+        public async Task<RideDetailResponseDTO?> GetRide(int id)
         {
-            var ride = mapper.Map<RideDetailDTO>(await uow.RideRepository.GetByID(id));
-            ride.Passangers = mapper.Map<IEnumerable<PassangerDTO>>(uow.UserRideRepository.GetQueryable().Where(ur => ur.RideId == id).ToList());
-            ride.Reviews = mapper.Map<IEnumerable<ReviewOutDTO>>(uow.ReviewRepository.GetQueryable().Where(r => r.RideId == id).ToList());
-            return ride;
+            var ride = await uow.RideRepository.GetByID(id);
+            if (ride == null)
+            {
+                return null;
+            }
+            var rideDTO = mapper.Map<RideDetailResponseDTO>(ride);
+            rideDTO.Passengers = mapper.Map<IEnumerable<PassengerResponseDTO>>(uow.UserRideRepository.GetQueryable().Where(ur => ur.RideId == id && ur.Accepted).ToList());
+            rideDTO.DriverReviews = mapper.Map<IEnumerable<ReviewResponseDTO>>(uow.ReviewRepository.GetQueryable().Where(r => r.UserId == rideDTO.DriverId).ToList());
+            return rideDTO;
         }
 
         public async Task<bool> CancelRide(int id, int userId)
@@ -82,9 +93,12 @@ namespace BL.Services
                 return false;
             }
             uow.UserRideRepository.GetQueryable().Where(ur => ur.RideId == id).ToList().ForEach(ur => uow.UserRideRepository.Delete(ur));
-            ride.Canceled = true;
-            uow.RideRepository.Update(ride);
-            await uow.CommitAsync();
+            if (!ride.Canceled)
+            {
+                ride.Canceled = true;
+                uow.RideRepository.Update(ride);
+                await uow.CommitAsync();
+            }
             return true;
         }
     }

@@ -9,8 +9,6 @@ namespace BL.DTOs
 {
     public class ChangePasswordDTO
     {
-        public int UserId { get; set; }
-
         [Required]
         public string OldPassword { get; set; }
 

@@ -15,7 +15,11 @@ namespace GetDriveServer.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "8.0.3");
+            modelBuilder
+                .HasAnnotation("ProductVersion", "8.0.3")
+                .HasAnnotation("Proxies:ChangeTracking", false)
+                .HasAnnotation("Proxies:CheckEquality", false)
+                .HasAnnotation("Proxies:LazyLoading", true);
 
             modelBuilder.Entity("DAL.Models.Review", b =>
                 {
@@ -26,8 +30,10 @@ namespace GetDriveServer.Migrations
                     b.Property<int>("AuthorId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<DateTime>("PostedAt")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("ReviewText")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Score")
@@ -49,6 +55,7 @@ namespace GetDriveServer.Migrations
                         {
                             Id = 1,
                             AuthorId = 2,
+                            PostedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ReviewText = "Pretty Good!",
                             Score = 5,
                             UserId = 1
@@ -59,6 +66,12 @@ namespace GetDriveServer.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("AvailableSeats")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("Canceled")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("Departure")
@@ -73,17 +86,16 @@ namespace GetDriveServer.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("DriverNote")
-                        .IsRequired()
                         .HasMaxLength(1000)
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("MaxPassangerCount")
+                    b.Property<int>("MaxPassengerCount")
                         .HasColumnType("INTEGER");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Start")
+                    b.Property<string>("StartLocation")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("TEXT");
@@ -98,13 +110,15 @@ namespace GetDriveServer.Migrations
                         new
                         {
                             Id = 1,
-                            Departure = new DateTime(2024, 4, 5, 22, 48, 45, 974, DateTimeKind.Local).AddTicks(1262),
+                            AvailableSeats = 2,
+                            Canceled = false,
+                            Departure = new DateTime(2024, 4, 26, 17, 13, 41, 980, DateTimeKind.Local).AddTicks(594),
                             Destination = "Bratislava",
                             DriverId = 1,
                             DriverNote = "Nebereme nikoho po cestě",
-                            MaxPassangerCount = 4,
+                            MaxPassengerCount = 4,
                             Price = 2.1m,
-                            Start = "Brno"
+                            StartLocation = "Brno"
                         });
                 });
 
@@ -126,6 +140,10 @@ namespace GetDriveServer.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Salt")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -141,6 +159,7 @@ namespace GetDriveServer.Migrations
                             Email = "Test",
                             Name = "testuser",
                             Password = "test",
+                            Phone = "+421123456789",
                             Salt = "test"
                         },
                         new
@@ -149,6 +168,7 @@ namespace GetDriveServer.Migrations
                             Email = "Test",
                             Name = "marek",
                             Password = "test",
+                            Phone = "+421123456789",
                             Salt = "test"
                         },
                         new
@@ -157,6 +177,7 @@ namespace GetDriveServer.Migrations
                             Email = "Test",
                             Name = "samuel",
                             Password = "test",
+                            Phone = "+421123456789",
                             Salt = "test"
                         });
                 });
@@ -167,11 +188,18 @@ namespace GetDriveServer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<bool>("Accepted")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("PassengerCount")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("PassengerId")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("PassengerNote")
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("RideId")
                         .HasColumnType("INTEGER");
@@ -188,8 +216,10 @@ namespace GetDriveServer.Migrations
                         new
                         {
                             Id = 1,
+                            Accepted = true,
                             PassengerCount = 2,
                             PassengerId = 2,
+                            PassengerNote = "Test",
                             RideId = 1
                         });
                 });

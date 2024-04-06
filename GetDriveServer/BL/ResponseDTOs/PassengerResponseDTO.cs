@@ -1,22 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BL.DTOs
+namespace BL.ResponseDTOs
 {
-    public class PassengerDTO
+    public class PassengerResponseDTO
     {
-        [Required]
+        public int Id { get; set; }
+        public int PassengerId { get; set; }
         public int RideId { get; set; }
-
-        [Required]
-        [Range(1,10)]
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public string Phone { get; set; }
         public int PassengerCount { get; set; }
-
-        [StringLength(500, ErrorMessage = "Note too long")]
         public string? PassengerNote { get; set; }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using BL.DTOs;
+using BL.ResponseDTOs;
 using DAL.UnitOfWork.Interface;
 using System;
 using System.Collections.Generic;
@@ -11,9 +11,9 @@ namespace BL.Services
 {
     public interface IUserService
     {
-        Task<UserProfileDTO> GetProfile(int userId);
+        Task<UserProfileResponseDTO?> GetProfile(int userId);
     }
-    public class UserService
+    public class UserService : IUserService
     {
         private readonly IUnitOfWork uow;
         private readonly IMapper mapper;
@@ -25,22 +25,26 @@ namespace BL.Services
             this.mapper = mapper;
         }
 
-        public async Task<UserProfileDTO> GetProfile(int userId)
+        public async Task<UserProfileResponseDTO?> GetProfile(int userId)
         {
             var user = await uow.UserRepository.GetByID(userId);
-            var userRidesDriver = uow.UserRideRepository.GetQueryable().Where(ur => ur.Ride.DriverId == userId).ToList();
-            var userRidesPassanger = uow.UserRideRepository.GetQueryable().Where(ur => ur.Ride.DriverId == userId).ToList();
+            if (user == null)
+            {
+                return null;
+            }
+            var ridesDriver = uow.RideRepository.GetQueryable().Where(ur => ur.DriverId == userId).ToList();
+            var ridesPassenger = uow.UserRideRepository.GetQueryable().Where(ur => ur.PassengerId == userId && ur.Accepted).ToList();
             var userReviews = uow.ReviewRepository.GetQueryable().Where(r => r.UserId == userId).ToList();
             var overallScore = userReviews.Count == 0 ? 0 : ((decimal) userReviews.Sum(r => r.Score)) / userReviews.Count;
-            return new UserProfileDTO
+            return new UserProfileResponseDTO
             {
                 UserName = user.Name,
                 Email = user.Email,
                 Phone = user.Phone,
                 Score = overallScore,
-                DriverRides = mapper.Map<IEnumerable<RideOutDTO>>(userRidesDriver),
-                PassangerRides = mapper.Map<IEnumerable<RideOutDTO>>(userRidesPassanger),
-                Reviews = mapper.Map<IEnumerable<ReviewOutDTO>>(userReviews)
+                DriverRides = mapper.Map<IEnumerable<RideResponseDTO>>(ridesDriver),
+                PassengerRides = mapper.Map<IEnumerable<PassengerDetailResponseDTO>>(ridesPassenger),
+                Reviews = mapper.Map<IEnumerable<ReviewResponseDTO>>(userReviews)
             };
         }
     }

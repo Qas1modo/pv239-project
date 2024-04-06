@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BL.DTOs
+namespace BL.ResponseDTOs
 {
-    public class ReviewOutDTO
+    public class ReviewResponseDTO
     {
         public int Id { get; set; }
-        public string Review { get; set; }
+        public int AuthorId { get; set; }
         public string AuthorName { get; set; }
-        public int Rating { get; set; }
-        public string ReviewText { get; set; }
+        public int Score { get; set; }
+        public string? ReviewText { get; set; }
     }
 }

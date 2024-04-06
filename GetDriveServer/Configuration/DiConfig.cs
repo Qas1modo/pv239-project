@@ -31,6 +31,9 @@ namespace Configuration
             //Services DI Setup
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IRideService, RideService>();
+            services.AddScoped<IReviewService, ReviewService>();
+            services.AddScoped<IUserRideService, UserRideService>();
+            services.AddScoped<IUserService, UserService>();
         }
     }
 }

@@ -1,26 +1,22 @@
 ﻿using AutoMapper;
 using BL.DTOs;
+using BL.ResponseDTOs;
 using DAL.Models;
-using DAL.Repository;
 using DAL.UnitOfWork.Interface;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace BL.Services
 {
     public interface IAuthService
     {
-        AuthDTO? Login(LoginDto loginDto);
-        Task<bool> ChangePasswordAsync(ChangePasswordDTO input);
-        Task<AuthDTO?> RegisterUserAsync(RegistrationDTO registrationDTO);
+        AuthResponseDTO? Login(LoginDto loginDto);
+        Task<bool> ChangePasswordAsync(ChangePasswordDTO input, int userId);
+        Task<AuthResponseDTO?> RegisterUserAsync(RegistrationDTO registrationDTO);
     }
 
     public class AuthService : IAuthService
@@ -39,34 +35,17 @@ namespace BL.Services
             this.configuration = configuration;
         }
 
-        public AuthDTO? Login(LoginDto loginDto)
+        public AuthResponseDTO? Login(LoginDto loginDto)
         {
             var user = uow.UserRepository.GetQueryable().Where(u => u.Email == loginDto.Email).FirstOrDefault();
             if (user == null || !VerifyPassword(user.Password, user.Salt, loginDto.Password))
             {
                 return null;
             }
-            return new AuthDTO { UserId = user.Id, UserName = user.Name, Token = GenerateToken(user)};
+            return new AuthResponseDTO { UserId = user.Id, UserName = user.Name, Token = GenerateToken(user)};
         }
 
-        public async Task<bool> ChangePasswordAsync(ChangePasswordDTO changePasswordDTO)
-        {
-            User user = await uow.UserRepository.GetByID(changePasswordDTO.UserId);
-            if (user == null || !VerifyPassword(user.Password, user.Salt, changePasswordDTO.OldPassword))
-            {
-                return false;
-            }
-            using (var hashedPassword = new Rfc2898DeriveBytes(changePasswordDTO.NewPassword, saltSize, iterations, HashAlgorithmName.SHA256))
-            {
-                user.Salt = Convert.ToBase64String(hashedPassword.Salt);
-                user.Password = Convert.ToBase64String(hashedPassword.GetBytes(hashLen));
-            }
-            uow.UserRepository.Update(user);
-            await uow.CommitAsync();
-            return true;
-        }
-
-        public async Task<AuthDTO?> RegisterUserAsync(RegistrationDTO registrationDTO)
+        public async Task<AuthResponseDTO?> RegisterUserAsync(RegistrationDTO registrationDTO)
         {
             User user = mapper.Map<User>(registrationDTO);
             if (uow.UserRepository.GetQueryable().Any(u => u.Email == registrationDTO.Email || u.Name == registrationDTO.Name))
@@ -81,6 +60,23 @@ namespace BL.Services
             await uow.UserRepository.InsertAsync(user);
             await uow.CommitAsync();
             return Login(new LoginDto { Email = registrationDTO.Email, Password = registrationDTO.Password });
+        }
+
+        public async Task<bool> ChangePasswordAsync(ChangePasswordDTO changePasswordDTO, int userId)
+        {
+            User? user = await uow.UserRepository.GetByID(userId);
+            if (user == null || !VerifyPassword(user.Password, user.Salt, changePasswordDTO.OldPassword))
+            {
+                return false;
+            }
+            using (var hashedPassword = new Rfc2898DeriveBytes(changePasswordDTO.NewPassword, saltSize, iterations, HashAlgorithmName.SHA256))
+            {
+                user.Salt = Convert.ToBase64String(hashedPassword.Salt);
+                user.Password = Convert.ToBase64String(hashedPassword.GetBytes(hashLen));
+            }
+            uow.UserRepository.Update(user);
+            await uow.CommitAsync();
+            return true;
         }
 
         private static bool VerifyPassword(string storedPassword, string storedSalt, string verifyPassword)

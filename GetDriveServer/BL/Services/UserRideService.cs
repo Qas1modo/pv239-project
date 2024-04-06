@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BL.DTOs;
+using BL.ResponseDTOs;
 using DAL.Models;
 using DAL.UnitOfWork.Interface;
 using Microsoft.AspNetCore.Connections.Features;
@@ -14,51 +15,61 @@ namespace BL.Services
 
     public interface IUserRideService
     {
-        Task<bool> JoinRide(RequestRideDTO requestRideDTO);
-        Task<bool> AcceptRide(int userRideId);
-        IEnumerable<UserRide> GetDriverRequests(int userId);
-        IEnumerable<UserRide> GetUserRequests(int userId);
+        Task<bool> JoinRide(PassengerDTO requestRideDTO, int userId);
+        Task<bool> AcceptRide(int userRideId, int driverId);
+        IEnumerable<PassengerDetailResponseDTO> GetDriverRequests(int userId);
+        IEnumerable<PassengerDetailResponseDTO> GetUserRequests(int userId);
     }
     public class UserRideService : IUserRideService
     {
         private readonly IUnitOfWork uow;
+        private readonly IMapper mapper;
 
-        public UserRideService(IUnitOfWork uow)
+        public UserRideService(IUnitOfWork uow,
+            IMapper mapper)
         {
             this.uow = uow;
+            this.mapper = mapper;
         }
-        public async Task<bool> JoinRide(RequestRideDTO requestRideDTO)
+        public async Task<bool> JoinRide(PassengerDTO requestRideDTO, int userId)
         {
-            var acceptedRides = uow.UserRideRepository.GetQueryable()
-                .Where(ur => ur.RideId == requestRideDTO.RideId && ur.Accepted);
+            var allRides = uow.UserRideRepository.GetQueryable()
+                .Where(ur => ur.RideId == requestRideDTO.RideId);
             var currentRide = await uow.RideRepository.GetByID(requestRideDTO.RideId);
-            var currentPassangerCount = acceptedRides.Sum(s => s.PassengerCount);
-            if ((currentPassangerCount + requestRideDTO.PassangerCount) > currentRide.MaxPassangerCount)
+            if (currentRide == null ||
+                currentRide.DriverId == userId ||
+                allRides.Any(r => r.PassengerId == userId))
+            {
+                return false;
+            }
+            var currentPassengerCount = allRides.Where(a => a.Accepted).Sum(s => s.PassengerCount);
+            if ((currentPassengerCount + requestRideDTO.PassengerCount) > currentRide.MaxPassengerCount)
             {
                 return false;
             }
             uow.UserRideRepository.Insert(new UserRide
             {
                 RideId = requestRideDTO.RideId,
-                PassengerId = requestRideDTO.UserId,
-                PassengerCount = requestRideDTO.PassangerCount,
-                PassangerNote = requestRideDTO.PassangerNote,
+                PassengerId = userId,
+                PassengerCount = requestRideDTO.PassengerCount,
+                PassengerNote = requestRideDTO.PassengerNote,
                 Accepted = false
             });
+            await uow.CommitAsync();
             return true;
         }
 
-        public async Task<bool> AcceptRide(int userRideId)
+        public async Task<bool> AcceptRide(int userRideId, int driverId)
         {
             var userRide = await uow.UserRideRepository.GetByID(userRideId);
-            if (userRide == null)
+            if (userRide == null || userRide.Ride.DriverId != driverId)
             {
                 return false;
             }
             var acceptedRides = uow.UserRideRepository.GetQueryable()
                 .Where(ur => ur.RideId == userRide.RideId && ur.Accepted);
-            var currentPassangerCount = acceptedRides.Sum(s => s.PassengerCount);
-            if ((currentPassangerCount + userRide.PassengerCount) > userRide.Ride.MaxPassangerCount)
+            var currentPassengerCount = acceptedRides.Sum(s => s.PassengerCount);
+            if ((currentPassengerCount + userRide.PassengerCount) > userRide.Ride.MaxPassengerCount)
             {
                 return false;
             }
@@ -71,18 +82,19 @@ namespace BL.Services
             return true;
         }
 
-        public IEnumerable<UserRide> GetDriverRequests(int userId)
+        public IEnumerable<PassengerDetailResponseDTO> GetDriverRequests(int userId)
         {
             var requests = uow.UserRideRepository.GetQueryable()
-                .Where(ur => ur.Ride.DriverId == userId && !ur.Accepted && !ur.Ride.Canceled);
-            return requests;
+                .Where(ur => ur.Ride.DriverId == userId && !ur.Accepted && !ur.Ride.Canceled &&
+                ur.Ride.AvailableSeats >= ur.PassengerCount);
+            return mapper.Map<IEnumerable<PassengerDetailResponseDTO>>(requests);
         }
 
-        public IEnumerable<UserRide> GetUserRequests(int userId)
+        public IEnumerable<PassengerDetailResponseDTO> GetUserRequests(int userId)
         {
             var requests = uow.UserRideRepository.GetQueryable()
                 .Where(ur => ur.PassengerId == userId && !ur.Accepted && !ur.Ride.Canceled);
-            return requests;
+            return mapper.Map<IEnumerable<PassengerDetailResponseDTO>>(requests);
         }
     }
 }

@@ -1,13 +1,12 @@
 using BL.DTOs;
 using BL.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GetDriveServer.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("auth")]
     public class AuthController : ControllerBase
     {
         private readonly IAuthService authService;
@@ -21,6 +20,10 @@ namespace GetDriveServer.Controllers
         [AllowAnonymous]
         public IActionResult Login([FromBody] LoginDto loginDto)
         {
+            if (loginDto == null)
+            {
+                return BadRequest("Invalid Data");
+            }
             var data = authService.Login(loginDto);
             if (data == null)
             {
@@ -33,6 +36,10 @@ namespace GetDriveServer.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Register([FromBody] RegistrationDTO registrationDTO)
         {
+            if (registrationDTO == null)
+            {
+                return BadRequest("Invalid Data");
+            }
             var result = await authService.RegisterUserAsync(registrationDTO);
             if (result == null)
             {
@@ -45,15 +52,15 @@ namespace GetDriveServer.Controllers
         [Authorize]
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDTO changePasswordDTO)
         {
+            if (changePasswordDTO == null)
+            {
+                return BadRequest("Invalid Data");
+            }
             if (!int.TryParse(User.Identity?.Name, out int userId))
             {
                 return BadRequest("Cannot get logged in user!");
             }
-            if (changePasswordDTO.UserId != userId)
-            {
-                return BadRequest("You are not allowed to change this password");
-            }
-            if (!await authService.ChangePasswordAsync(changePasswordDTO))
+            if (!await authService.ChangePasswordAsync(changePasswordDTO, userId))
             {
                 return BadRequest("Invalid old password");
             }

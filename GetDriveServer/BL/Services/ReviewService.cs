@@ -2,17 +2,13 @@
 using BL.DTOs;
 using DAL.Models;
 using DAL.UnitOfWork.Interface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BL.Services
 {
     public interface IReviewService
     {
-        Task<bool> AddReview(ReviewDTO reviewDTO);
+        Task<bool> AddReview(ReviewDTO reviewDTO, int authorId);
+        Task<bool> DeleteReview(int reviewId, int authorId);
     }
 
     public class ReviewService : IReviewService 
@@ -27,23 +23,34 @@ namespace BL.Services
             this.mapper = mapper;
         }
 
-        public async Task<bool> AddReview(ReviewDTO reviewDTO)
+        public async Task<bool> AddReview(ReviewDTO reviewDTO, int authorId)
         {
-            var reviewedUserRide = uow.UserRideRepository.GetQueryable()
-                .Where(r => r.RideId == reviewDTO.RideId && r.PassengerId == reviewDTO.AuthorId).FirstOrDefault();
-            if (reviewedUserRide is null)
+            var doesReviewExist = uow.ReviewRepository.GetQueryable()
+                .FirstOrDefault(review => review.UserId == reviewDTO.UserId && review.AuthorId == authorId);
+            var doesUserExist = uow.UserRepository.GetQueryable()
+                .FirstOrDefault(user => user.Id == reviewDTO.UserId);
+            if (doesReviewExist != null || doesUserExist == null)
             {
                 return false;
             }
             var review = mapper.Map<Review>(reviewDTO);
-            review.UserId = reviewedUserRide.Ride.DriverId;
-            var curentTime = DateTime.Now;
-            if (reviewedUserRide.Ride.Departure > curentTime)
+            review.PostedAt = DateTime.Now;
+            review.AuthorId = authorId;
+            uow.ReviewRepository.Insert(review);
+            await uow.CommitAsync();
+            return true;
+        }
+
+        public async Task<bool> DeleteReview(int reviewId, int authorId)
+        {
+            var review = uow.ReviewRepository.GetQueryable()
+                .FirstOrDefault(r => r.Id == reviewId && r.AuthorId == authorId);
+            if (review == null)
             {
                 return false;
             }
-            review.PostedAt = curentTime;
-            uow.ReviewRepository.Insert(review);
+            uow.ReviewRepository.Delete(review);
+            await uow.CommitAsync();
             return true;
         }
     }

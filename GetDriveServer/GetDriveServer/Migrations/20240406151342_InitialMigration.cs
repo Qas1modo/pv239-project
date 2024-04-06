@@ -21,6 +21,7 @@ namespace GetDriveServer.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     Email = table.Column<string>(type: "TEXT", nullable: false),
+                    Phone = table.Column<string>(type: "TEXT", nullable: false),
                     Password = table.Column<string>(type: "TEXT", nullable: false),
                     Salt = table.Column<string>(type: "TEXT", nullable: false)
                 },
@@ -38,7 +39,8 @@ namespace GetDriveServer.Migrations
                     UserId = table.Column<int>(type: "INTEGER", nullable: false),
                     AuthorId = table.Column<int>(type: "INTEGER", nullable: false),
                     Score = table.Column<int>(type: "INTEGER", nullable: false),
-                    ReviewText = table.Column<string>(type: "TEXT", nullable: false)
+                    ReviewText = table.Column<string>(type: "TEXT", nullable: true),
+                    PostedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -64,12 +66,14 @@ namespace GetDriveServer.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     DriverId = table.Column<int>(type: "INTEGER", nullable: false),
-                    Start = table.Column<string>(type: "TEXT", maxLength: 200, nullable: false),
+                    StartLocation = table.Column<string>(type: "TEXT", maxLength: 200, nullable: false),
                     Destination = table.Column<string>(type: "TEXT", maxLength: 200, nullable: false),
-                    MaxPassangerCount = table.Column<int>(type: "INTEGER", nullable: false),
+                    MaxPassengerCount = table.Column<int>(type: "INTEGER", nullable: false),
                     Price = table.Column<decimal>(type: "TEXT", nullable: false),
                     Departure = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    DriverNote = table.Column<string>(type: "TEXT", maxLength: 1000, nullable: false)
+                    AvailableSeats = table.Column<int>(type: "INTEGER", nullable: false),
+                    DriverNote = table.Column<string>(type: "TEXT", maxLength: 1000, nullable: true),
+                    Canceled = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -90,7 +94,9 @@ namespace GetDriveServer.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     PassengerId = table.Column<int>(type: "INTEGER", nullable: false),
                     RideId = table.Column<int>(type: "INTEGER", nullable: false),
-                    PassengerCount = table.Column<int>(type: "INTEGER", nullable: false)
+                    PassengerCount = table.Column<int>(type: "INTEGER", nullable: false),
+                    Accepted = table.Column<bool>(type: "INTEGER", nullable: false),
+                    PassengerNote = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -111,28 +117,28 @@ namespace GetDriveServer.Migrations
 
             migrationBuilder.InsertData(
                 table: "User",
-                columns: new[] { "Id", "Email", "Name", "Password", "Salt" },
+                columns: new[] { "Id", "Email", "Name", "Password", "Phone", "Salt" },
                 values: new object[,]
                 {
-                    { 1, "Test", "testuser", "test", "test" },
-                    { 2, "Test", "marek", "test", "test" },
-                    { 3, "Test", "samuel", "test", "test" }
+                    { 1, "Test", "testuser", "test", "+421123456789", "test" },
+                    { 2, "Test", "marek", "test", "+421123456789", "test" },
+                    { 3, "Test", "samuel", "test", "+421123456789", "test" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Review",
-                columns: new[] { "Id", "AuthorId", "ReviewText", "Score", "UserId" },
-                values: new object[] { 1, 2, "Pretty Good!", 5, 1 });
+                columns: new[] { "Id", "AuthorId", "PostedAt", "ReviewText", "Score", "UserId" },
+                values: new object[] { 1, 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Pretty Good!", 5, 1 });
 
             migrationBuilder.InsertData(
                 table: "Ride",
-                columns: new[] { "Id", "Departure", "Destination", "DriverId", "DriverNote", "MaxPassangerCount", "Price", "Start" },
-                values: new object[] { 1, new DateTime(2024, 4, 5, 22, 48, 45, 974, DateTimeKind.Local).AddTicks(1262), "Bratislava", 1, "Nebereme nikoho po cestě", 4, 2.1m, "Brno" });
+                columns: new[] { "Id", "AvailableSeats", "Canceled", "Departure", "Destination", "DriverId", "DriverNote", "MaxPassengerCount", "Price", "StartLocation" },
+                values: new object[] { 1, 2, false, new DateTime(2024, 4, 26, 17, 13, 41, 980, DateTimeKind.Local).AddTicks(594), "Bratislava", 1, "Nebereme nikoho po cestě", 4, 2.1m, "Brno" });
 
             migrationBuilder.InsertData(
                 table: "UserRide",
-                columns: new[] { "Id", "PassengerCount", "PassengerId", "RideId" },
-                values: new object[] { 1, 2, 2, 1 });
+                columns: new[] { "Id", "Accepted", "PassengerCount", "PassengerId", "PassengerNote", "RideId" },
+                values: new object[] { 1, true, 2, 2, "Test", 1 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Review_AuthorId",

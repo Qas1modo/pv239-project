@@ -1,8 +1,10 @@
 ﻿using BL.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GetDriveServer.Controllers
 {
+    [Route("user")]
     public class UserController : Controller
     {
         private readonly IUserService userService;
@@ -13,6 +15,7 @@ namespace GetDriveServer.Controllers
         }
 
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetProfile(int id)
         {
             var profile = await userService.GetProfile(id);

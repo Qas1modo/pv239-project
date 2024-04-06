@@ -9,7 +9,7 @@ namespace DAL.Repository
 {
     public interface IRepository<TEntity> where TEntity : BaseEntity
     {
-        Task<TEntity> GetByID(int id);
+        Task<TEntity?> GetByID(int id);
         IQueryable<TEntity> GetQueryable();
         Task<IEnumerable<TEntity>> GetAll();
         void Insert(TEntity entity);

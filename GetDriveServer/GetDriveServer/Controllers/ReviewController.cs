@@ -1,9 +1,11 @@
 ﻿using BL.DTOs;
 using BL.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GetDriveServer.Controllers
 {
+    [Route("review")]
     public class ReviewController : Controller
     {
         private readonly IReviewService reviewService;
@@ -14,23 +16,40 @@ namespace GetDriveServer.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddReview([FromBody] ReviewDTO reviewDTO)
+        [Authorize]
+        public async Task<IActionResult> AddReview([FromBody] ReviewDTO reviewDTO)
         {
-            if (!int.TryParse(User.Identity?.Name, out int userId))
+            if (reviewDTO == null)
+            {
+                return BadRequest("Invalid Data");
+            }
+            if (!int.TryParse(User.Identity?.Name, out int authorId))
             {
                 return BadRequest("Cannot get logged in user!");
             }
-            if (reviewDTO.AuthorId != userId)
+            var result = await reviewService.AddReview(reviewDTO, authorId);
+            if (!result)
             {
-                return BadRequest("You are not allowed to add reviews as current user");
+                return BadRequest("Review can be added only once to valid user");
             }
-            var result = reviewService.AddReview(reviewDTO);
-            if (result == null)
-            {
-                return BadRequest("Review can be added only if the ride departure is in past");
-            }
-            return Ok(result);
+            return Ok("Review added succesfully");
         }
 
+
+        [HttpDelete("{id}")]
+        [Authorize]
+        public async Task<IActionResult> DeleteReview(int id)
+        {
+            if (!int.TryParse(User.Identity?.Name, out int authorId))
+            {
+                return BadRequest("Cannot get logged in user!");
+            }
+            var result = await reviewService.DeleteReview(id, authorId);
+            if (!result)
+            {
+                return BadRequest("Review can be deleted only by its creator and must exist");
+            }
+            return Ok("Review added succesfully");
+        }
     }
 }

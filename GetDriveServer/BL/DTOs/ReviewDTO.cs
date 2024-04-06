@@ -11,12 +11,13 @@ namespace BL.DTOs
     public class ReviewDTO
     {
         [Required]
-        public int RideId { get; set; }
+        public int UserId { get; set; }
+
+        [StringLength(500, ErrorMessage = "Review text too long")]
+        public string? ReviewText { get; set; }
+
         [Required]
-        public int AuthorId { get; set; }
-        public string ReviewText { get; set; }
-        [Required]
-        [Range(1, 5)]
+        [Range(0, 10, ErrorMessage = "Score must be between 1 and 10")]
         public int Score { get; set; }
     }
 }

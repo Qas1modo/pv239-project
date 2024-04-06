@@ -20,7 +20,7 @@ namespace DAL.Models
         public string Destination { get; set; }
 
         [Required]
-        public int MaxPassangerCount { get; set; }
+        public int MaxPassengerCount { get; set; }
 
         [Required]
         public decimal Price { get; set; }
@@ -32,7 +32,7 @@ namespace DAL.Models
         public int AvailableSeats { get; set; }
 
         [MaxLength(1000)]
-        public string DriverNote { get; set; }
+        public string? DriverNote { get; set; }
 
         public bool Canceled { get; set; }
     }
