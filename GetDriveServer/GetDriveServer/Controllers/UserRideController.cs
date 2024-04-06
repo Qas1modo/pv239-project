@@ -37,7 +37,7 @@ namespace GetDriveServer.Controllers
             return Ok(userRideService.GetUserRequests(userId));
         }
 
-        [HttpPost("add")]
+        [HttpPost]
         [Authorize]
         public async Task<IActionResult> JoinRide([FromBody] PassengerDTO requestRideDTO)
         {
@@ -57,7 +57,7 @@ namespace GetDriveServer.Controllers
             return Ok("Request to join ride has been sended");
         }
 
-        [HttpPut("accept/{id}")]
+        [HttpPut("{id}")]
         [Authorize]
         public async Task<IActionResult> AcceptRide(int id)
         {
