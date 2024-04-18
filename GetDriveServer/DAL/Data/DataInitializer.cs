@@ -12,13 +12,13 @@ namespace DAL.Data
     {
         public static void Seed(this ModelBuilder modelBuilder)
         {
-            User user1 = new() { Id = 1, Name = "testuser", Password="test", Email="Test", Salt="test", Phone="+421123456789" };
+            User user1 = new() { Id = 1, Name = "testuser1", Password= "qr4l8Q5yoqCSkXOysKrTeYRQya8lPB1TJVLZEyLvVq6ApHN9nDyPkbeyvLJjfiF/KjcIdHoT+9mAkt5ZUFG1Iw==", Email="user@example.com", Salt= "AgubqMiRegELBk4cc4AgTg==", Phone="+421123456789" }; //testtest
             modelBuilder.Entity<User>().HasData(user1);
 
-            User user2 = new() { Id = 2, Name = "marek", Password = "test", Email = "Test", Salt = "test", Phone = "+421123456789" };
+            User user2 = new() { Id = 2, Name = "testuser2", Password = "qr4l8Q5yoqCSkXOysKrTeYRQya8lPB1TJVLZEyLvVq6ApHN9nDyPkbeyvLJjfiF/KjcIdHoT+9mAkt5ZUFG1Iw==", Email = "user1@example.com", Salt = "AgubqMiRegELBk4cc4AgTg==", Phone = "+421123456789" }; //testtest
             modelBuilder.Entity<User>().HasData(user2);
 
-            User user3 = new() { Id = 3, Name = "samuel", Password = "test", Email = "Test", Salt = "test", Phone = "+421123456789" };
+            User user3 = new() { Id = 3, Name = "testuser3", Password = "qr4l8Q5yoqCSkXOysKrTeYRQya8lPB1TJVLZEyLvVq6ApHN9nDyPkbeyvLJjfiF/KjcIdHoT+9mAkt5ZUFG1Iw==", Email = "user2@example.com", Salt = "AgubqMiRegELBk4cc4AgTg==", Phone = "+421123456789" }; //testtest
             modelBuilder.Entity<User>().HasData(user3);
 
             Ride ride1 = new()
