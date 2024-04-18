@@ -87,7 +87,7 @@ namespace BL.Services
         {
             var requests = uow.UserRideRepository.GetQueryable()
                 .Where(ur => ur.Ride.DriverId == userId && !ur.Accepted && !ur.Ride.Canceled &&
-                ur.Ride.AvailableSeats >= ur.PassengerCount);
+                ur.Ride.AvailableSeats >= ur.PassengerCount && ur.Ride.Departure > DateTime.Now);
             return mapper.Map<IEnumerable<PassengerDetailResponseDTO>>(requests);
         }
 
