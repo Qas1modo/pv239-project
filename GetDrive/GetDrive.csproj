@@ -62,4 +62,31 @@
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Compile Update="Views\AllRides.xaml.cs">
+	    <DependentUpon>AllRides.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\PublishRide.xaml.cs">
+	    <DependentUpon>PublishRide.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\GetRide.xaml.cs">
+	    <DependentUpon>GetRide.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Views\AllRides.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\PublishRide.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\GetRide.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Profile.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
+
 </Project>
