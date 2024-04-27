@@ -5,7 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:GetDrive"
     xmlns:views="clr-namespace:GetDrive.Views"
-    Shell.FlyoutBehavior="Flyout"
+    Shell.FlyoutBehavior="Disabled"
     Shell.BackgroundColor="{StaticResource Primary}"
     Shell.ForegroundColor="{StaticResource White}"
     Shell.TitleColor="{StaticResource White}"
@@ -31,7 +31,7 @@
 
         <ShellContent
             ContentTemplate="{DataTemplate views:Profile}"
-            Icon="account.svg"
+            Icon="profile.svg"
             Route="profile"/>
     </TabBar>
 
