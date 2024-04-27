@@ -1,10 +1,10 @@
 namespace GetDrive.Views;
 
-public partial class AllDrives : ContentPage
+public partial class AllRides : ContentPage
 {
     int count = 0;
 
-    public AllDrives()
+    public AllRides()
     {
         InitializeComponent();
     }

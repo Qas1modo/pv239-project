@@ -15,24 +15,24 @@
 
     <TabBar>
         <ShellContent
-            ContentTemplate="{DataTemplate views:AllDrives}"
-            Icon="search.svg"
-            Route="alldrives"/>
+            ContentTemplate="{DataTemplate views:AllRides}"
+            Icon="travel_explore.svg"
+            Route="allrides"/>
 
         <ShellContent
-            ContentTemplate="{DataTemplate views:GetDrive}"
+            ContentTemplate="{DataTemplate views:GetRide}"
             Icon="car.svg"
-            Route="getdrive"/>
+            Route="getride"/>
 
         <ShellContent
-            ContentTemplate="{DataTemplate views:FindPassengers}"
-            Icon="add_passenger.svg"
-            Route="findpassengers"/>
+            ContentTemplate="{DataTemplate views:PublishRide}"
+            Icon="add_circle.svg"
+            Route="publishride"/>
 
         <ShellContent
             ContentTemplate="{DataTemplate views:Profile}"
             Icon="account.svg"
-            Route="account"/>
+            Route="profile"/>
     </TabBar>
 
 </Shell>

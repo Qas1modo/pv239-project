@@ -70,19 +70,25 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Views\AllDrives.xaml.cs">
-	    <DependentUpon>AllDrives.xaml</DependentUpon>
+	  <Compile Update="Views\AllRides.xaml.cs">
+	    <DependentUpon>AllRides.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\PublishRide.xaml.cs">
+	    <DependentUpon>PublishRide.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\GetRide.xaml.cs">
+	    <DependentUpon>GetRide.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="Views\AllDrives.xaml">
+	  <MauiXaml Update="Views\AllRides.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\FindPassengers.xaml">
+	  <MauiXaml Update="Views\PublishRide.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\GetDrive.xaml">
+	  <MauiXaml Update="Views\GetRide.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Profile.xaml">
