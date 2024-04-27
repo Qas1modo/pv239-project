@@ -1,4 +1,5 @@
-﻿using BL.Services;
+﻿using BL.ResponseDTOs;
+using BL.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,7 +17,9 @@ namespace GetDriveServer.Controllers
 
         [HttpGet("{id}")]
         [AllowAnonymous]
-        public async Task<IActionResult> GetProfile(int id)
+        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(UserProfileResponseDTO), StatusCodes.Status200OK)]
+        public async Task<ActionResult<UserProfileResponseDTO>> GetProfile(int id)
         {
             var profile = await userService.GetProfile(id);
             if (profile == null)

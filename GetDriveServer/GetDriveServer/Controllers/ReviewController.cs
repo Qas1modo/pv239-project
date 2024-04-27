@@ -17,7 +17,9 @@ namespace GetDriveServer.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> AddReview([FromBody] ReviewDTO reviewDTO)
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+        public async Task<ActionResult<string>> AddReview([FromBody] ReviewDTO reviewDTO)
         {
             if (reviewDTO == null)
             {
@@ -38,7 +40,9 @@ namespace GetDriveServer.Controllers
 
         [HttpDelete("{id}")]
         [Authorize]
-        public async Task<IActionResult> DeleteReview(int id)
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+        public async Task<ActionResult<string>> DeleteReview(int id)
         {
             if (!int.TryParse(User.Identity?.Name, out int authorId))
             {

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BL.DTOs
 {
-    public class RideDTO
+    public class CreateRideDTO
     {
         [Required]
         [StringLength(100, MinimumLength = 3, ErrorMessage = "The start must be at least 3 characters long!")]

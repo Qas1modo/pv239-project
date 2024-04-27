@@ -1,4 +1,5 @@
 using BL.DTOs;
+using BL.ResponseDTOs;
 using BL.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +19,9 @@ namespace GetDriveServer.Controllers
 
         [HttpPost("login")]
         [AllowAnonymous]
-        public IActionResult Login([FromBody] LoginDto loginDto)
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(AuthResponseDTO), StatusCodes.Status200OK)]
+        public ActionResult<AuthResponseDTO> Login([FromBody] LoginDto loginDto)
         {
             if (loginDto == null)
             {
@@ -34,7 +37,9 @@ namespace GetDriveServer.Controllers
 
         [HttpPost("register")]
         [AllowAnonymous]
-        public async Task<IActionResult> Register([FromBody] RegistrationDTO registrationDTO)
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(AuthResponseDTO), StatusCodes.Status200OK)]
+        public async Task<ActionResult<AuthResponseDTO?>> Register([FromBody] RegistrationDTO registrationDTO)
         {
             if (registrationDTO == null)
             {
@@ -50,7 +55,9 @@ namespace GetDriveServer.Controllers
 
         [HttpPost("changepassword")]
         [Authorize]
-        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDTO changePasswordDTO)
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+        public async Task<ActionResult<string>> ChangePassword([FromBody] ChangePasswordDTO changePasswordDTO)
         {
             if (changePasswordDTO == null)
             {
