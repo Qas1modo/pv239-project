@@ -35,7 +35,7 @@ namespace GetDriveServer.Controllers
             return Ok(ride);
         }
 
-        [HttpGet("all")]
+        [HttpGet]
         [AllowAnonymous]
         public IActionResult GetRides([FromQuery] RideFilterDTO filter)
         {
