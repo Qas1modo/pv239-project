@@ -17,9 +17,9 @@ namespace GetDrive.Clients
 
     public class AuthClient : IAuthClient
     {
-        private readonly Client _api;
+        private readonly IGetDriveClient _api;
 
-        public AuthClient(Client api)
+        public AuthClient(IGetDriveClient api)
         {
             _api = api;
         }

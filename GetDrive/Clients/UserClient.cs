@@ -13,9 +13,9 @@ namespace GetDrive.Clients
     }
     public class UserClient: IUserClient
     {
-        private readonly Client _api;
+        private readonly IGetDriveClient _api;
 
-        public UserClient(Client api)
+        public UserClient(IGetDriveClient api)
         {
             _api = api;
         }

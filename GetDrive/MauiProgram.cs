@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
 using GetDrive.ViewModels;
 using GetDrive.Views;
+using GetDrive.Mapping;
 
 namespace GetDrive
 {
@@ -36,7 +37,7 @@ namespace GetDrive
             ConfigureApiClients(builder.Services, builder.Configuration);
             ConfigureViewModels(builder.Services);
             ConfigureViews(builder.Services);
-            builder.Services.AddAutoMapper(typeof(MauiProgram));
+            builder.Services.AddAutoMapper(typeof(MauiProgram)); 
             return builder.Build();
         }
 
@@ -55,7 +56,7 @@ namespace GetDrive
         private static void ConfigureApiClients(IServiceCollection services, IConfiguration configuration)
         {
 
-            services.AddHttpClient<Client>((provider, client) =>
+            services.AddHttpClient<IGetDriveClient, GetDriveClient>((provider, client) =>
             {
                 var address = configuration.GetSection("Server").GetSection("Host").Value;
                 if (string.IsNullOrEmpty(address))

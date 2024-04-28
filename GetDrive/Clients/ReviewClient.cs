@@ -16,8 +16,8 @@ namespace GetDrive.Clients
     public class ReviewClient : IReviewClient
     {
 
-        private readonly Client _api;
-        public ReviewClient(Client api)
+        private readonly IGetDriveClient _api;
+        public ReviewClient(IGetDriveClient api)
         {
             _api = api;
         }

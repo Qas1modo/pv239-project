@@ -18,9 +18,9 @@ namespace GetDrive.Clients
 
     public class UserRideClient : IUserRideClient
     {
-        private readonly Client api;
+        private readonly IGetDriveClient api;
 
-        public UserRideClient(Client api)
+        public UserRideClient(IGetDriveClient api)
         {
             this.api = api;
         }
