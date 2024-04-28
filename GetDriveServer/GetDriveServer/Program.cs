@@ -36,11 +36,7 @@ builder.Services.AddSwaggerGen(c => {
         Title = "GetRideAPI",
         Version = "v1"
     });
-    c.AddServer(new OpenApiServer()
-    {
-        Url = builder.Configuration["Server:Host"] ??
-        throw new Exception("Server adress not defined")
-    });
+   
     var securityScheme = new OpenApiSecurityScheme
     {
         Name = "Authorization",

@@ -32,9 +32,9 @@
             Route="publishride"/>
 
         <ShellContent
-            ContentTemplate="{DataTemplate vs:Profile}"
+            ContentTemplate="{DataTemplate vs:Auth}"
             Icon="profile.svg"
-            Route="profile"/>
+            Route="auth"/>
     </TabBar>
 
 </Shell>
