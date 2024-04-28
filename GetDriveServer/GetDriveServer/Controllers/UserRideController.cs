@@ -1,4 +1,5 @@
 ﻿using BL.DTOs;
+using BL.ResponseDTOs;
 using BL.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +18,9 @@ namespace GetDriveServer.Controllers
 
         [HttpGet("driver")]
         [Authorize]
-        public IActionResult GetDriverRequests()
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(IEnumerable<PassengerDetailResponseDTO>), StatusCodes.Status200OK)]
+        public ActionResult<IEnumerable<PassengerDetailResponseDTO>> GetDriverRequests()
         {
             if (!int.TryParse(User.Identity?.Name, out int userId))
             {
@@ -28,7 +31,9 @@ namespace GetDriveServer.Controllers
 
         [HttpGet("user")]
         [Authorize]
-        public IActionResult GetUserRequests()
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(IEnumerable<PassengerDetailResponseDTO>), StatusCodes.Status200OK)]
+        public ActionResult<IEnumerable<PassengerDetailResponseDTO>> GetUserRequests()
         {
             if (!int.TryParse(User.Identity?.Name, out int userId))
             {
@@ -39,7 +44,9 @@ namespace GetDriveServer.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> RequestRide([FromBody] PassengerDTO requestRideDTO)
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+        public async Task<ActionResult<string>> RequestRide([FromBody] PassengerDTO requestRideDTO)
         {
             if (requestRideDTO == null)
             {
@@ -59,7 +66,9 @@ namespace GetDriveServer.Controllers
 
         [HttpDelete("{id}")]
         [Authorize]
-        public async Task<IActionResult> DeleteRequest(int id)
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+        public async Task<ActionResult<string>> DeleteRequest(int id)
         {
             if (!int.TryParse(User.Identity?.Name, out int userId))
             {
@@ -75,7 +84,9 @@ namespace GetDriveServer.Controllers
 
         [HttpPut("{id}")]
         [Authorize]
-        public async Task<IActionResult> AcceptRide(int id)
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+        public async Task<ActionResult<string>> AcceptRide(int id)
         {
             if (!int.TryParse(User.Identity?.Name, out int driverId))
             {

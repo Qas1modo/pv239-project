@@ -14,7 +14,7 @@ namespace BL.Services
 {
     public interface IRideService
     {
-        Task<Ride> CreateRide(RideDTO rideDto, int driverId);
+        Task<Ride> CreateRide(CreateRideDTO rideDto, int driverId);
         IEnumerable<Ride> GetRides(RideFilterDTO filter);
         Task<RideDetailResponseDTO?> GetRide(int id);
         Task<bool> CancelRide(int id, int userId);
@@ -31,7 +31,7 @@ namespace BL.Services
             this.mapper = mapper;
         }
 
-        public async Task<Ride> CreateRide(RideDTO rideDto, int driverId)
+        public async Task<Ride> CreateRide(CreateRideDTO rideDto, int driverId)
         {
             var ride = mapper.Map<Ride>(rideDto);
             ride.Canceled = false;
@@ -49,9 +49,9 @@ namespace BL.Services
             {
                 query = query.Where(r => !r.Canceled);
             }
-            if (filter?.Date != null)
+            if (filter?.Departure != null)
             {
-                query = query.Where(r => r.Departure.Date == filter.Date);
+                query = query.Where(r => r.Departure.Date == filter.Departure);
             }
             if (filter?.StartLocation != null)
             {

@@ -11,7 +11,7 @@ namespace Configuration
         {
             config.CreateMap<User, AuthResponseDTO>().ReverseMap();
             config.CreateMap<User, RegistrationDTO>().ReverseMap();
-            config.CreateMap<Ride, RideDTO>().ReverseMap();
+            config.CreateMap<Ride, CreateRideDTO>().ReverseMap();
             config.CreateMap<RideDetailResponseDTO, Ride>().ReverseMap()
                 .ForMember(dst => dst.DriverName, src => src.MapFrom(src => src.Driver.Name))
                 .ForMember(dst => dst.DriverPhone, src => src.MapFrom(src => src.Driver.Phone))

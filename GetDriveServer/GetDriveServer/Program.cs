@@ -33,8 +33,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 builder.Services.AddSwaggerGen(c => {
     c.SwaggerDoc("v1", new OpenApiInfo
     {
-        Title = "GetDriveAPI",
+        Title = "GetRideAPI",
         Version = "v1"
+    });
+    c.AddServer(new OpenApiServer()
+    {
+        Url = builder.Configuration["Server:Host"] ??
+        throw new Exception("Server adress not defined")
     });
     var securityScheme = new OpenApiSecurityScheme
     {
@@ -52,7 +57,7 @@ builder.Services.AddSwaggerGen(c => {
     c.AddSecurityDefinition(securityScheme.Reference.Id, securityScheme);
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
-        {securityScheme, new string[] { }}
+        {securityScheme, Array.Empty<string>()}
     });
 });
 builder.Services.AddControllers();
@@ -71,3 +76,4 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();
+

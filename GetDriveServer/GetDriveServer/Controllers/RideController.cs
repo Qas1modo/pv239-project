@@ -25,7 +25,9 @@ namespace GetDriveServer.Controllers
 
         [HttpGet("{id}")]
         [AllowAnonymous]
-        public async Task<IActionResult> GetRide(int id)
+        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(RideDetailResponseDTO), StatusCodes.Status200OK)]
+        public async Task<ActionResult<RideDetailResponseDTO>> GetRide(int id)
         {
             RideDetailResponseDTO? ride = await _rideService.GetRide(id);
             if (ride == null)
@@ -37,7 +39,8 @@ namespace GetDriveServer.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult GetRides([FromQuery] RideFilterDTO filter)
+        [ProducesResponseType(typeof(IEnumerable<RideResponseDTO>), StatusCodes.Status200OK)]
+        public ActionResult<IEnumerable<RideResponseDTO>> GetRides([FromQuery] RideFilterDTO filter)
         {
             var rides = _rideService.GetRides(filter);
             var ridesDTO = _mapper.Map<IEnumerable<RideResponseDTO>>(rides);
@@ -46,7 +49,9 @@ namespace GetDriveServer.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> CreateRide([FromBody] RideDTO rideDTO)
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(RideResponseDTO), StatusCodes.Status200OK)]
+        public async Task<ActionResult<RideResponseDTO>> CreateRide([FromBody] CreateRideDTO rideDTO)
         {
             if (rideDTO == null)
             {
@@ -65,12 +70,15 @@ namespace GetDriveServer.Controllers
             {
                 return BadRequest("There was error when creating Ride");
             }
-            return Ok(createdRide);
+            var rideResponse = _mapper.Map<RideResponseDTO>(createdRide);
+            return Ok(rideResponse);
         }
 
         [HttpDelete("{id}")]
         [Authorize]
-        public async Task<IActionResult> CancelRide(int id)
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+        public async Task<ActionResult<string>> CancelRide(int id)
         {
             if (!int.TryParse(User.Identity?.Name, out int userId))
             {
