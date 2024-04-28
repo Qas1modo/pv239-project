@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace CookBook.Mobile.ViewModels;
+namespace GetDrive.ViewModels;
 
 public class ViewModelBase : ObservableObject
 {

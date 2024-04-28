@@ -19,6 +19,7 @@
 
 namespace GetDrive.Api
 {
+    using Microsoft.Extensions.Configuration;
     using System = global::System;
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "14.0.7.0 (NJsonSchema v11.0.0.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -32,10 +33,11 @@ namespace GetDrive.Api
         private static System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings, true);
 
     #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-        public Client(System.Net.Http.HttpClient httpClient)
+        public Client(System.Net.Http.HttpClient httpClient, IConfiguration config)
     #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
-            BaseUrl = "https://localhost:7160";
+            BaseUrl = config.GetSection("Server").GetSection("Host").Value ??
+                    throw new Exception("Server host url is missing in configuration!");
             _httpClient = httpClient;
         }
 
@@ -1863,7 +1865,7 @@ namespace GetDrive.Api
         public double Price { get; set; }
 
         [Newtonsoft.Json.JsonProperty("departure", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTimeOffset Departure { get; set; }
+        public System.DateTime Departure { get; set; }
 
         [Newtonsoft.Json.JsonProperty("driverNote", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string DriverNote { get; set; }

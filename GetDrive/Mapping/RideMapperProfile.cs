@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using GetDrive.Api;
-using GetDrive.ViewModels.Ride;
+using GetDrive.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +13,7 @@ namespace GetDrive.Mapping
     {
         public RideMapperProfile()
         {
-            CreateMap<RideResponseDTO, RideViewModel>().ReverseMap();
+            CreateMap<RideResponseDTO, RideListModel>().ReverseMap();
         }
     }
 }

@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<views:ContentPageBase xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       xmlns:t="clr-namespace:GetDrive.Resources.Texts"
+                       xmlns:f="clr-namespace:GetDrive.Resources.Fonts"
+                       xmlns:m="clr-namespace:GetDrive.Models"
+                       xmlns:vm="clr-namespace:GetDrive.ViewModels"
+                       xmlns:views="clr-namespace:GetDrive.Views"
+                       x:Class="GetDrive.Views.RideListView"
+                       Title="{x:Static t:RecipeListViewTexts.Page_Title}"
+                       Style="{StaticResource ContentPageStyle}"
+                       x:DataType="vm:RideListViewModel">
+    <Grid>
+        <CollectionView ItemsSource="{Binding Items}">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical"
+                                       ItemSpacing="10" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="m:RideListModel">
+                    <Frame Padding="0"
+                               CornerRadius="10"
+                               HeightRequest="200"
+                               IsClippedToBounds="True">
+                        <Grid RowDefinitions="*,*,*,*,*"
+                                  ColumnDefinitions="*">
+
+                            <Label Grid.Row="0"
+                                       Grid.Column="0" Grid.ColumnSpan="2"
+                                       Margin="5,5"
+                                       FontSize="20" LineBreakMode="WordWrap"
+                                       Style="{StaticResource BoldLabelStyle}"
+                                       Text="{Binding Id}"
+                                       TextColor="Black" VerticalOptions="End" />
+                            <Label Grid.Row="1"
+                                       Grid.Column="0" Grid.ColumnSpan="2"
+                                       Margin="5,5"
+                                       FontSize="20" LineBreakMode="WordWrap"
+                                       Style="{StaticResource BoldLabelStyle}"
+                                       Text="{Binding StartLocation}"
+                                       TextColor="Black" VerticalOptions="End" />
+                            <Label Grid.Row="2"
+                                       Grid.Column="0" Grid.ColumnSpan="2"
+                                       Margin="5,5"
+                                       FontSize="20" LineBreakMode="WordWrap"
+                                       Style="{StaticResource BoldLabelStyle}"
+                                       Text="{Binding Destination}"
+                                       TextColor="Black" VerticalOptions="End" />
+                            <Label Grid.Row="3"
+                                       Grid.Column="0" Grid.ColumnSpan="2"
+                                       Margin="5,5"
+                                       FontSize="20" LineBreakMode="WordWrap"
+                                       Style="{StaticResource BoldLabelStyle}"
+                                       Text="{Binding Departure}"
+                                       TextColor="Black" VerticalOptions="End" />
+                            <Label Grid.Row="4"
+                                       Grid.Column="0" Grid.ColumnSpan="2"
+                                       Margin="5,5"
+                                       FontSize="20" LineBreakMode="WordWrap"
+                                       Style="{StaticResource BoldLabelStyle}"
+                                       Text="{Binding AvailableSeats}"
+                                       TextColor="Black" VerticalOptions="End" />
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</views:ContentPageBase>
