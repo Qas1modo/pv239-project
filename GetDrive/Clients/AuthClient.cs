@@ -31,18 +31,22 @@ namespace GetDrive.Clients
 
         public async Task<AuthResponseDTO> Register(RegistrationDTO registrationDTO)
         {
-            return await _api.RegisterAsync(registrationDTO);
+            var response = await _api.RegisterAsync(registrationDTO);
+            await SecureStorage.SetAsync("Token", response.Token);
+            return response;
         }
 
         public async Task<bool> Logout()
         {
             //Only delete the token from the client, do not invalidate the token on the server
             //TODO delete the token from the client
+            SecureStorage.RemoveAll();
             return true;
         }
 
         public async Task<string> ChangePassword(ChangePasswordDTO changePasswordDTO)
         {
+
             return await _api.ChangepasswordAsync(changePasswordDTO);
         }
     }

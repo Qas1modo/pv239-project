@@ -55,12 +55,20 @@ namespace GetDrive
         private static void ConfigureApiClients(IServiceCollection services, IConfiguration configuration)
         {
 
-            services.AddHttpClient<Client>();
-            services.AddTransient<IAuthClient, AuthClient>();
-            services.AddTransient<IReviewClient, ReviewClient>();
-            services.AddTransient<IRideClient, RideClient>();
-            services.AddTransient<IUserClient, UserClient>();
-            services.AddTransient<IUserRideClient, UserRideClient>();
+            services.AddHttpClient<Client>((provider, client) =>
+            {
+                var address = configuration.GetSection("Server").GetSection("Host").Value;
+                if (string.IsNullOrEmpty(address))
+                {
+                    throw new Exception("Server host url is missing in configuration!");
+                }
+                client.BaseAddress = new Uri(address);
+            });
+            services.AddSingleton<IAuthClient, AuthClient>();
+            services.AddSingleton<IReviewClient, ReviewClient>();
+            services.AddSingleton<IRideClient, RideClient>();
+            services.AddSingleton<IUserClient, UserClient>();
+            services.AddSingleton<IUserRideClient, UserRideClient>();
         }
 
         private static void ConfigureViewModels(IServiceCollection services)

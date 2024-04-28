@@ -107,10 +107,6 @@
 	  </MauiXaml>
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Api\" />
-	</ItemGroup>
-
 	<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionGetDriveHideInfoBar="True" /></VisualStudio></ProjectExtensions>
 
 </Project>
