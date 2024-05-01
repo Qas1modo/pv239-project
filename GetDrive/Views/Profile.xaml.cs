@@ -1,9 +1,11 @@
+using GetDrive.ViewModels;
+
 namespace GetDrive.Views;
 
-public partial class Profile : ContentPage
+public partial class Profile : ContentPageBase
 {
-	public Profile()
-	{
-		InitializeComponent();
-	}
+    public Profile(ProfileViewModel viewModel) : base(viewModel)
+    {
+        InitializeComponent();
+    }
 }

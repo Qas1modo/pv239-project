@@ -10,34 +10,54 @@ public partial class AuthViewModel : ViewModelBase
     private readonly IAuthClient _authClient;
 
     [ObservableProperty]
-    private RegistrationDTO registrationData = new RegistrationDTO();
+    private RegistrationDTO registrationData = new();
 
     [ObservableProperty]
-    private LoginDto loginData = new LoginDto();
+    private LoginDto loginData = new();
 
     [ObservableProperty]
     private bool isRegistering = true;
 
-    public bool IsNotRegistering { get { return !IsRegistering; } }
-
+    [ObservableProperty]
+    private bool isLoggedIn;
 
     [ObservableProperty]
-    private string statusMessage = "Please fill in entries (all entries are required).";
+    private string statusMessage;
+
     [ObservableProperty]
-    private string toggleButtonText = "Switch to Login";
+    private string toggleButtonText = "Switch to login form";
+
+    public bool IsNotLoggedIn => !isLoggedIn;
+
+    public bool IsNotRegistering => !isRegistering;
 
 
     public AuthViewModel(IAuthClient authClient)
     {
         _authClient = authClient;
+        UpdateStatusMessage();
     }
+
+    public override async Task OnAppearingAsync()
+    {
+        await base.OnAppearingAsync();
+        CheckLoginStatus();
+    }
+
+    private async void CheckLoginStatus()
+    {
+        var token = await SecureStorage.GetAsync("Token");
+        IsLoggedIn = !string.IsNullOrEmpty(token);
+        OnPropertyChanged(nameof(IsNotLoggedIn));
+    }
+
 
     [RelayCommand]
     private async Task RegisterAsync()
     {
         if (!IsRegisterFormValid())
         {
-            StatusMessage = "Please check your registration inputs and try again.";
+            UpdateStatusMessage("Please check your registration inputs and try again.");
             return;
         }
         try
@@ -45,12 +65,13 @@ public partial class AuthViewModel : ViewModelBase
             var response = await _authClient.Register(RegistrationData);
             if (response != null && response.Token != null)
             {
-                StatusMessage = "Your registration has been successfully completed.";
+                UpdateStatusMessage("Registration has been successfully done... ");
+                await Task.Delay(1500);
                 await Shell.Current.GoToAsync("//ridelistview");
             }
             else
             {
-                StatusMessage = "Registration was unsuccessful. Please check your fields.";
+                UpdateStatusMessage("Registration was unsuccessful. Please check your fields.");
             }
         }
         catch (Exception ex)
@@ -64,20 +85,25 @@ public partial class AuthViewModel : ViewModelBase
     {
         if (!IsLoginFormValid())
         {
-            StatusMessage = "Please check your login inputs and try again.";
+            UpdateStatusMessage("Please check your login inputs and try again.");
             return;
         }
         try
         {
-            var response = await _authClient.Login(loginData);
-            if (response != null && response.Token != null)
+            var response = await _authClient.Login(LoginData);
+            if (response != null && response.Token != null && response.UserId != null)
             {
-                StatusMessage = "Login successful.";
+                await SecureStorage.SetAsync("Token", response.Token);
+                await SecureStorage.SetAsync("UserId", response.UserId.ToString());
+                IsLoggedIn = true;
+                OnPropertyChanged(nameof(IsNotLoggedIn));
+                UpdateStatusMessage("Login successful.");
+                await Task.Delay(1500);
                 await Shell.Current.GoToAsync("//ridelistview");
             }
             else
             {
-                StatusMessage = "Login failed. Please check your email and password.";
+                UpdateStatusMessage("Login failed. Please check your email and password.");
             }
         }
         catch (Exception ex)
@@ -87,27 +113,45 @@ public partial class AuthViewModel : ViewModelBase
     }
 
     [RelayCommand]
+    private async Task LogoutAsync()
+    {
+        await _authClient.Logout();
+        IsLoggedIn = false;
+        OnPropertyChanged(nameof(IsNotLoggedIn));
+        UpdateStatusMessage("Successful logout.");
+        await Task.Delay(1500);
+        await Shell.Current.GoToAsync("//ridelistview");
+    }
+
+    [RelayCommand]
     private void ToggleMode()
     {
         IsRegistering = !IsRegistering;
-        StatusMessage = isRegistering ? "Please fill in entries (all entries are required)." : "Please enter your login details.";
-        ToggleButtonText = IsRegistering ? "Switch to Login" : "Switch to Register";
+        OnPropertyChanged(nameof(IsNotRegistering));
+        UpdateStatusMessage();
+        ToggleButtonText = IsNotRegistering ? "Switch to register form" : "Switch to login form";
+    }
+
+    private void UpdateStatusMessage(string? message = null)
+    {
+        StatusMessage = message ?? (IsRegistering
+                                    ? "Please fill in registration entries (all entries are required)."
+                                    : "Please fill in login entries.");
     }
 
     private bool IsRegisterFormValid()
     {
-        return !string.IsNullOrWhiteSpace(registrationData.Name) &&
-               !string.IsNullOrWhiteSpace(registrationData.Email) &&
-               !string.IsNullOrWhiteSpace(registrationData.Phone) &&
-               !string.IsNullOrWhiteSpace(registrationData.Password) &&
-               registrationData.Password == registrationData.RepeatPassword &&
-               registrationData.Password.Length >= 8;
+        return !string.IsNullOrWhiteSpace(RegistrationData.Name) &&
+               !string.IsNullOrWhiteSpace(RegistrationData.Email) &&
+               !string.IsNullOrWhiteSpace(RegistrationData.Phone) &&
+               !string.IsNullOrWhiteSpace(RegistrationData.Password) &&
+               RegistrationData.Password == RegistrationData.RepeatPassword &&
+               RegistrationData.Password.Length >= 8;
     }
 
     private bool IsLoginFormValid()
     {
-        // loginData.Password.Length >= 8; vypnute kvoli seedu
-        return !string.IsNullOrWhiteSpace(loginData.Email) &&
-               !string.IsNullOrWhiteSpace(loginData.Password);
+        return !string.IsNullOrWhiteSpace(LoginData.Email) &&
+               !string.IsNullOrWhiteSpace(LoginData.Password);
     }
 }
