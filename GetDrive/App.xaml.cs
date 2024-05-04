@@ -1,12 +1,17 @@
-﻿namespace GetDrive
+﻿using GetDrive.Services;
+
+namespace GetDrive
 {
     public partial class App : Application
     {
-        public App()
+        private readonly IServiceProvider serviceProvider;
+
+        public App(IServiceProvider serviceProvider)
         {
+            this.serviceProvider = serviceProvider;
             InitializeComponent();
 
-            MainPage = new AppShell();
+            MainPage = serviceProvider.GetRequiredService<AppShell>();
         }
     }
 }

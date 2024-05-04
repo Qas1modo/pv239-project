@@ -84,13 +84,10 @@
 	  <Compile Update="Views\GetRide.xaml.cs">
 	    <DependentUpon>GetRide.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Views\RideListView.xaml.cs">
-	    <DependentUpon>RideListView.xaml</DependentUpon>
-	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="Views\ContentPageBase.xaml">
+	  <MauiXaml Update="Views\Base\ContentPageBase.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\PublishRide.xaml">
@@ -102,7 +99,7 @@
 	  <MauiXaml Update="Views\Profile.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\RideListView.xaml">
+	  <MauiXaml Update="Views\Ride\RideListView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
