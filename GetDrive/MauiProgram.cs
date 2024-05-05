@@ -12,6 +12,7 @@ using GetDrive.ViewModels;
 using GetDrive.Views;
 using GetDrive.Mapping;
 using GetDrive.Services;
+using CommunityToolkit.Maui;
 
 namespace GetDrive
 {
@@ -20,27 +21,27 @@ namespace GetDrive
         public static MauiApp CreateMauiApp()
         {
             var builder = MauiApp.CreateBuilder();
-            builder
-                .UseMauiApp<App>()
-                .ConfigureFonts(fonts =>
-                {
-                    fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-                    fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-                    fonts.AddFont("FontAwesome-Solid.ttf", Fonts.FontAwesome);
-                    fonts.AddFont("Montserrat-Bold.ttf", Fonts.Bold);
-                    fonts.AddFont("Montserrat-Medium.ttf", Fonts.Medium);
-                    fonts.AddFont("Montserrat-Regular.ttf", Fonts.Regular);
-                });
+            builder.UseMauiApp<App>().ConfigureFonts(fonts =>
+            {
+                fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+                fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+                fonts.AddFont("FontAwesome-Solid.ttf", Fonts.FontAwesome);
+                fonts.AddFont("Montserrat-Bold.ttf", Fonts.Bold);
+                fonts.AddFont("Montserrat-Medium.ttf", Fonts.Medium);
+                fonts.AddFont("Montserrat-Regular.ttf", Fonts.Regular);
+            }).UseMauiCommunityToolkit();
+            ConfigureAppSettings(builder);
 #if DEBUG
     		builder.Logging.AddDebug();
+
+#endif
+            ConfigureServices(builder.Services);
 
             ConfigureAppSettings(builder);
 
             ConfigureShell(builder.Services);
             ConfigureViews(builder.Services);
             ConfigureViewModels(builder.Services);
-#endif
-            ConfigureServices(builder.Services);
             ConfigureApiClients(builder.Services, builder.Configuration);
 
             builder.Services.AddAutoMapper(typeof(MauiProgram));
@@ -57,8 +58,9 @@ namespace GetDrive
             var appSettingsStream = assembly.GetManifestResourceStream("GetDrive.Configuration.appsettings.json");
             if (appSettingsStream is not null)
             {
-                 configurationBuilder.AddJsonStream(appSettingsStream);
+                configurationBuilder.AddJsonStream(appSettingsStream);
             }
+
             builder.Configuration.AddConfiguration(configurationBuilder.Build());
         }
 
@@ -94,7 +96,6 @@ namespace GetDrive
 
         private static void ConfigureApiClients(IServiceCollection services, IConfiguration configuration)
         {
-
             services.AddHttpClient<IGetDriveClient, GetDriveClient>((provider, client) =>
             {
                 var address = configuration.GetSection("Server").GetSection("Host").Value;
@@ -102,6 +103,7 @@ namespace GetDrive
                 {
                     throw new Exception("Server host url is missing in configuration!");
                 }
+
                 client.BaseAddress = new Uri(address);
             });
             services.AddSingleton<IAuthClient, AuthClient>();
