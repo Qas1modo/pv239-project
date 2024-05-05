@@ -34,12 +34,11 @@
         <ShellContent
             ContentTemplate="{DataTemplate vs:Profile}"
             Icon="profile.svg"
-            Route="profile"/>  
-
+            Route="profile"/>
         <ShellContent
             ContentTemplate="{DataTemplate vs:Auth}"
             Icon="profile.svg"
             Route="auth"/>
-    </TabBar>
 
+    </TabBar>
 </Shell>
