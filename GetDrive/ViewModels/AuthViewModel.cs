@@ -16,7 +16,7 @@ public partial class AuthViewModel : ViewModelBase
     private LoginDto loginData = new();
 
     [ObservableProperty]
-    private bool isRegistering = true;
+    private bool isRegistering = false;
 
     [ObservableProperty]
     private bool isLoggedIn;
@@ -25,7 +25,7 @@ public partial class AuthViewModel : ViewModelBase
     private string statusMessage;
 
     [ObservableProperty]
-    private string toggleButtonText = "Switch to login form";
+    private string toggleButtonText = "Switch to register form";
 
     public bool IsNotLoggedIn => !isLoggedIn;
 
@@ -91,7 +91,7 @@ public partial class AuthViewModel : ViewModelBase
         try
         {
             var response = await _authClient.Login(LoginData);
-            if (response != null && response.Token != null && response.UserId != null)
+            if (response != null && response.Token != null && response.UserId > 0)
             {
                 await SecureStorage.SetAsync("Token", response.Token);
                 await SecureStorage.SetAsync("UserId", response.UserId.ToString());

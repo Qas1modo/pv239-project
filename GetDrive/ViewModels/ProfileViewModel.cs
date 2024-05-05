@@ -2,6 +2,9 @@
 using CommunityToolkit.Mvvm.Input;
 using GetDrive.Clients;
 using GetDrive.Api;
+using System.Collections.ObjectModel;
+using AutoMapper;
+using GetDrive.Models;
 
 
 namespace GetDrive.ViewModels;
@@ -9,13 +12,15 @@ namespace GetDrive.ViewModels;
 public partial class ProfileViewModel : ViewModelBase
 {
     private readonly IUserClient _userClient;
+    private readonly IMapper _mapper;
 
     [ObservableProperty]
-    private UserProfileResponseDTO userProfile;
+    private UserProfileModel userProfile;
 
-    public ProfileViewModel(IUserClient userClient)
+    public ProfileViewModel(IUserClient userClient, IMapper mapper)
     {
         _userClient = userClient;
+        _mapper = mapper;
     }
 
     public override async Task OnAppearingAsync()
@@ -28,25 +33,23 @@ public partial class ProfileViewModel : ViewModelBase
             await Shell.Current.GoToAsync("//auth");
             return;
         }
-        await LoadUserProfileAsync();
+
+        var userIdString = await SecureStorage.GetAsync("UserId");
+        if (!int.TryParse(userIdString, out int userId))
+        {
+            await Shell.Current.GoToAsync("//auth");
+            return;
+        }
+
+        var userProfileDto = await _userClient.GetProfile(userId);
+        UserProfile = _mapper.Map<UserProfileModel>(userProfileDto);
     }
 
     [RelayCommand]
-    public async Task LoadUserProfileAsync()
+    public static async Task ManageProfile()
     {
-        try
-        {
-            var userIdString = await SecureStorage.GetAsync("UserId");
-            if (!int.TryParse(userIdString, out int userId))
-            {
-                await Shell.Current.GoToAsync("//auth");
-                return;
-            }
-            UserProfile = await _userClient.GetProfile(userId);
-        }
-        catch (Exception)
-        {
-            await Shell.Current.GoToAsync("//auth");
-        }
+        await Shell.Current.GoToAsync("//auth");
     }
+
 }
+

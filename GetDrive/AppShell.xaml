@@ -32,7 +32,7 @@
             Route="publishride"/>
 
         <ShellContent
-            ContentTemplate="{DataTemplate vs:Auth}"
+            ContentTemplate="{DataTemplate vs:Profile}"
             Icon="profile.svg"
             Route="profile"/>  
 

@@ -22,16 +22,45 @@ namespace DAL.Data
             modelBuilder.Entity<User>().HasData(user3);
 
             Ride ride1 = new()
-            { Id = 1, DriverId=1, Departure=DateTime.Now.AddDays(20), DriverNote="Nebereme nikoho po cestě", Destination="Bratislava", StartLocation="Brno", Price=2.1m,
+            {
+                Id = 1,
+                DriverId = 1,
+                Departure = DateTime.Now.AddDays(20),
+                DriverNote = "Nebereme nikoho po cestě",
+                Destination = "Bratislava",
+                StartLocation = "Brno",
+                Price = 2.1m,
                 MaxPassengerCount = 4, AvailableSeats= 2, Canceled = false };
             modelBuilder.Entity<Ride>().HasData(ride1);
+
+            Ride ride2 = new()
+            {
+                Id = 2,
+                DriverId = 2,
+                Departure = DateTime.Now.AddDays(10),
+                DriverNote = "Beriem psa.",
+                Destination = "Košice",
+                StartLocation = "Bratislava",
+                Price = 4.6m,
+                MaxPassengerCount = 3,
+                AvailableSeats = 1,
+                Canceled = false
+            };
+            modelBuilder.Entity<Ride>().HasData(ride2);
 
             UserRide userRide1 = new() { RideId = 1, PassengerId = 2, PassengerCount = 2, Id = 1, Accepted = true, PassengerNote = "Test" };
             modelBuilder.Entity<UserRide>().HasData(userRide1);
 
+            UserRide userRide2 = new() { RideId = 2, PassengerId = 1, PassengerCount = 1, Id = 2, Accepted = true, PassengerNote = "Potrebujem prísť včas" };
+            modelBuilder.Entity<UserRide>().HasData(userRide2);
+
 
             Review review1 = new() { Id = 1, AuthorId = 2, ReviewText = "Pretty Good!", Score = 5, UserId = 1 };
             modelBuilder.Entity<Review>().HasData(review1);
+
+            Review review2 = new() { Id = 2, AuthorId = 3, ReviewText = "Almost excellent trip!", Score = 4, UserId = 1 };
+            modelBuilder.Entity<Review>().HasData(review2);
+
         }
     }
 }
