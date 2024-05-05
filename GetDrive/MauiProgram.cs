@@ -11,6 +11,7 @@ using System.Linq;
 using GetDrive.ViewModels;
 using GetDrive.Views;
 using GetDrive.Mapping;
+using GetDrive.Services;
 using CommunityToolkit.Maui;
 
 namespace GetDrive
@@ -31,13 +32,23 @@ namespace GetDrive
             }).UseMauiCommunityToolkit();
             ConfigureAppSettings(builder);
 #if DEBUG
-            builder.Logging.AddDebug();
+    		builder.Logging.AddDebug();
+
 #endif
-            ConfigureApiClients(builder.Services, builder.Configuration);
-            ConfigureViewModels(builder.Services);
+            ConfigureServices(builder.Services);
+
+            ConfigureAppSettings(builder);
+
+            ConfigureShell(builder.Services);
             ConfigureViews(builder.Services);
+            ConfigureViewModels(builder.Services);
+            ConfigureApiClients(builder.Services, builder.Configuration);
+
             builder.Services.AddAutoMapper(typeof(MauiProgram));
-            return builder.Build();
+
+            var app = builder.Build();
+            RegisterRoutes(app);
+            return app;
         }
 
         private static void ConfigureAppSettings(MauiAppBuilder builder)
@@ -51,6 +62,36 @@ namespace GetDrive
             }
 
             builder.Configuration.AddConfiguration(configurationBuilder.Build());
+        }
+
+        private static void ConfigureShell(IServiceCollection services)
+        {
+            services.AddSingleton<AppShell>();
+        }
+
+        private static void ConfigureViews(IServiceCollection services)
+        {
+            services.Scan(selector => selector
+                .FromAssemblyOf<App>()
+                .AddClasses(filter => filter.AssignableTo<ContentPageBase>())
+                .AsSelf()
+                .WithTransientLifetime());
+        }
+
+        private static void ConfigureViewModels(IServiceCollection services)
+        {
+            services.Scan(selector => selector
+                .FromAssemblyOf<App>()
+                .AddClasses(filter => filter.AssignableTo<IViewModel>())
+                .AsSelfWithInterfaces()
+                .WithTransientLifetime());
+        }
+
+        private static void ConfigureServices(IServiceCollection services)
+        {
+            services.AddSingleton<IRoutingService, RoutingService>();
+            services.AddSingleton<IShare>(_ => Share.Default);
+            services.AddSingleton<IGlobalExceptionService, GlobalExceptionService>();
         }
 
         private static void ConfigureApiClients(IServiceCollection services, IConfiguration configuration)
@@ -70,21 +111,16 @@ namespace GetDrive
             services.AddSingleton<IRideClient, RideClient>();
             services.AddSingleton<IUserClient, UserClient>();
             services.AddSingleton<IUserRideClient, UserRideClient>();
-
-            services.AddSingleton<IAuthClient, AuthClient>();
-            services.AddTransient<AuthViewModel>();
-            services.AddTransient<Auth>();
-
         }
 
-        private static void ConfigureViewModels(IServiceCollection services)
+        private static void RegisterRoutes(MauiApp app)
         {
-            services.Scan(selector => selector.FromAssemblyOf<App>().AddClasses(filter => filter.AssignableTo<ViewModelBase>()).AsSelfWithInterfaces().WithTransientLifetime());
-        }
+            var routingService = app.Services.GetRequiredService<IRoutingService>();
 
-        private static void ConfigureViews(IServiceCollection services)
-        {
-            services.Scan(selector => selector.FromAssemblyOf<App>().AddClasses(filter => filter.AssignableTo<ContentPageBase>()).AsSelf().WithTransientLifetime());
+            foreach (var routeModel in routingService.Routes)
+            {
+                Routing.RegisterRoute(routeModel.Route, routeModel.ViewType);
+            }
         }
     }
 }

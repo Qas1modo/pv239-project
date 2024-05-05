@@ -19,7 +19,7 @@
         <ShellContent
             ContentTemplate="{DataTemplate vs:RideListView}"
             Icon="travel_explore.svg"
-            Route="ridelistview"/>
+            Route="rides"/>
 
         <ShellContent
             ContentTemplate="{DataTemplate vs:GetRide}"
