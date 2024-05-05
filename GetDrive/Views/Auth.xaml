@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                 xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-                 x:Class="GetDrive.Views.Auth"
-                 xmlns:viewmodels="clr-namespace:GetDrive.ViewModels"
-                 x:DataType="viewmodels:AuthViewModel"
-                 Title="Auth page">
+<views:ContentPageBase xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                      xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+                      xmlns:views="clr-namespace:GetDrive.Views"
+                      xmlns:viewmodels="clr-namespace:GetDrive.ViewModels"
+                      x:Class="GetDrive.Views.Auth"
+                      x:DataType="viewmodels:AuthViewModel"
+                      Title="Auth Page">
 
     <ContentPage.Resources>
         <Style x:Key="InvalidEntryStyle" TargetType="Entry">
@@ -15,108 +16,171 @@
             <Setter Property="TextColor" Value="Green" />
         </Style>
     </ContentPage.Resources>
-    
+
     <VerticalStackLayout Spacing="10" Margin="15,15,15,0">
-        <Button Text="{Binding ToggleButtonText}" Command="{Binding ToggleModeCommand}" Margin="10" />
-        <Frame Padding="8,2,8,2">
-            <Label Text="{Binding StatusMessage}" FontSize="12" Margin="10" />
-        </Frame>
-
-        <StackLayout IsVisible="{Binding IsRegistering}">
-            <Frame Padding="10,2,2,2" Margin="0,0,0,10">
-                <HorizontalStackLayout>
-                    <Label Text="User name" VerticalOptions="Center" WidthRequest="70" FontSize="11"></Label>
-                    <Entry Text="{Binding RegistrationData.Name}">
-                        <Entry.Behaviors>
-                            <toolkit:TextValidationBehavior
-                             InvalidStyle="{StaticResource InvalidEntryStyle}"
-                             ValidStyle="{StaticResource ValidEntryStyle}"
-                             x:Name="registerNameValidator"
-                             MinimumLength="4"
-                            Flags="ValidateOnValueChanged"
-                            />
-
-                        </Entry.Behaviors>
-                    </Entry>
-                </HorizontalStackLayout>
-            </Frame>
-
-            <Frame Padding="10,2,2,2" Margin="0,0,0,10">
-                <HorizontalStackLayout>
-                    <Label Text="Email" VerticalOptions="Center" WidthRequest="70" FontSize="12"/>
-                    <Entry Keyboard="Email" Text="{Binding RegistrationData.Email}">
-                        <Entry.Behaviors>
-                            <toolkit:EmailValidationBehavior 
-                            InvalidStyle="{StaticResource InvalidEntryStyle}"
-                            ValidStyle="{StaticResource ValidEntryStyle}"
-                            x:Name="registerEmailValidator"
-                            Flags="ValidateOnValueChanged" />
-                        </Entry.Behaviors>
-                    </Entry>
-                </HorizontalStackLayout>
-            </Frame>
-
-            <Frame Padding="10,2,2,2" Margin="0,0,0,10">
-                <HorizontalStackLayout>
-                    <Label Text="Phone" VerticalOptions="Center" WidthRequest="70" FontSize="12"/>
-                    <Entry Keyboard="Telephone" Text="{Binding RegistrationData.Phone}" />
-                </HorizontalStackLayout>
-            </Frame>
-
-            <Frame Padding="10,2,2,2" Margin="0,0,0,10">
-                <HorizontalStackLayout>
-                    <Label Text="Password" VerticalOptions="Center" WidthRequest="70" FontSize="12"/>
-                    <Entry IsPassword="True" Text="{Binding RegistrationData.Password}">
-                        <Entry.Behaviors>
-                            <toolkit:TextValidationBehavior
-                          InvalidStyle="{StaticResource InvalidEntryStyle}"
-                          ValidStyle="{StaticResource ValidEntryStyle}"
-                          x:Name="registerPasswordValidator"
-                          MinimumLength="8"
-                         Flags="ValidateOnValueChanged"
-                        />
-
-                        </Entry.Behaviors>
-                    </Entry>
-                </HorizontalStackLayout>
-            </Frame>
-
-            <Frame Padding="10,2,2,2" Margin="0,0,0,10">
-                <HorizontalStackLayout>
-                    <Label Text="Repeat password" VerticalOptions="Center" WidthRequest="70" FontSize="12"/>
-                    <Entry IsPassword="True" Text="{Binding RegistrationData.RepeatPassword}" >
-                        <Entry.Behaviors>
-                            <toolkit:TextValidationBehavior
-                          InvalidStyle="{StaticResource InvalidEntryStyle}"
-                          ValidStyle="{StaticResource ValidEntryStyle}"
-                          x:Name="registerPasswordRepeatValidator"
-                          MinimumLength="8"
-                         Flags="ValidateOnValueChanged"
-                        />
-                        </Entry.Behaviors>
-                    </Entry>
-                </HorizontalStackLayout>
-            </Frame>
-            <Frame Padding="0,0,0,2" Margin="0,0,0,0">
-                <Button x:Name="registerBtn" Text="Register" Command="{Binding RegisterCommand}"/>
+        <StackLayout>
+            <StackLayout.Triggers>
+                <DataTrigger TargetType="StackLayout" Binding="{Binding Auth.IsLoggedIn}" Value="True">
+                    <Setter Property="IsVisible" Value="True" />
+                </DataTrigger>
+                <DataTrigger TargetType="StackLayout" Binding="{Binding Auth.IsLoggedIn}" Value="False">
+                    <Setter Property="IsVisible" Value="False" />
+                </DataTrigger>
+            </StackLayout.Triggers>
+            <Button Text="Logout" Command="{Binding LogoutCommand}" Margin="10"/>
+            <Button Text="Change Password" Command="{Binding ShowChangePasswordPopupCommand}" Margin="10" />
+        </StackLayout>
+    
+        <StackLayout>
+            <StackLayout.Triggers>
+                <DataTrigger TargetType="StackLayout" Binding="{Binding Auth.IsLoggedIn}" Value="True">
+                    <Setter Property="IsVisible" Value="False" />
+                </DataTrigger>
+                <DataTrigger TargetType="StackLayout" Binding="{Binding Auth.IsLoggedIn}" Value="False">
+                    <Setter Property="IsVisible" Value="True" />
+                </DataTrigger>
+            </StackLayout.Triggers>
+            <Button Text="{Binding Auth.ToggleButtonText}" Command="{Binding ToggleModeCommand}"/>
+            <Frame Padding="20,10,10,10" Margin="0,10,0,10" BackgroundColor="Red">
+                <Label Text="{Binding Auth.StatusMessage}" FontSize="12" TextColor="White"/>
             </Frame>
         </StackLayout>
+        
+        <StackLayout>
+            <StackLayout.Triggers>
+                <DataTrigger TargetType="StackLayout" Binding="{Binding Auth.IsLoggedIn}" Value="True">
+                    <Setter Property="IsVisible" Value="False" />
+                </DataTrigger>
+                <DataTrigger TargetType="StackLayout" Binding="{Binding Auth.IsLoggedIn}" Value="False">
+                    <Setter Property="IsVisible" Value="True" />
+                </DataTrigger>
+            </StackLayout.Triggers>
+            <StackLayout>
+                <StackLayout.Triggers>
+                    <DataTrigger TargetType="StackLayout" Binding="{Binding Auth.IsRegistering}" Value="True">
+                        <Setter Property="IsVisible" Value="True" />
+                    </DataTrigger>
+                    <DataTrigger TargetType="StackLayout" Binding="{Binding Auth.IsRegistering}" Value="False">
+                        <Setter Property="IsVisible" Value="False" />
+                    </DataTrigger>
+                </StackLayout.Triggers>
+                <Frame Padding="10,2,2,2" Margin="0,0,0,10">
+                    <HorizontalStackLayout>
+                        <Label Text="User name" VerticalOptions="Center" WidthRequest="70" FontSize="11"/>
+                        <Entry Text="{Binding Auth.Registration.Name}">
+                            <Entry.Behaviors>
+                                <toolkit:TextValidationBehavior
+                        InvalidStyle="{StaticResource InvalidEntryStyle}"
+                        ValidStyle="{StaticResource ValidEntryStyle}"
+                        x:Name="registerNameValidator"
+                        MinimumLength="4"
+                        Flags="ValidateOnValueChanged"/>
+                            </Entry.Behaviors>
+                        </Entry>
+                    </HorizontalStackLayout>
+                </Frame>
 
-        <StackLayout IsVisible="{Binding IsNotRegistering}">
-            <Frame Padding="8,2,8,2">
-                <HorizontalStackLayout>
-                    <Label Text="Email" VerticalOptions="Center" WidthRequest="70"/>
-                    <Entry Keyboard="Email" Text="{Binding LoginData.Email}" />
-                </HorizontalStackLayout>
-            </Frame>
+                <Frame Padding="10,2,2,2" Margin="0,0,0,10">
+                    <HorizontalStackLayout>
+                        <Label Text="Email" VerticalOptions="Center" WidthRequest="70" FontSize="12"/>
+                        <Entry Keyboard="Email" Text="{Binding Auth.Registration.Email}">
+                            <Entry.Behaviors>
+                                <toolkit:EmailValidationBehavior 
+                    InvalidStyle="{StaticResource InvalidEntryStyle}"
+                    ValidStyle="{StaticResource ValidEntryStyle}"
+                    x:Name="registerEmailValidator"
+                    Flags="ValidateOnValueChanged" />
+                            </Entry.Behaviors>
+                        </Entry>
+                    </HorizontalStackLayout>
+                </Frame>
 
-            <Frame Padding="8,2,8,2">
-                <HorizontalStackLayout>
-                    <Label Text="Password" VerticalOptions="Center" WidthRequest="70"/>
-                    <Entry IsPassword="True" Text="{Binding LoginData.Password}" />
-                </HorizontalStackLayout>
-            </Frame>
-            <Button x:Name="loginBtn" Text="Login" Command="{Binding LoginCommand}"/>
+                <Frame Padding="10,2,2,2" Margin="0,0,0,10">
+                    <HorizontalStackLayout>
+                        <Label Text="Phone" VerticalOptions="Center" WidthRequest="70" FontSize="12"/>
+                        <Entry Keyboard="Telephone" Text="{Binding Auth.Registration.Phone}" />
+                    </HorizontalStackLayout>
+                </Frame>
+
+                <Frame Padding="10,2,2,2" Margin="0,0,0,10">
+                    <HorizontalStackLayout>
+                        <Label Text="Password" VerticalOptions="Center" WidthRequest="70" FontSize="12"/>
+                        <Entry IsPassword="True" Text="{Binding Auth.Registration.Password}">
+                            <Entry.Behaviors>
+                                <toolkit:TextValidationBehavior
+                        InvalidStyle="{StaticResource InvalidEntryStyle}"
+                        ValidStyle="{StaticResource ValidEntryStyle}"
+                        x:Name="registerPasswordValidator"
+                        MinimumLength="8"
+                        Flags="ValidateOnValueChanged"/>
+                            </Entry.Behaviors>
+                        </Entry>
+                    </HorizontalStackLayout>
+                </Frame>
+
+                <Frame Padding="10,2,2,2" Margin="0,0,0,10">
+                    <HorizontalStackLayout>
+                        <Label Text="Repeat password" VerticalOptions="Center" WidthRequest="70" FontSize="12"/>
+                        <Entry IsPassword="True" Text="{Binding Auth.Registration.RepeatPassword}" >
+                            <Entry.Behaviors>
+                                <toolkit:TextValidationBehavior
+                        InvalidStyle="{StaticResource InvalidEntryStyle}"
+                        ValidStyle="{StaticResource ValidEntryStyle}"
+                        x:Name="registerPasswordRepeatValidator"
+                        MinimumLength="8"
+                        Flags="ValidateOnValueChanged"/>
+                            </Entry.Behaviors>
+                        </Entry>
+                    </HorizontalStackLayout>
+                </Frame>
+                <Frame Padding="0,0,0,2" Margin="0,0,0,0">
+                    <Button x:Name="registerBtn" Text="Register" Command="{Binding RegisterCommand}"/>
+                </Frame>
+            </StackLayout>
+
+            <StackLayout>
+                <StackLayout.Triggers>
+                    <DataTrigger TargetType="StackLayout" Binding="{Binding Auth.IsRegistering}" Value="True">
+                        <Setter Property="IsVisible" Value="False" />
+                    </DataTrigger>
+                    <DataTrigger TargetType="StackLayout" Binding="{Binding Auth.IsRegistering}" Value="False">
+                        <Setter Property="IsVisible" Value="True" />
+                    </DataTrigger>
+                </StackLayout.Triggers>
+                <Frame Padding="10,2,2,2" Margin="0,0,0,10">
+                    <HorizontalStackLayout>
+                        <Label Text="Email" VerticalOptions="Center" WidthRequest="70" FontSize="12"/>
+                        <Entry Keyboard="Email" Text="{Binding Auth.Login.Email}">
+                            <Entry.Behaviors>
+                                <toolkit:EmailValidationBehavior 
+                                        InvalidStyle="{StaticResource InvalidEntryStyle}"
+                                        ValidStyle="{StaticResource ValidEntryStyle}"
+                                        x:Name="loginEmailValidator"
+                                        Flags="ValidateOnValueChanged" />
+                            </Entry.Behaviors>
+                        </Entry>
+                    </HorizontalStackLayout>
+                </Frame>
+
+                <Frame Padding="10,2,2,2" Margin="0,0,0,10">
+                    <HorizontalStackLayout>
+                        <Label Text="Password" VerticalOptions="Center" WidthRequest="70" FontSize="12"/>
+                        <Entry IsPassword="True" Text="{Binding Auth.Login.Password}">
+                            <Entry.Behaviors>
+                                <toolkit:TextValidationBehavior
+                                            InvalidStyle="{StaticResource InvalidEntryStyle}"
+                                            ValidStyle="{StaticResource ValidEntryStyle}"
+                                            x:Name="loginPasswordValidator"
+                                            MinimumLength="8"
+                                            Flags="ValidateOnValueChanged"/>
+                            </Entry.Behaviors>
+                        </Entry>
+                    </HorizontalStackLayout>
+                </Frame>
+                <Frame Padding="0,0,0,2" Margin="0,0,0,0">
+                    <Button x:Name="loginBtn" Text="Login" Command="{Binding LoginCommand}"/>
+                </Frame>
+            </StackLayout>
         </StackLayout>
     </VerticalStackLayout>
-</ContentPage>
+</views:ContentPageBase>

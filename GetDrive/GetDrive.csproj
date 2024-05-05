@@ -79,6 +79,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Views\ChangePassword.xaml.cs">
+	    <DependentUpon>ChangePassword.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\PublishRide.xaml.cs">
 	    <DependentUpon>PublishRide.xaml</DependentUpon>
 	  </Compile>
@@ -91,6 +94,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Views\ChangePassword.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\ContentPageBase.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

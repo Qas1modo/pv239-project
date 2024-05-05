@@ -36,7 +36,6 @@ builder.Services.AddSwaggerGen(c => {
         Title = "GetRideAPI",
         Version = "v1"
     });
-   
     var securityScheme = new OpenApiSecurityScheme
     {
         Name = "Authorization",

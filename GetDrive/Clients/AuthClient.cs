@@ -9,8 +9,8 @@ namespace GetDrive.Clients
 {
     public interface IAuthClient
     {
-        Task<AuthResponseDTO> Login(LoginDto loginDTO);
-        Task<AuthResponseDTO> Register(RegistrationDTO registrationDTO);
+        Task<(AuthResponseDTO? Data, string ErrorMessage)> Login(LoginDto loginDTO);
+        Task<(AuthResponseDTO? Data, string ErrorMessage)> Register(RegistrationDTO registrationDTO);
         Task<bool> Logout();
         Task<string> ChangePassword(ChangePasswordDTO changePasswordDTO);
     }
@@ -24,16 +24,54 @@ namespace GetDrive.Clients
             _api = api;
         }
 
-        public async Task<AuthResponseDTO> Login(LoginDto loginDTO)
+        public async Task<(AuthResponseDTO? Data, string ErrorMessage)> Login(LoginDto loginDTO)
         {
-            return await _api.LoginAsync(loginDTO);
+            try
+            {
+                var response = await _api.LoginAsync(loginDTO);
+                await SecureStorage.SetAsync("Token", response.Token);
+                await SecureStorage.SetAsync("UserId", response.UserId.ToString());
+                return (response, string.Empty);
+            }
+            catch (ApiException ex)
+            {
+                if (ex.StatusCode == (int)System.Net.HttpStatusCode.BadRequest)
+                {
+                    return (null, "Invalid email or password"); 
+                }
+                return (null, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return (null, $"An unexpected error occurred: {ex.Message}");
+            }
         }
 
-        public async Task<AuthResponseDTO> Register(RegistrationDTO registrationDTO)
+        public async Task<(AuthResponseDTO? Data, string ErrorMessage)> Register(RegistrationDTO registrationDTO)
         {
-            var response = await _api.RegisterAsync(registrationDTO);
-            await SecureStorage.SetAsync("Token", response.Token);
-            return response;
+            try
+            {
+                var response = await _api.RegisterAsync(registrationDTO);
+                if (response != null && response.Token != null)
+                {
+                    await SecureStorage.SetAsync("Token", response.Token);
+                    await SecureStorage.SetAsync("UserId", response.UserId.ToString());
+                    return (response, string.Empty);
+                }
+                return (null, "Registration failed."); 
+            }
+            catch (ApiException ex)
+            {
+                if (ex.StatusCode == (int)System.Net.HttpStatusCode.BadRequest)
+                {
+                    return (null, "User with this name/email already exists.");
+                }
+                return (null, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return (null, $"An unexpected error occurred: {ex.Message}");
+            }
         }
 
         public async Task<bool> Logout()

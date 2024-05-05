@@ -4,11 +4,12 @@ using Microsoft.Maui.Controls;
 
 namespace GetDrive.Views;
 
-public partial class Auth : ContentPageBase
+public partial class ChangePassword : ContentPage
 {
-    public Auth(AuthViewModel authViewModel) : base(authViewModel)
+    public ChangePassword(AuthViewModel authViewModel)
     {
         InitializeComponent();
-        this.BindingContext = authViewModel;
+        BindingContext = authViewModel;
+
     }
 }
