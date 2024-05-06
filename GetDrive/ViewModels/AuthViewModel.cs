@@ -29,7 +29,7 @@ public partial class AuthViewModel : ViewModelBase
         await CheckLoginStatus();
     }
 
-    private async Task CheckLoginStatus()
+    public async Task CheckLoginStatus()
     {
         var token = await SecureStorage.Default.GetAsync("Token");
         Auth.IsLoggedIn = !string.IsNullOrWhiteSpace(token);
@@ -91,7 +91,7 @@ public partial class AuthViewModel : ViewModelBase
             Auth.IsLoggedIn = true;
             Auth.StatusMessage = "Login successful.";
             await Task.Delay(1500);
-            await Shell.Current.GoToAsync("//ridelistview");
+            await Shell.Current.GoToAsync("//profile");
         }
     }
 
