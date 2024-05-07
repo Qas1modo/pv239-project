@@ -22,9 +22,9 @@
             Route="ridelistview"/>
 
         <ShellContent
-            ContentTemplate="{DataTemplate vs:Auth}"
+            ContentTemplate="{DataTemplate vs:Profile}"
             Icon="profile.svg"
-            Route="auth"/>
+            Route="profile"/>
 
     </TabBar>
 </Shell>
