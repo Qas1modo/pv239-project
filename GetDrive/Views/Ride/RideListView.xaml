@@ -15,11 +15,11 @@
     <Grid>
         <CollectionView ItemsSource="{Binding Items}">
             <CollectionView.ItemsLayout>
-                <LinearItemsLayout Orientation="Vertical" ItemSpacing="20" />
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="0" />
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="m:RideListModel">
-                    <Frame Padding="0" CornerRadius="10" HeightRequest="170" IsClippedToBounds="True" Margin="20">
+                    <Frame Padding="0" CornerRadius="10" HeightRequest="160" IsClippedToBounds="True" Margin="25 25 5">
                         <Grid RowDefinitions="*,*,*,*" ColumnDefinitions="*,*,*">
 
                             <!-- Ride Details -->

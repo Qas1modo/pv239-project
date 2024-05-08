@@ -13,13 +13,5 @@ namespace GetDrive
 
             MainPage = serviceProvider.GetRequiredService<AppShell>();
         }
-
-        protected override void OnStart()
-        {
-            base.OnStart();
-
-            var globalExceptionServiceInitializer = serviceProvider.GetRequiredService<IGlobalExceptionServiceInitializer>();
-            globalExceptionServiceInitializer.Initialize();
-        }
     }
 }
