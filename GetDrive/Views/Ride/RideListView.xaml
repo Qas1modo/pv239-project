@@ -15,51 +15,51 @@
     <Grid>
         <CollectionView ItemsSource="{Binding Items}">
             <CollectionView.ItemsLayout>
-                <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="20" />
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="m:RideListModel">
-                    <Frame Padding="0" CornerRadius="10" HeightRequest="200" IsClippedToBounds="True">
+                    <Frame Padding="0" CornerRadius="10" HeightRequest="170" IsClippedToBounds="True" Margin="20">
                         <Grid RowDefinitions="*,*,*,*" ColumnDefinitions="*,*,*">
 
                             <!-- Ride Details -->
                             <StackLayout Grid.Row="0" Grid.Column="0" Grid.RowSpan="4" Grid.ColumnSpan="2" BackgroundColor="{StaticResource Secondary}" Padding="10">
-                                <Label Grid.Row="0"
-                                           Grid.Column="0" Grid.ColumnSpan="2"
-                                           Margin="5,5"
-                                           FontSize="20" LineBreakMode="WordWrap"
-                                           Text="{Binding StartLocation}"
-                                           TextColor="{StaticResource Black}" VerticalOptions="End" />
-                                <Label Grid.Row="1"
-                                           Grid.Column="0" Grid.ColumnSpan="2"
-                                           Margin="5,5"
-                                           FontSize="20" LineBreakMode="WordWrap"
-                                           Text="{Binding Destination}"
-                                           TextColor="{StaticResource Black}" VerticalOptions="End" />
                                 <Label Grid.Row="2"
-                                           Grid.Column="0" Grid.ColumnSpan="2"
-                                           Margin="5,5"
-                                           FontSize="20" LineBreakMode="WordWrap"
-                                           Text="{Binding Departure}"
-                                           TextColor="{StaticResource Black}" VerticalOptions="End" />
+                                       Grid.Column="0" Grid.ColumnSpan="2"
+                                       Margin="5,5"
+                                       FontSize="15" LineBreakMode="WordWrap"
+                                       Text="{Binding Departure, StringFormat='{0:dd.MM.yyyy hh:mm tt}'}"
+                                       TextColor="{StaticResource Black}" VerticalOptions="End" />
+                                <Label Grid.Row="0"
+                                       Grid.Column="0" Grid.ColumnSpan="2"
+                                       Margin="5,5"
+                                       FontSize="18" LineBreakMode="WordWrap"
+                                       Text="{Binding StartLocation}"
+                                       TextColor="{StaticResource Black}" VerticalOptions="End" />
+                                <Label Grid.Row="1"
+                                       Grid.Column="0" Grid.ColumnSpan="2"
+                                       Margin="5,5"
+                                       FontSize="18" LineBreakMode="WordWrap"
+                                       Text="{Binding Destination}"
+                                       TextColor="{StaticResource Black}" VerticalOptions="End" />
                                 <Label Grid.Row="3"
-                                           Grid.Column="0" Grid.ColumnSpan="2"
-                                           Margin="5,5"
-                                           FontSize="20" LineBreakMode="WordWrap"
-                                           Text="{Binding AvailableSeats}"
-                                           TextColor="{StaticResource Black}" VerticalOptions="End" />
-                             </StackLayout>
+                                       Grid.Column="0" Grid.ColumnSpan="2"
+                                       Margin="5,5"
+                                       FontSize="18" LineBreakMode="WordWrap"
+                                       Text="{Binding AvailableSeats, StringFormat='Seats: {0}'}"
+                                       TextColor="{StaticResource Black}" VerticalOptions="End" />
 
-                            <!-- Price -->
-                            <StackLayout Grid.Column="2" Grid.RowSpan="4" BackgroundColor="{StaticResource Primary}" Padding="10" HorizontalOptions="FillAndExpand">
-                                <Label 
-                                    Text="{Binding Price, StringFormat='${0}'}" 
-                                    HorizontalTextAlignment="Center"
-                                    VerticalTextAlignment="Center"
-                                    TextColor="White"
-                                    FontSize="20" 
-                                    FontAttributes="Bold" />
                             </StackLayout>
+
+                            <!-- Price Details -->
+                            <Grid Grid.Column="2" Grid.Row="0" Grid.RowSpan="4" BackgroundColor="{StaticResource Primary}" Padding="10">
+                                <Label Text="{Binding Price, StringFormat='${0}'}" 
+                                       HorizontalOptions="Center" 
+                                       VerticalOptions="Center"
+                                       TextColor="{StaticResource White}"
+                                       FontSize="20" 
+                                       FontAttributes="Bold" />
+                            </Grid>
 
                         </Grid>
                     </Frame>
@@ -67,5 +67,5 @@
             </CollectionView.ItemTemplate>
         </CollectionView>
     </Grid>
-    
+
 </views:ContentPageBase>
