@@ -8,7 +8,7 @@
                        xmlns:vm="clr-namespace:GetDrive.ViewModels"
                        xmlns:views="clr-namespace:GetDrive.Views"
                        x:Class="GetDrive.Views.RideListView"
-                       Title="{x:Static t:RecipeListViewTexts.Page_Title}"
+                       Title="Get Ride"
                        Style="{StaticResource ContentPageStyle}"
                        x:DataType="vm:RideListViewModel">
 
@@ -19,7 +19,7 @@
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="m:RideListModel">
-                    <Frame Padding="0" CornerRadius="10" HeightRequest="160" IsClippedToBounds="True" Margin="25 25 5">
+                    <Frame Padding="0" CornerRadius="10" HeightRequest="160" IsClippedToBounds="True" Margin="25,15">
                         <Grid RowDefinitions="*,*,*,*" ColumnDefinitions="*,*,*">
 
                             <!-- Ride Details -->

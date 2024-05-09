@@ -18,8 +18,13 @@
     <TabBar>
         <ShellContent
             ContentTemplate="{DataTemplate vs:RideListView}"
-            Icon="travel_explore.svg"
+            Icon="car.svg"
             Route="ridelistview"/>
+
+        <ShellContent
+            ContentTemplate="{DataTemplate vs:RidePublishView}"
+            Icon="add_circle.svg"
+            Route="ridepublishview"/>
 
         <ShellContent
             ContentTemplate="{DataTemplate vs:Profile}"

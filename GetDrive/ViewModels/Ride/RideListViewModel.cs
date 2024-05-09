@@ -5,7 +5,6 @@ using GetDrive.Clients;
 using GetDrive.Models;
 using GetDrive.Models.ApiModels;
 using GetDrive.Services;
-using System.Windows.Input;
 
 namespace GetDrive.ViewModels
 {
@@ -36,6 +35,5 @@ namespace GetDrive.ViewModels
         private void GoToFilter()
         {
         }
-
     }
 }

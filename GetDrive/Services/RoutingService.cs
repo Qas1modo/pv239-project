@@ -10,6 +10,7 @@ namespace GetDrive.Services
         public IEnumerable<RouteModel> Routes => new List<RouteModel>
         {
             new("//ridelistview", typeof(RideListView), typeof(RideListViewModel)),
+            new("//ridepublishview", typeof(RidePublishView), typeof(RidePublishViewModel)),
             new("//auth", typeof(Auth), typeof(AuthViewModel)),
             new("//profile", typeof(Profile), typeof(ProfileViewModel))
         };
