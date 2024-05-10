@@ -34,7 +34,8 @@ namespace GetDrive.ViewModels
         [RelayCommand]
         private async Task RidePublishAsync()
         {
-            var response = await _rideClient.CreateRide(new CreateRideDTO());
+            var createRideDTO = _mapper.Map<CreateRideDTO>(Ride);
+            var response = await _rideClient.CreateRide(createRideDTO);
         }
     }
 }
