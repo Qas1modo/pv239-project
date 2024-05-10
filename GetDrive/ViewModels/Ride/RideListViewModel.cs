@@ -18,6 +18,9 @@ namespace GetDrive.ViewModels
         [ObservableProperty]
         private IList<RideListModel>? items;
 
+        [ObservableProperty]
+        private RideFilterDTO currentFilter = new RideFilterDTO();
+
         public RideListViewModel(IRoutingService routingService, IRideClient rideClient, IMapper mapper)
         {
             this.routingService = routingService;
@@ -27,13 +30,28 @@ namespace GetDrive.ViewModels
 
         public async Task OnAppearingAsync()
         {
-            var rides = await rideClient.GetAllRides(new RideFilterDTO());
+            var rides = await rideClient.GetAllRides(CurrentFilter);
             Items = mapper.Map<IEnumerable<RideListModel>>(rides).ToList();
         }
 
         [RelayCommand]
-        private void GoToFilter()
+        private async Task GoToFilter()
         {
+            await Shell.Current.GoToAsync("//ridefilterview");
+        }
+
+        [RelayCommand]
+        public async Task ApplyFilters()
+        {
+            await Shell.Current.GoToAsync("//ridelistview");
+            await RefreshRides();
+        }
+
+        [RelayCommand]
+        public async Task RefreshRides()
+        {
+            var rides = await rideClient.GetAllRides(CurrentFilter);
+            Items = mapper.Map<IEnumerable<RideListModel>>(rides).ToList();
         }
     }
 }

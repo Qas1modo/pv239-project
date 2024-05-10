@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<views:ContentPageBase xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       xmlns:t="clr-namespace:GetDrive.Resources.Texts"
+                       xmlns:f="clr-namespace:GetDrive.Resources.Fonts"
+                       xmlns:m="clr-namespace:GetDrive.Models"
+                       xmlns:vm="clr-namespace:GetDrive.ViewModels"
+                       xmlns:views="clr-namespace:GetDrive.Views"
+                       x:Class="GetDrive.Views.RideFilterView"
+                       Title="Filter Ride"
+                       Style="{StaticResource ContentPageStyle}"
+                       x:DataType="vm:RideListViewModel">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="20" Padding="10">
+            <Frame CornerRadius="10" BorderColor="LightGray" HasShadow="True">
+                <StackLayout>
+                    <Label Text="Start location" FontSize="14" FontAttributes="Bold"/>
+                    <Entry Text="{Binding CurrentFilter.StartLocation}" FontSize="14"/>
+                    <Label Text="Destination" FontSize="14" FontAttributes="Bold"/>
+                    <Entry Text="{Binding CurrentFilter.Destination}" FontSize="14"/>
+                    <Label Text="Departure" FontSize="14" FontAttributes="Bold"/>
+                    <Entry Text="{Binding CurrentFilter.Departure}" FontSize="14"/>
+                    <Label Text="Maximum price $" FontSize="14" FontAttributes="Bold"/>
+                    <Entry Text="{Binding CurrentFilter.MaximumPrice}" FontSize="14"/>
+                    <Label Text="Number of seats" FontSize="14" FontAttributes="Bold"/>
+                    <Entry Text="{Binding CurrentFilter.AvailableSeats}" FontSize="14"/>
+                    <Label Text="Show canceled" FontSize="14" FontAttributes="Bold"/>
+                    <Entry Text="{Binding CurrentFilter.ShowCanceled}" FontSize="14"/>
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Spacing="10" Margin="0,10,0,0" Padding="20">
+                        <Button Text="Apply Filters" Command="{Binding ApplyFiltersCommand}" HorizontalOptions="FillAndExpand"/>
+                    </StackLayout>
+                </StackLayout>
+            </Frame>
+        </VerticalStackLayout>
+    </ScrollView>
+
+</views:ContentPageBase>

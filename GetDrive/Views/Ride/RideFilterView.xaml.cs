@@ -3,9 +3,9 @@ using GetDrive.ViewModels;
 
 namespace GetDrive.Views
 {
-    public partial class RideListView
+    public partial class RideFilterView
     {
-        public RideListView(
+        public RideFilterView(
             RideListViewModel rideListViewModel,
             IGlobalExceptionService globalExceptionService)
             : base(rideListViewModel, globalExceptionService)
