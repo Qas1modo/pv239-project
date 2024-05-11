@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
-<views:ContentPageBase xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                        xmlns:t="clr-namespace:GetDrive.Resources.Texts"
                        xmlns:f="clr-namespace:GetDrive.Resources.Fonts"
@@ -8,9 +8,9 @@
                        xmlns:vm="clr-namespace:GetDrive.ViewModels"
                        xmlns:views="clr-namespace:GetDrive.Views"
                        x:Class="GetDrive.Views.RideFilterView"
-                       Title="Filter Ride"
+                       x:DataType="vm:RideListViewModel"
                        Style="{StaticResource ContentPageStyle}"
-                       x:DataType="vm:RideListViewModel">
+                       Title="Filter Ride">
 
     <ScrollView>
         <VerticalStackLayout Spacing="20" Padding="10">
@@ -36,4 +36,4 @@
         </VerticalStackLayout>
     </ScrollView>
 
-</views:ContentPageBase>
+</ContentPage>
