@@ -9,7 +9,6 @@ namespace GetDrive.Views
         {
             InitializeComponent();
             BindingContext = rideListViewModel;
-
         }
     }
 }

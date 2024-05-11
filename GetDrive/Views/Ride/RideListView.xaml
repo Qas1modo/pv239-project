@@ -13,16 +13,29 @@
                        x:DataType="vm:RideListViewModel">
 
     <VerticalStackLayout Spacing="0">
-        <Button Text="Filter"
-                HorizontalOptions="Start"
-                VerticalOptions="Center"
-                Padding="10"
-                CornerRadius="10"
-                Command="{Binding GoToFilterCommand}"
-                ImageSource="filter.svg"
-                ContentLayout="Left,20"
-                Margin="25,30,0,15">
-        </Button>
+        <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Spacing="10" Margin="0,10,0,0" Padding="20">
+            <Button
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center"
+                    Padding="10"
+                    CornerRadius="10"
+                    Command="{Binding CancelFiltersCommand}"
+                    ImageSource="refresh.svg"
+                    ContentLayout="Left,20"
+                    Margin="5,0,0,0">
+            </Button>
+            <Button Text="Filter"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center"
+                    Padding="10"
+                    CornerRadius="10"
+                    Command="{Binding GoToFilterCommand}"
+                    ImageSource="filter.svg"
+                    ContentLayout="Left,20"
+                    Margin="0,0,0,0">
+            </Button>
+        </StackLayout>
+        
         <CollectionView ItemsSource="{Binding Items}">
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout Orientation="Vertical" ItemSpacing="0" />

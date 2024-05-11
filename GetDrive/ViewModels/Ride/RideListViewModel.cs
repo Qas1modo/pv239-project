@@ -39,7 +39,7 @@ namespace GetDrive.ViewModels
         public async Task GoToFilter()
         {
             var filterPage = new RideFilterView(this);
-            await Application.Current.MainPage.Navigation.PushModalAsync(filterPage);
+            await Shell.Current.Navigation.PushAsync(filterPage);
         }
 
         [RelayCommand]
@@ -47,7 +47,21 @@ namespace GetDrive.ViewModels
         {
             var rides = await rideClient.GetAllRides(CurrentFilter);
             Items = mapper.Map<IEnumerable<RideListModel>>(rides).ToList();
-            await Application.Current.MainPage.Navigation.PopModalAsync();
+            await NavigateBack();
+        }
+
+        [RelayCommand]
+        public async Task CancelFilters()
+        {
+            CurrentFilter = new RideFilterDTO();
+            var rides = await rideClient.GetAllRides(CurrentFilter);
+            Items = mapper.Map<IEnumerable<RideListModel>>(rides).ToList();
+        }
+
+        [RelayCommand]
+        public async Task NavigateBack()
+        {
+            await Shell.Current.GoToAsync("..");
         }
     }
 }
