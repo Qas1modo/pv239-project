@@ -58,16 +58,15 @@ public partial class AuthViewModel : ViewModelBase
             return;
         }
         var registrationDTO = _mapper.Map<RegistrationDTO>(Auth.Registration);
-        var (response, errorMessage) = await _authClient.Register(registrationDTO);
+        var response = await _authClient.Register(registrationDTO);
 
-        if (!string.IsNullOrEmpty(errorMessage))
+        if (!string.IsNullOrEmpty(response.ErrorMessage))
         {
-            Auth.StatusMessage = errorMessage;
+            Auth.StatusMessage = response.ErrorMessage;
         }
-        else if (response != null && response.Token != null)
+        else if (response.Response != null && response.Response.Token != null)
         {
             Auth.StatusMessage = "Registration successful.";
-            await Task.Delay(1500); 
             await Shell.Current.GoToAsync("//ridelistview");
         }
         else
@@ -80,18 +79,17 @@ public partial class AuthViewModel : ViewModelBase
     public async Task LoginAsync()
     {
         var loginDto = _mapper.Map<LoginDto>(Auth.Login);
-        var (authResponse, errorMessage) = await _authClient.Login(loginDto);
+        var response = await _authClient.Login(loginDto);
 
-        if (!string.IsNullOrEmpty(errorMessage))
+        if (!string.IsNullOrEmpty(response.ErrorMessage))
         {
-            Auth.StatusMessage = errorMessage;
+            Auth.StatusMessage = response.ErrorMessage;
         } 
-        else if (authResponse != null && authResponse.Token != null)
+        else if (response.Response != null && response.Response.Token != null)
         {
             Auth.IsLoggedIn = true;
             Auth.StatusMessage = "Login successful.";
-            await Task.Delay(1500);
-            await Shell.Current.GoToAsync("//profile");
+            await Shell.Current.GoToAsync("//ridelistview");
         }
     }
 
@@ -122,8 +120,15 @@ public partial class AuthViewModel : ViewModelBase
 
         var changePasswordDTO = _mapper.Map<ChangePasswordDTO>(Auth.ChangePassword);
         var result = await _authClient.ChangePassword(changePasswordDTO);
-        Auth.ChangePasswordStatusMessage = result;
-        await Task.Delay(1000);
+        if (result != null)
+        {
+            if (!string.IsNullOrEmpty(result.Response))
+            {
+                Auth.ChangePasswordStatusMessage = result.Response;
+            }
+            Auth.ChangePasswordStatusMessage = result.ErrorMessage;
+            return;
+        }
     }
 
     [RelayCommand]

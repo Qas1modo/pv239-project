@@ -42,7 +42,7 @@ public partial class ProfileViewModel : ViewModelBase
         }
 
         var userProfileDto = await _userClient.GetProfile(userId);
-        UserProfile = _mapper.Map<UserProfileModel>(userProfileDto);
+        UserProfile = _mapper.Map<UserProfileModel>(userProfileDto.Response);
     }
 
     [RelayCommand]

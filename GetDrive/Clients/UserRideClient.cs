@@ -1,4 +1,5 @@
 ﻿using GetDrive.Api;
+using GetDrive.Clients.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +10,11 @@ namespace GetDrive.Clients
 {
     public interface IUserRideClient
     {
-        Task<IEnumerable<PassengerDetailResponseDTO>> GetDriverRequests();
-        Task<IEnumerable<PassengerDetailResponseDTO>> GetPassengerRequests();
-        Task<string> RequestRide(PassengerDTO requestRideDTO);
-        Task<string> DeleteRequest(int id);
-        Task<string> AcceptRide(int id);
+        Task<ClientResponse<IEnumerable<PassengerDetailResponseDTO>>> GetDriverRequests();
+        Task<ClientResponse<IEnumerable<PassengerDetailResponseDTO>>> GetPassengerRequests();
+        Task<ClientResponse<string>> RequestRide(PassengerDTO requestRideDTO);
+        Task<ClientResponse<string>> DeleteRequest(int id);
+        Task<ClientResponse<string>> AcceptRide(int id);
     }
 
     public class UserRideClient : IUserRideClient
@@ -25,29 +26,164 @@ namespace GetDrive.Clients
             this.api = api;
         }
 
-        public async Task<string> AcceptRide(int id)
+        public async Task<ClientResponse<string>> AcceptRide(int id)
         {
-            return await api.RequestsPUTAsync(id);
+            try
+            {
+                var response = await api.RequestsPUTAsync(id);;
+                return new ClientResponse<string>
+                {
+                    Response = response,
+                    ErrorMessage = string.Empty,
+                    StatusCode = 200
+                };
+            }
+            catch (ApiException ex)
+            {
+                return new ClientResponse<string>
+                {
+                    Response = null,
+                    ErrorMessage = ex.Response,
+                    StatusCode = ex.StatusCode
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ClientResponse<string>
+                {
+                    Response = null,
+                    ErrorMessage = $"An unexpected error occurred: {ex.Message}",
+                    StatusCode = 500
+                };
+            }
         }
 
-        public async Task<string> DeleteRequest(int id)
+        public async Task<ClientResponse<string>> DeleteRequest(int id)
         {
-            return await api.RequestsDELETEAsync(id);
+            try
+            {
+                var response = await api.RequestsDELETEAsync(id);
+                return new ClientResponse<string>
+                {
+                    Response = response,
+                    ErrorMessage = string.Empty,
+                    StatusCode = 200
+                };
+            }
+            catch (ApiException ex)
+            {
+                return new ClientResponse<string>
+                {
+                    Response = null,
+                    ErrorMessage = ex.Response,
+                    StatusCode = ex.StatusCode
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ClientResponse<string>
+                {
+                    Response = null,
+                    ErrorMessage = $"An unexpected error occurred: {ex.Message}",
+                    StatusCode = 500
+                };
+            }
         }
 
-        public async Task<IEnumerable<PassengerDetailResponseDTO>> GetDriverRequests()
+        public async Task<ClientResponse<IEnumerable<PassengerDetailResponseDTO>>> GetDriverRequests()
         {
-            return await api.DriverAsync();
+            try
+            {
+                var response = await api.DriverAsync();
+                return new ClientResponse<IEnumerable<PassengerDetailResponseDTO>>
+                {
+                    Response = response,
+                    ErrorMessage = string.Empty,
+                    StatusCode = 200
+                };
+            }
+            catch (ApiException ex)
+            {
+                return new ClientResponse<IEnumerable<PassengerDetailResponseDTO>>
+                {
+                    Response = null,
+                    ErrorMessage = ex.Response,
+                    StatusCode = ex.StatusCode
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ClientResponse<IEnumerable<PassengerDetailResponseDTO>>
+                {
+                    Response = null,
+                    ErrorMessage = $"An unexpected error occurred: {ex.Message}",
+                    StatusCode = 500
+                };
+            }
         }
 
-        public async Task<IEnumerable<PassengerDetailResponseDTO>> GetPassengerRequests()
+        public async Task<ClientResponse<IEnumerable<PassengerDetailResponseDTO>>> GetPassengerRequests()
         {
-            return await api.UserAllAsync();
+            try
+            {
+                var response = await api.UserAllAsync();
+                return new ClientResponse<IEnumerable<PassengerDetailResponseDTO>>
+                {
+                    Response = response,
+                    ErrorMessage = string.Empty,
+                    StatusCode = 200
+                };
+            }
+            catch (ApiException ex)
+            {
+                return new ClientResponse<IEnumerable<PassengerDetailResponseDTO>>
+                {
+                    Response = null,
+                    ErrorMessage = ex.Response,
+                    StatusCode = ex.StatusCode
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ClientResponse<IEnumerable<PassengerDetailResponseDTO>>
+                {
+                    Response = null,
+                    ErrorMessage = $"An unexpected error occurred: {ex.Message}",
+                    StatusCode = 500
+                };
+            }
         }
 
-        public async Task<string> RequestRide(PassengerDTO requestRideDTO)
+        public async Task<ClientResponse<string>> RequestRide(PassengerDTO requestRideDTO)
         {
-            return await api.RequestsPOSTAsync(requestRideDTO);
+            try
+            {
+                var response = await api.RequestsPOSTAsync(requestRideDTO); ;
+                return new ClientResponse<string>
+                {
+                    Response = response,
+                    ErrorMessage = string.Empty,
+                    StatusCode = 200
+                };
+            }
+            catch (ApiException ex)
+            {
+                return new ClientResponse<string>
+                {
+                    Response = null,
+                    ErrorMessage = ex.Response,
+                    StatusCode = ex.StatusCode
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ClientResponse<string>
+                {
+                    Response = null,
+                    ErrorMessage = $"An unexpected error occurred: {ex.Message}",
+                    StatusCode = 500
+                };
+            }
         }
     }
 }
