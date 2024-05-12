@@ -8,64 +8,88 @@
                        xmlns:vm="clr-namespace:GetDrive.ViewModels"
                        xmlns:views="clr-namespace:GetDrive.Views"
                        x:Class="GetDrive.Views.RideListView"
-                       Title="{x:Static t:RecipeListViewTexts.Page_Title}"
+                       Title="Get Ride"
                        Style="{StaticResource ContentPageStyle}"
                        x:DataType="vm:RideListViewModel">
-    
-    <Grid>
-        <CollectionView ItemsSource="{Binding Items}">
-            <CollectionView.ItemsLayout>
-                <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
-            </CollectionView.ItemsLayout>
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="m:RideListModel">
-                    <Frame Padding="0"
-                               CornerRadius="10"
-                               HeightRequest="200"
-                               IsClippedToBounds="True">
-                        <Grid RowDefinitions="*,*,*,*,*"
-                                  ColumnDefinitions="*">
+    <ScrollView>
+        <VerticalStackLayout Spacing="0">
+            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Spacing="10" Margin="0,10,0,0" Padding="20">
+                <Button
+                        HorizontalOptions="Start"
+                        VerticalOptions="Center"
+                        Padding="10"
+                        CornerRadius="10"
+                        Command="{Binding CancelFiltersCommand}"
+                        ImageSource="refresh.svg"
+                        ContentLayout="Left,20"
+                        Margin="5,0,0,0">
+                </Button>
+                <Button Text="Filter"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Center"
+                        Padding="10"
+                        CornerRadius="10"
+                        Command="{Binding GoToFilterCommand}"
+                        ImageSource="filter.svg"
+                        ContentLayout="Left,20"
+                        Margin="0,0,0,0">
+                </Button>
+            </StackLayout>
 
-                            <Label Grid.Row="0"
-                                       Grid.Column="0" Grid.ColumnSpan="2"
-                                       Margin="5,5"
-                                       FontSize="20" LineBreakMode="WordWrap"
-                                       Style="{StaticResource BoldLabelStyle}"
-                                       Text="{Binding Id}"
-                                       TextColor="Black" VerticalOptions="End" />
-                            <Label Grid.Row="1"
-                                       Grid.Column="0" Grid.ColumnSpan="2"
-                                       Margin="5,5"
-                                       FontSize="20" LineBreakMode="WordWrap"
-                                       Style="{StaticResource BoldLabelStyle}"
-                                       Text="{Binding StartLocation}"
-                                       TextColor="Black" VerticalOptions="End" />
-                            <Label Grid.Row="2"
-                                       Grid.Column="0" Grid.ColumnSpan="2"
-                                       Margin="5,5"
-                                       FontSize="20" LineBreakMode="WordWrap"
-                                       Style="{StaticResource BoldLabelStyle}"
-                                       Text="{Binding Destination}"
-                                       TextColor="Black" VerticalOptions="End" />
-                            <Label Grid.Row="3"
-                                       Grid.Column="0" Grid.ColumnSpan="2"
-                                       Margin="5,5"
-                                       FontSize="20" LineBreakMode="WordWrap"
-                                       Style="{StaticResource BoldLabelStyle}"
-                                       Text="{Binding Departure}"
-                                       TextColor="Black" VerticalOptions="End" />
-                            <Label Grid.Row="4"
-                                       Grid.Column="0" Grid.ColumnSpan="2"
-                                       Margin="5,5"
-                                       FontSize="20" LineBreakMode="WordWrap"
-                                       Style="{StaticResource BoldLabelStyle}"
-                                       Text="{Binding AvailableSeats}"
-                                       TextColor="Black" VerticalOptions="End" />
-                        </Grid>
-                    </Frame>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-    </Grid>
-    
+            <CollectionView ItemsSource="{Binding Items}">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="0" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="m:RideListModel">
+                        <Frame Padding="0" CornerRadius="10" HeightRequest="160" IsClippedToBounds="True" Margin="25,15">
+                            <Grid RowDefinitions="*,*,*,*" ColumnDefinitions="*,*,*">
+
+                                <!-- Ride Details -->
+                                <StackLayout Grid.Row="0" Grid.Column="0" Grid.RowSpan="4" Grid.ColumnSpan="2" BackgroundColor="{StaticResource Secondary}" Padding="10">
+                                    <Label Grid.Row="2"
+                                           Grid.Column="0" Grid.ColumnSpan="2"
+                                           Margin="5,5"
+                                           FontSize="15" LineBreakMode="WordWrap"
+                                           Text="{Binding Departure, StringFormat='{0:dd.MM.yyyy hh:mm tt}'}"
+                                           TextColor="{StaticResource Black}" VerticalOptions="End" />
+                                    <Label Grid.Row="0"
+                                           Grid.Column="0" Grid.ColumnSpan="2"
+                                           Margin="5,5"
+                                           FontSize="18" LineBreakMode="WordWrap"
+                                           Text="{Binding StartLocation}"
+                                           TextColor="{StaticResource Black}" VerticalOptions="End" />
+                                    <Label Grid.Row="1"
+                                           Grid.Column="0" Grid.ColumnSpan="2"
+                                           Margin="5,5"
+                                           FontSize="18" LineBreakMode="WordWrap"
+                                           Text="{Binding Destination}"
+                                           TextColor="{StaticResource Black}" VerticalOptions="End" />
+                                    <Label Grid.Row="3"
+                                           Grid.Column="0" Grid.ColumnSpan="2"
+                                           Margin="5,5"
+                                           FontSize="18" LineBreakMode="WordWrap"
+                                           Text="{Binding AvailableSeats, StringFormat='Seats: {0}'}"
+                                           TextColor="{StaticResource Black}" VerticalOptions="End" />
+
+                                </StackLayout>
+
+                                <!-- Price Details -->
+                                <Grid Grid.Column="2" Grid.Row="0" Grid.RowSpan="4" BackgroundColor="{StaticResource Primary}" Padding="10">
+                                    <Label Text="{Binding Price, StringFormat='${0}'}" 
+                                           HorizontalOptions="Center" 
+                                           VerticalOptions="Center"
+                                           TextColor="{StaticResource White}"
+                                           FontSize="20" 
+                                           FontAttributes="Bold" />
+                                </Grid>
+
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+    </ScrollView>
+
 </views:ContentPageBase>

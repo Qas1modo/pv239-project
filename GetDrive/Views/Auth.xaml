@@ -6,7 +6,7 @@
                       xmlns:viewmodels="clr-namespace:GetDrive.ViewModels"
                       x:Class="GetDrive.Views.Auth"
                       x:DataType="viewmodels:AuthViewModel"
-                      Title="Auth Page">
+                      Title="Manage Profile">
 
     <ContentPage.Resources>
         <Style x:Key="InvalidEntryStyle" TargetType="Entry">

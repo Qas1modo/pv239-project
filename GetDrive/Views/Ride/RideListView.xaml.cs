@@ -6,11 +6,12 @@ namespace GetDrive.Views
     public partial class RideListView
     {
         public RideListView(
-            RideListViewModel viewModel,
+            RideListViewModel rideListViewModel,
             IGlobalExceptionService globalExceptionService)
-            : base(viewModel, globalExceptionService)
+            : base(rideListViewModel, globalExceptionService)
         {
             InitializeComponent();
+            this.BindingContext = rideListViewModel;
         }
     }
 }

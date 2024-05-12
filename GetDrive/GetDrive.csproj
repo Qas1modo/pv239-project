@@ -79,14 +79,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Views\Auth.xaml.cs">
+	    <DependentUpon>Auth.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\ChangePassword.xaml.cs">
 	    <DependentUpon>ChangePassword.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Views\PublishRide.xaml.cs">
-	    <DependentUpon>PublishRide.xaml</DependentUpon>
-	  </Compile>
-	  <Compile Update="Views\GetRide.xaml.cs">
-	    <DependentUpon>GetRide.xaml</DependentUpon>
+	  <Compile Update="Views\Ride\RidePublishView.xaml.cs">
+	    <DependentUpon>RidePublishView.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
@@ -97,16 +97,16 @@
 	  <MauiXaml Update="Views\Base\ContentPageBase.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\PublishRide.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\GetRide.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
 	  <MauiXaml Update="Views\Profile.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\Ride\RideFilterView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\Ride\RideListView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Ride\RidePublishView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

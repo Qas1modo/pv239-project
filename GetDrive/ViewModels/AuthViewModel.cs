@@ -29,7 +29,7 @@ public partial class AuthViewModel : ViewModelBase
         await CheckLoginStatus();
     }
 
-    private async Task CheckLoginStatus()
+    public async Task CheckLoginStatus()
     {
         var token = await SecureStorage.Default.GetAsync("Token");
         Auth.IsLoggedIn = !string.IsNullOrWhiteSpace(token);

@@ -5,6 +5,7 @@ using GetDrive.Clients;
 using System.Reflection;
 using GetDrive.Api;
 using Microsoft.Maui.Controls;
+//using GetDrive.Platforms;
 using GetDrive.Resources.Fonts;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
@@ -92,6 +93,7 @@ namespace GetDrive
             services.AddSingleton<IRoutingService, RoutingService>();
             services.AddSingleton<IShare>(_ => Share.Default);
             services.AddSingleton<IGlobalExceptionService, GlobalExceptionService>();
+            //services.AddSingleton<IGlobalExceptionServiceInitializer, GlobalExceptionServiceInitializer>();
         }
 
         private static void ConfigureApiClients(IServiceCollection services, IConfiguration configuration)

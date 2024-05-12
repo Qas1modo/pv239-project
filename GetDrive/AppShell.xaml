@@ -18,27 +18,18 @@
     <TabBar>
         <ShellContent
             ContentTemplate="{DataTemplate vs:RideListView}"
-            Icon="travel_explore.svg"
-            Route="rides"/>
-
-        <ShellContent
-            ContentTemplate="{DataTemplate vs:GetRide}"
             Icon="car.svg"
-            Route="getride"/>
+            Route="ridelistview"/>
 
         <ShellContent
-            ContentTemplate="{DataTemplate vs:PublishRide}"
+            ContentTemplate="{DataTemplate vs:RidePublishView}"
             Icon="add_circle.svg"
-            Route="publishride"/>
+            Route="ridepublishview"/>
 
         <ShellContent
             ContentTemplate="{DataTemplate vs:Profile}"
             Icon="profile.svg"
             Route="profile"/>
-        <ShellContent
-            ContentTemplate="{DataTemplate vs:Auth}"
-            Icon="profile.svg"
-            Route="auth"/>
 
     </TabBar>
 </Shell>
