@@ -51,7 +51,7 @@ namespace GetDrive.ViewModels
         public async Task RefreshRides()
         {
             var rides = await rideClient.GetAllRides(CurrentFilter);
-            Items = mapper.Map<IEnumerable<RideListModel>>(rides).ToList();
+            Items = mapper.Map<IEnumerable<RideListModel>>(rides.Response).ToList();
         }
     }
 }
