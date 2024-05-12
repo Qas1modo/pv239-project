@@ -3,15 +3,12 @@ using GetDrive.ViewModels;
 
 namespace GetDrive.Views
 {
-    public partial class RideFilterView
+    public partial class RideFilterView : ContentPage
     {
-        public RideFilterView(
-            RideListViewModel rideListViewModel,
-            IGlobalExceptionService globalExceptionService)
-            : base(rideListViewModel, globalExceptionService)
+        public RideFilterView(RideListViewModel rideListViewModel)
         {
             InitializeComponent();
-            this.BindingContext = rideListViewModel;
+            BindingContext = rideListViewModel;
         }
     }
 }

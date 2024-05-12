@@ -5,6 +5,7 @@ using GetDrive.Clients;
 using GetDrive.Models;
 using GetDrive.Models.ApiModels;
 using GetDrive.Services;
+using GetDrive.Views;
 
 namespace GetDrive.ViewModels
 {
@@ -35,23 +36,32 @@ namespace GetDrive.ViewModels
         }
 
         [RelayCommand]
-        private async Task GoToFilter()
+        public async Task GoToFilter()
         {
-            await Shell.Current.GoToAsync("//ridefilterview");
+            var filterPage = new RideFilterView(this);
+            await Shell.Current.Navigation.PushAsync(filterPage);
         }
 
         [RelayCommand]
         public async Task ApplyFilters()
         {
-            await Shell.Current.GoToAsync("//ridelistview");
-            await RefreshRides();
+            var rides = await rideClient.GetAllRides(CurrentFilter);
+            Items = mapper.Map<IEnumerable<RideListModel>>(rides).ToList();
+            await NavigateBack();
         }
 
         [RelayCommand]
-        public async Task RefreshRides()
+        public async Task CancelFilters()
         {
+            CurrentFilter = new RideFilterDTO();
             var rides = await rideClient.GetAllRides(CurrentFilter);
             Items = mapper.Map<IEnumerable<RideListModel>>(rides.Response).ToList();
+        }
+
+        [RelayCommand]
+        public async Task NavigateBack()
+        {
+            await Shell.Current.GoToAsync("..");
         }
     }
 }

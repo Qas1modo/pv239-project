@@ -19,6 +19,12 @@ namespace GetDrive.ViewModels
         [ObservableProperty]
         private RidePublishModel ride = new();
 
+        [ObservableProperty]
+        private DateTime departureDate = DateTime.Today;
+
+        [ObservableProperty]
+        private TimeSpan departureTime = DateTime.Now.TimeOfDay;
+
         public RidePublishViewModel(IRoutingService routingService, IRideClient rideClient, IMapper mapper)
         {
             _routingService = routingService;
@@ -34,8 +40,14 @@ namespace GetDrive.ViewModels
         [RelayCommand]
         private async Task RidePublishAsync()
         {
+            Ride.Departure = CombineDateTime(DepartureDate, DepartureTime);
             var createRideDTO = _mapper.Map<CreateRideDTO>(Ride);
             var response = await _rideClient.CreateRide(createRideDTO);
+        }
+
+        private DateTime CombineDateTime(DateTime date, TimeSpan time)
+        {
+            return new DateTime(date.Year, date.Month, date.Day, time.Hours, time.Minutes, time.Seconds);
         }
     }
 }
