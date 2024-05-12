@@ -1,4 +1,5 @@
 ﻿using GetDrive.Api;
+using GetDrive.Clients.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace GetDrive.Clients
 {
     public interface IUserClient
     {
-        Task<UserProfileResponseDTO> GetProfile(int id);
+        Task<ClientResponse<UserProfileResponseDTO>> GetProfile(int id);
     }
     public class UserClient: IUserClient
     {
@@ -20,9 +21,36 @@ namespace GetDrive.Clients
             _api = api;
         }
 
-        public async Task<UserProfileResponseDTO> GetProfile(int id)
+        public async Task<ClientResponse<UserProfileResponseDTO>> GetProfile(int id)
         {
-            return await _api.UserAsync(id);
+            try
+            {
+                var response = await _api.UserAsync(id);
+                return new ClientResponse<UserProfileResponseDTO>
+                {
+                    Response = response,
+                    ErrorMessage = string.Empty,
+                    StatusCode = 200
+                };
+            }
+            catch (ApiException ex)
+            {
+                return new ClientResponse<UserProfileResponseDTO>
+                {
+                    Response = null,
+                    ErrorMessage = ex.Response,
+                    StatusCode = ex.StatusCode
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ClientResponse<UserProfileResponseDTO>
+                {
+                    Response = null,
+                    ErrorMessage = $"An unexpected error occurred: {ex.Message}",
+                    StatusCode = 500
+                };
+            }
         }
     }
 }

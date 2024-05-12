@@ -29,7 +29,7 @@ namespace GetDrive.ViewModels
         public async Task OnAppearingAsync()
         {
             var rides = await rideClient.GetAllRides(new RideFilterDTO());
-            Items = mapper.Map<IEnumerable<RideListModel>>(rides).ToList();
+            Items = mapper.Map<IEnumerable<RideListModel>>(rides.Response).ToList();
         }
 
         [RelayCommand]

@@ -1,4 +1,5 @@
 ﻿using GetDrive.Api;
+using GetDrive.Clients.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,10 @@ namespace GetDrive.Clients
 {
     public interface IAuthClient
     {
-        Task<(AuthResponseDTO? Data, string ErrorMessage)> Login(LoginDto loginDTO);
-        Task<(AuthResponseDTO? Data, string ErrorMessage)> Register(RegistrationDTO registrationDTO);
+        Task<ClientResponse<AuthResponseDTO>> Login(LoginDto loginDTO);
+        Task<ClientResponse<AuthResponseDTO>> Register(RegistrationDTO registrationDTO);
         Task<bool> Logout();
-        Task<string> ChangePassword(ChangePasswordDTO changePasswordDTO);
+        Task<ClientResponse<string>> ChangePassword(ChangePasswordDTO changePasswordDTO);
     }
 
     public class AuthClient : IAuthClient
@@ -24,68 +25,110 @@ namespace GetDrive.Clients
             _api = api;
         }
 
-        public async Task<(AuthResponseDTO? Data, string ErrorMessage)> Login(LoginDto loginDTO)
+        public async Task<ClientResponse<AuthResponseDTO>> Login(LoginDto loginDTO)
         {
             try
             {
                 var response = await _api.LoginAsync(loginDTO);
                 await SecureStorage.SetAsync("Token", response.Token);
                 await SecureStorage.SetAsync("UserId", response.UserId.ToString());
-                return (response, string.Empty);
+                return new ClientResponse<AuthResponseDTO>
+                {
+                    Response = response,
+                    ErrorMessage = string.Empty,
+                    StatusCode = 200
+                };
             }
             catch (ApiException ex)
             {
-                if (ex.StatusCode == (int)System.Net.HttpStatusCode.BadRequest)
+                return new ClientResponse<AuthResponseDTO>
                 {
-                    return (null, "Invalid email or password"); 
-                }
-                return (null, ex.Message);
+                    Response = null,
+                    ErrorMessage = ex.Response,
+                    StatusCode = ex.StatusCode
+                }; 
             }
             catch (Exception ex)
             {
-                return (null, $"An unexpected error occurred: {ex.Message}");
+                return new ClientResponse<AuthResponseDTO>
+                {
+                    Response = null,
+                    ErrorMessage = $"An unexpected error occurred: {ex.Message}",
+                    StatusCode = 500
+                };
             }
         }
 
-        public async Task<(AuthResponseDTO? Data, string ErrorMessage)> Register(RegistrationDTO registrationDTO)
+        public async Task<ClientResponse<AuthResponseDTO>> Register(RegistrationDTO registrationDTO)
         {
             try
             {
                 var response = await _api.RegisterAsync(registrationDTO);
-                if (response != null && response.Token != null)
+                await SecureStorage.SetAsync("Token", response.Token);
+                await SecureStorage.SetAsync("UserId", response.UserId.ToString());
+                return new ClientResponse<AuthResponseDTO>
                 {
-                    await SecureStorage.SetAsync("Token", response.Token);
-                    await SecureStorage.SetAsync("UserId", response.UserId.ToString());
-                    return (response, string.Empty);
-                }
-                return (null, "Registration failed."); 
+                    Response = response,
+                    ErrorMessage = string.Empty,
+                    StatusCode = 200
+                };
             }
             catch (ApiException ex)
             {
-                if (ex.StatusCode == (int)System.Net.HttpStatusCode.BadRequest)
+                return new ClientResponse<AuthResponseDTO>
                 {
-                    return (null, "User with this name/email already exists.");
-                }
-                return (null, ex.Message);
+                    Response = null,
+                    ErrorMessage = ex.Response,
+                    StatusCode = ex.StatusCode
+                };
             }
             catch (Exception ex)
             {
-                return (null, $"An unexpected error occurred: {ex.Message}");
+                return new ClientResponse<AuthResponseDTO>
+                {
+                    Response = null,
+                    ErrorMessage = $"An unexpected error occurred: {ex.Message}",
+                    StatusCode = 500
+                };
             }
         }
 
         public async Task<bool> Logout()
         {
-            //Only delete the token from the client, do not invalidate the token on the server
-            //TODO delete the token from the client
             SecureStorage.RemoveAll();
             return true;
         }
 
-        public async Task<string> ChangePassword(ChangePasswordDTO changePasswordDTO)
+        public async Task<ClientResponse<string>> ChangePassword(ChangePasswordDTO changePasswordDTO)
         {
-
-            return await _api.ChangepasswordAsync(changePasswordDTO);
+            try
+            {
+                var response = await _api.ChangepasswordAsync(changePasswordDTO);
+                return new ClientResponse<string>
+                {
+                    Response = response,
+                    ErrorMessage = string.Empty,
+                    StatusCode = 200
+                };
+            }
+            catch (ApiException ex)
+            {
+                return new ClientResponse<string>
+                {
+                    Response = null,
+                    ErrorMessage = ex.Response,
+                    StatusCode = ex.StatusCode
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ClientResponse<string>
+                {
+                    Response = null,
+                    ErrorMessage = $"An unexpected error occurred: {ex.Message}",
+                    StatusCode = 500
+                };
+            }
         }
     }
 }
