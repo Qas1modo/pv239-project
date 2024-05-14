@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GetDrive.Models
 {
-    public partial class RideListModel : ModelBase
+    public partial class RideDetailModel : ModelBase
     {
         public int Id { get; set; }
 
@@ -35,10 +35,9 @@ namespace GetDrive.Models
 
         public bool Canceled { get; set; }
 
-        //public List<ReviewListModel> Reviews { get; set; } = new List<ReviewListModel>();
-        
-        //public System.Collections.Generic.ICollection<PassengerResponseDTO> Passengers { get; set; }
+        public List<PassengerRideDetailModel> Passengers { get; set; } = new List<PassengerRideDetailModel>();
 
-        //public System.Collections.Generic.ICollection<ReviewResponseDTO> DriverReviews { get; set; }
+        public List<ReviewListModel> DriverReviews { get; set; } = new List<ReviewListModel>(); 
+
     }
 }

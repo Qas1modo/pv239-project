@@ -9,7 +9,6 @@
                        xmlns:views="clr-namespace:GetDrive.Views"
                        x:Class="GetDrive.Views.RideListView"
                        Title="Get Ride"
-                       Style="{StaticResource ContentPageStyle}"
                        x:DataType="vm:RideListViewModel"
                        x:Name="RideList">
     <ScrollView>

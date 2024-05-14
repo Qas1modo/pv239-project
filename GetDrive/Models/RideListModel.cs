@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GetDrive.Models
 {
-    public partial class RideDetailModel : ModelBase
+    public partial class RideListModel : ModelBase
     {
         public int Id { get; set; }
         public string StartLocation { get; set; }

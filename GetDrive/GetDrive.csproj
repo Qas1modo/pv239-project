@@ -74,6 +74,7 @@
 		<PackageReference Include="Microsoft.Maui.Controls" Version="8.0.21" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.21" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
+		<PackageReference Include="Microsoft.Maui.Controls.Maps" Version="8.0.21" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 		<PackageReference Include="Scrutor" Version="4.2.2" />
 	</ItemGroup>
@@ -84,6 +85,9 @@
 	  </Compile>
 	  <Compile Update="Views\ChangePassword.xaml.cs">
 	    <DependentUpon>ChangePassword.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\Ride\RideDetailView.xaml.cs">
+	    <DependentUpon>RideDetailView.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Views\Ride\RidePublishView.xaml.cs">
 	    <DependentUpon>RidePublishView.xaml</DependentUpon>
@@ -101,6 +105,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Ride\RideFilterView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Ride\RideDetailView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Ride\RideListView.xaml">

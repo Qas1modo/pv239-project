@@ -1,21 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <views:ContentPageBase xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                        xmlns:t="clr-namespace:GetDrive.Resources.Texts"
                        xmlns:f="clr-namespace:GetDrive.Resources.Fonts"
                        xmlns:m="clr-namespace:GetDrive.Models"
+                       xmlns:maps="clr-namespace:Microsoft.Maui.Controls.Maps;assembly=Microsoft.Maui.Controls.Maps"
                        xmlns:vm="clr-namespace:GetDrive.ViewModels"
                        xmlns:views="clr-namespace:GetDrive.Views"
                        x:Class="GetDrive.Views.RideDetailView"
+                       xmlns:controls="clr-namespace:GetDrive.Controls"
                        Title="Ride detail"
-                       Style="{StaticResource ContentPageStyle}"
                        x:DataType="vm:RideDetailViewModel">
     <ScrollView>
-        <VerticalStackLayout Spacing="0">
+        <VerticalStackLayout Spacing="20" Padding="20">
 
-            
+            <Frame CornerRadius="10" Padding="15" BackgroundColor="White">
+                <controls:CustomMap x:Name="RideMap"
+                  HeightRequest="300"
+                  MapType="Street"
+                  BindingContext="{Binding RideMap, Mode=TwoWay}"/>
+            </Frame>
+            <Frame CornerRadius="0" Padding="0,10,0,0" BackgroundColor="{StaticResource Primary}">
+                <Label Text="General ride info" FontSize="20" FontAttributes="Bold" TextColor="White" HorizontalOptions="Center" />
+            </Frame>
+
+            <Frame CornerRadius="5" Padding="5,0,0,10" BackgroundColor="White">
+                <Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto, 10, Auto, 10, Auto, 10, Auto, 10, Auto">
+                    <BoxView Grid.RowSpan="9" Grid.Column="0" Color="{StaticResource Secondary}" />
+                    <BoxView Grid.RowSpan="9" Grid.Column="1" Color="{StaticResource Primary}" />
+
+                    <Label Text="Departure " FontSize="16" FontAttributes="Bold" Grid.Row="0" Grid.Column="0" Padding="5,5,0,0"/>
+                    <Label Text="{Binding Ride.Departure, StringFormat='{0:dd.MM.yyyy hh:mm}'}" FontSize="16" Grid.Row="0" Grid.Column="1" TextColor="White" Padding="5,5,0,0"/>
+
+                    <Label Text="Startting location " FontSize="16" FontAttributes="Bold" Grid.Row="2" Grid.Column="0" Padding="5,5,0,0"/>
+                    <Label Text="{Binding Ride.StartLocation}" FontSize="16" Grid.Row="2" Grid.Column="1" TextColor="White" Padding="5,5,0,0"/>
+
+                    <Label Text="Destination " FontSize="16" FontAttributes="Bold" Grid.Row="4" Grid.Column="0" Padding="5,5,0,0"/>
+                    <Label Text="{Binding Ride.Destination}" FontSize="16" Grid.Row="4" Grid.Column="1" TextColor="White" Padding="5,5,0,0"/>
+
+                    <Label Text="Available Seats " FontSize="16" FontAttributes="Bold" Grid.Row="6" Grid.Column="0" Padding="5,5,0,0"/>
+                    <Label Text="{Binding Ride.AvailableSeats}" FontSize="16" Grid.Row="6" Grid.Column="1" TextColor="White" Padding="5,5,0,0"/>
+
+                    <Label Text="Price " FontSize="16" FontAttributes="Bold" Grid.Row="8" Grid.Column="0" Padding="5,5,0,0"/>
+                    <Label Text="{Binding Ride.Price, StringFormat='${0} $'}" FontSize="16" Grid.Row="8" Grid.Column="1" TextColor="White" Padding="5,5,0,0"/>
+                </Grid>
+            </Frame>
+
+            <Frame CornerRadius="0" Padding="0,10,0,0" BackgroundColor="{StaticResource Primary}">
+                <Label Text="Driver details" FontSize="20" FontAttributes="Bold" TextColor="White" HorizontalOptions="Center" />
+            </Frame>
+
+            <Frame CornerRadius="5" Padding="5,0,0,10" BackgroundColor="White">
+                <Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto, 10, Auto, 10, Auto, 10, Auto, 10, Auto">
+                    <BoxView Grid.RowSpan="9" Grid.Column="0" Color="{StaticResource Secondary}" />
+                    <BoxView Grid.RowSpan="9" Grid.Column="1" Color="{StaticResource Primary}" />
+
+                    <Label Text="Driver Name:" FontSize="16" FontAttributes="Bold" Grid.Row="0" Grid.Column="0" Padding="5,5,0,0"/>
+                    <Label Text="{Binding Ride.DriverName}" FontSize="16" Grid.Row="0" Grid.Column="1" TextColor="White" Padding="5,5,0,0"/>
+
+                    <Label Text="Driver Email:" FontSize="16" FontAttributes="Bold" Grid.Row="2" Grid.Column="0" Padding="5,5,0,0"/>
+                    <Label Text="{Binding Ride.DriverEmail}" FontSize="16" Grid.Row="2" Grid.Column="1" TextColor="White" Padding="5,5,0,0"/>
+
+                    <Label Text="Driver Phone:" FontSize="16" FontAttributes="Bold" Grid.Row="4" Grid.Column="0" Padding="5,5,0,0"/>
+                    <Label Text="{Binding Ride.DriverPhone}" FontSize="16" Grid.Row="4" Grid.Column="1" TextColor="White" Padding="5,5,0,0"/>
+
+                    <Label Text="Driver Note:" FontSize="16" FontAttributes="Bold" Grid.Row="6" Grid.Column="0" Padding="5,5,0,0"/>
+                    <Label Text="{Binding Ride.DriverNote}" FontSize="16" Grid.Row="6" Grid.Column="1" TextColor="White" Padding="5,5,0,0"/>
+
+                    <Label Text="Canceled:" FontSize="16" FontAttributes="Bold" Grid.Row="8" Grid.Column="0" Padding="5,5,0,0"/>
+                    <Label Text="{Binding Ride.Canceled}" FontSize="16" Grid.Row="8" Grid.Column="1" TextColor="White" Padding="5,5,0,0"/>
+                </Grid>
+            </Frame>
+
+
+            <Frame CornerRadius="10" Padding="15" BackgroundColor="#EDE7F6">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Passengers" FontSize="18" FontAttributes="Bold" TextColor="#6A1B9A" />
+                    <CollectionView ItemsSource="{Binding Ride.Passengers}">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Vertical" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="m:PassengerRideDetailModel">
+                                <Frame CornerRadius="10" Padding="10" BackgroundColor="White">
+                                    <Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto, Auto, Auto, Auto">
+                                        <Label Text="Name:" FontSize="16" FontAttributes="Bold" Grid.Row="0" Grid.Column="0" TextColor="#6A1B9A" />
+                                        <Label Text="{Binding Name}" FontSize="16" Grid.Row="0" Grid.Column="1" TextColor="Black" />
+
+                                        <Label Text="Email:" FontSize="16" FontAttributes="Bold" Grid.Row="1" Grid.Column="0" TextColor="#6A1B9A" />
+                                        <Label Text="{Binding Email}" FontSize="16" Grid.Row="1" Grid.Column="1" TextColor="Black" />
+
+                                        <Label Text="Phone:" FontSize="16" FontAttributes="Bold" Grid.Row="2" Grid.Column="0" TextColor="#6A1B9A" />
+                                        <Label Text="{Binding Phone}" FontSize="16" Grid.Row="2" Grid.Column="1" TextColor="Black" />
+
+                                        <Label Text="Passenger Note:" FontSize="16" FontAttributes="Bold" Grid.Row="3" Grid.Column="0" TextColor="#6A1B9A" />
+                                        <Label Text="{Binding PassengerNote}" FontSize="16" Grid.Row="3" Grid.Column="1" TextColor="Black" />
+                                    </Grid>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </Frame>
+
+            <Frame CornerRadius="10" Padding="15" BackgroundColor="#EDE7F6">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Driver Reviews" FontSize="18" FontAttributes="Bold" TextColor="#6A1B9A" />
+                    <CollectionView ItemsSource="{Binding Ride.DriverReviews}">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Vertical" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="m:ReviewListModel">
+                                <Frame CornerRadius="10" Padding="10" BackgroundColor="White">
+                                    <Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto, Auto, Auto">
+                                        <Label Text="Author Name:" FontSize="16" FontAttributes="Bold" Grid.Row="0" Grid.Column="0" TextColor="#6A1B9A" />
+                                        <Label Text="{Binding AuthorName}" FontSize="16" Grid.Row="0" Grid.Column="1" TextColor="Black" />
+
+                                        <Label Text="Review Text:" FontSize="16" FontAttributes="Bold" Grid.Row="1" Grid.Column="0" TextColor="#6A1B9A" />
+                                        <Label Text="{Binding ReviewText}" FontSize="16" Grid.Row="1" Grid.Column="1" TextColor="Black" />
+
+                                        <Label Text="Score:" FontSize="16" FontAttributes="Bold" Grid.Row="2" Grid.Column="0" TextColor="#6A1B9A" />
+                                        <Label Text="{Binding Score, StringFormat='Score: {0}'}" FontSize="16" Grid.Row="2" Grid.Column="1" TextColor="Black" />
+                                    </Grid>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </Frame>
         </VerticalStackLayout>
     </ScrollView>
-
 </views:ContentPageBase>

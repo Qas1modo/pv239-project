@@ -20,4 +20,5 @@ namespace GetDrive.Models
         public int PassengerCount { get; set; }
         public string PassengerNote { get; set; }
     }
+
 }
