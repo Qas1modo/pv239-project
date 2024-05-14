@@ -61,7 +61,7 @@ namespace GetDriveServer.Controllers
             {
                 return BadRequest("You cannot join this ride, it does not have necessary capacity or you are the owner");
             }
-            return Ok("Request to join ride has been sended");
+            return Ok("Request to join ride has been sent");
         }
 
         [HttpDelete("{id}")]
@@ -79,7 +79,7 @@ namespace GetDriveServer.Controllers
             {
                 return BadRequest("You cannot delete this ride ");
             }
-            return Ok("Request to join ride has been sended");
+            return Ok("Request to join ride has been sent");
         }
 
         [HttpPut("{id}")]
