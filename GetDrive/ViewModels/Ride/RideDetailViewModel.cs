@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GetDrive.Clients;
+using GetDrive.Controls;
 using GetDrive.Models;
 using GetDrive.Services;
 using Microsoft.Maui.Controls.Maps;
@@ -9,9 +10,8 @@ using Microsoft.Maui.Maps;
 
 namespace GetDrive.ViewModels
 {
-    [INotifyPropertyChanged]
     [QueryProperty(nameof(Id), nameof(Id))]
-    public partial class RideDetailViewModel : IViewModel
+    public partial class RideDetailViewModel : ViewModelBase
     {
         private readonly IRoutingService routingService;
         private readonly IGeocodingService geocodingService;
@@ -22,18 +22,21 @@ namespace GetDrive.ViewModels
 
         private RideDetailModel ride;
 
-        [ObservableProperty]
-        private Microsoft.Maui.Controls.Maps.Map rideMap = new();
-
-        partial void OnRideMapChanged(Microsoft.Maui.Controls.Maps.Map value)
-        {
-            OnPropertyChanged(nameof(RideMap));
-        }
-
         public RideDetailModel Ride
         {
             get => ride;
             set => SetProperty(ref ride, value);
+        }
+
+        [ObservableProperty]
+        private CustomMap rideMap = new();
+
+        [ObservableProperty]
+        private bool isDriver;
+
+        partial void OnRideMapChanged(CustomMap value)
+        {
+            OnPropertyChanged(nameof(RideMap));
         }
 
         public RideDetailViewModel(IRoutingService routingService, IRideClient rideClient, IMapper mapper, IGeocodingService geocodingService)
@@ -44,15 +47,44 @@ namespace GetDrive.ViewModels
             this.geocodingService = geocodingService;
         }
 
-
-        public async Task OnAppearingAsync()
+        public override async Task OnAppearingAsync()
         {
             var rideDetailDTO = await rideClient.GetRide(Id);
             if (rideDetailDTO.Response != null)
             {
                 Ride = mapper.Map<RideDetailModel>(rideDetailDTO.Response);
                 await ShowRouteOnMap(Ride.StartLocation, Ride.Destination);
+                await CheckIfUserIsDriver();
+                await base.OnAppearingAsync();
             }
+            else
+            {
+                await NavigateBack();
+            }
+        }
+
+        private async Task CheckIfUserIsDriver()
+        {
+            var userId = await SecureStorage.GetAsync("UserId");
+            IsDriver = Ride.DriverId.ToString() == userId;
+        }
+
+        [RelayCommand]
+        private async Task DeleteRideAsync()
+        {
+            if (Ride != null && IsDriver)
+            {
+                // TODO handle this
+                var result = await rideClient.CancelRide(Ride.Id);
+                var profileRoute = routingService.GetRouteByViewModel<ProfileViewModel>();
+                await Shell.Current.GoToAsync(profileRoute);
+            }
+        }
+
+        [RelayCommand]
+        public async Task NavigateBack()
+        {
+            await Shell.Current.GoToAsync("..");
         }
 
         private async Task ShowRouteOnMap(string startLocation, string destination)
@@ -62,8 +94,6 @@ namespace GetDrive.ViewModels
 
             if (startLocationCoordinates != null && destinationLocationCoordinates != null)
             {
-               
-
                 var startPin = new Pin
                 {
                     Label = "Start Location",
@@ -100,13 +130,6 @@ namespace GetDrive.ViewModels
                     RideMap.MoveToRegion(MapSpan.FromCenterAndRadius(new Location((startLocationCoordinates.Latitude + destinationLocationCoordinates.Latitude) / 2, (startLocationCoordinates.Longitude + destinationLocationCoordinates.Longitude) / 2), Distance.FromKilometers(50)));
                 }
             }
-        }
-
-
-        [RelayCommand]
-        public async Task NavigateBack()
-        {
-            await Shell.Current.GoToAsync("..");
         }
     }
 }
