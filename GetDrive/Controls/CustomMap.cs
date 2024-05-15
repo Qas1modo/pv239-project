@@ -20,12 +20,11 @@ namespace GetDrive.Controls
                 {
                     Task.Run(async () =>
                     {
-                        // Introduce a small delay before invoking MoveToRegion
                         await Task.Delay(1500);
 
                         Device.BeginInvokeOnMainThread(() =>
                         {
-                            // Assuming this is an example location, replace with actual coordinates
+                            
                             MoveToRegion(MapSpan.FromCenterAndRadius(new Location(0, 0), Distance.FromKilometers(1)));
                         });
                     });

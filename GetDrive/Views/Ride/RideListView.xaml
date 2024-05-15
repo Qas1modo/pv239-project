@@ -87,8 +87,11 @@
                                            FontSize="20" 
                                            FontAttributes="Bold" />
                                 </Grid>
-                                <Button Grid.Column="3" Grid.Row="0"  Text="Detail" Command="{Binding Source={x:Reference RideList}, Path=BindingContext.GoToDetailCommand}"
-                                          CommandParameter="{Binding Id}"  />
+                                <Button Grid.Column="3" 
+                                        Grid.Row="0"  
+                                        Text="Detail" 
+                                        Command="{Binding Source={x:Reference RideList}, Path=BindingContext.GoToDetailCommand}"
+                                        CommandParameter="{Binding Id}"  />
 
                             </Grid>
                         </Frame>

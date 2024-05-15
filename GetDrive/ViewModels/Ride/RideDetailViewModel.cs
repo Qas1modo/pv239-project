@@ -74,7 +74,7 @@ namespace GetDrive.ViewModels
         {
             if (Ride != null && IsDriver)
             {
-                // TODO handle this
+                // TODO handle this result
                 var result = await rideClient.CancelRide(Ride.Id);
                 var profileRoute = routingService.GetRouteByViewModel<ProfileViewModel>();
                 await Shell.Current.GoToAsync(profileRoute);

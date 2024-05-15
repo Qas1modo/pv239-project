@@ -5,6 +5,7 @@ using GetDrive.Api;
 using System.Collections.ObjectModel;
 using AutoMapper;
 using GetDrive.Models;
+using GetDrive.Services;
 
 
 namespace GetDrive.ViewModels;
@@ -12,15 +13,17 @@ namespace GetDrive.ViewModels;
 public partial class ProfileViewModel : ViewModelBase
 {
     private readonly IUserClient _userClient;
+    private readonly IRoutingService _routingService;
     private readonly IMapper _mapper;
 
     [ObservableProperty]
     private UserProfileModel userProfile;
 
-    public ProfileViewModel(IUserClient userClient, IMapper mapper)
+    public ProfileViewModel(IUserClient userClient, IMapper mapper, IRoutingService routingService)
     {
         _userClient = userClient;
         _mapper = mapper;
+        _routingService = routingService;
     }
 
     public override async Task OnAppearingAsync()
@@ -30,14 +33,16 @@ public partial class ProfileViewModel : ViewModelBase
         var token = await SecureStorage.GetAsync("Token");
         if (string.IsNullOrEmpty(token))
         {
-            await Shell.Current.GoToAsync("//auth");
+            var authRoute = _routingService.GetRouteByViewModel<AuthViewModel>();
+            await Shell.Current.GoToAsync(authRoute);
             return;
         }
 
         var userIdString = await SecureStorage.GetAsync("UserId");
         if (!int.TryParse(userIdString, out int userId))
         {
-            await Shell.Current.GoToAsync("//auth");
+            var authRoute = _routingService.GetRouteByViewModel<AuthViewModel>();
+            await Shell.Current.GoToAsync(authRoute);
             return;
         }
 
@@ -45,10 +50,23 @@ public partial class ProfileViewModel : ViewModelBase
         UserProfile = _mapper.Map<UserProfileModel>(userProfileDto.Response);
     }
 
+
+
     [RelayCommand]
-    public static async Task ManageProfile()
+    public async Task ManageProfile()
     {
-        await Shell.Current.GoToAsync("//auth");
+        var authRoute = _routingService.GetRouteByViewModel<AuthViewModel>();
+        await Shell.Current.GoToAsync(authRoute);
+    }
+
+    [RelayCommand]
+    private void GoToRideDetail(int id)
+    {
+        var rideDetailRoute = _routingService.GetRouteByViewModel<RideDetailViewModel>();
+        Shell.Current.GoToAsync(rideDetailRoute, new Dictionary<string, object>
+        {
+            [nameof(RideDetailViewModel.Id)] = id
+        });
     }
 
 }
