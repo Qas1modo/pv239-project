@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<v:ContentPageBase xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:vm="clr-namespace:GetDrive.ViewModels"
+                xmlns:m="clr-namespace:GetDrive.Models"
+                xmlns:v="clr-namespace:GetDrive.Views"
+                x:Class="GetDrive.Views.RideRequests"
+                x:DataType="vm:RideRequestsViewModel">     
+    <ScrollView>
+        <VerticalStackLayout Spacing="0">
+            <HorizontalStackLayout HorizontalOptions="CenterAndExpand" Spacing="10" Margin="0,10,0,0" Padding="20">
+                <Button
+                    Text="Received"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center"
+                    Padding="10"
+                    WidthRequest="150"
+                    CornerRadius="10"
+                    Command="{Binding ShowReceivedCommand}"
+                    IsEnabled="{Binding RideModel.Outgoing}"
+                    ImageSource="incoming_arrow.svg"
+                    ContentLayout="Left,20"
+                    Margin="5,0,0,0">   
+                </Button>
+                <Button Text="Sent"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center"
+                    Padding="10"
+                    WidthRequest="150"
+                    CornerRadius="10"
+                    Command="{Binding ShowSentCommand}"
+                    IsEnabled="{Binding RideModel.Incoming}"
+                    ImageSource="filter.svg"
+                    ContentLayout="Left,20"
+                    Margin="0,0,0,0">
+                </Button>
+            </HorizontalStackLayout>
+            <Label Text="{Binding RideModel.Message}" 
+                   HorizontalOptions="Center" 
+                   VerticalOptions="Center"
+                   TextColor="{StaticResource Black}"/>            
+            <CollectionView ItemsSource="{Binding RideRequests}">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="0" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="m:RideListModel">
+                        <Frame Padding="0" CornerRadius="10" HeightRequest="160" IsClippedToBounds="True" Margin="25,15">
+                            <Grid RowDefinitions="*,*,*,*" ColumnDefinitions="*,*,50">
+                                <StackLayout Grid.Row="0" Grid.Column="0" Grid.RowSpan="4" Grid.ColumnSpan="2" BackgroundColor="{StaticResource Secondary}" Padding="10">
+                                    <Label Grid.Row="2"
+                                           Grid.Column="0" Grid.ColumnSpan="2"
+                                           Margin="5,5"
+                                           FontSize="15" LineBreakMode="WordWrap"
+                                           Text="{Binding Departure, StringFormat='{0:dd.MM.yyyy hh:mm tt}'}"
+                                           TextColor="{StaticResource Black}" VerticalOptions="End" />
+                                    <Label Grid.Row="0"
+                                           Grid.Column="0" Grid.ColumnSpan="2"
+                                           Margin="5,5"
+                                           FontSize="18" LineBreakMode="WordWrap"
+                                           Text="{Binding StartLocation}"
+                                           TextColor="{StaticResource Black}" VerticalOptions="End" />
+                                    <Label Grid.Row="1"
+                                           Grid.Column="0" Grid.ColumnSpan="2"
+                                           Margin="5,5"
+                                           FontSize="18" LineBreakMode="WordWrap"
+                                           Text="{Binding Destination}"
+                                           TextColor="{StaticResource Black}" VerticalOptions="End" />
+                                    <Label Grid.Row="3"
+                                           Grid.Column="0" Grid.ColumnSpan="2"
+                                           Margin="5,5"
+                                           FontSize="18" LineBreakMode="WordWrap"
+                                           Text="{Binding AvailableSeats, StringFormat='Seats: {0}'}"
+                                           TextColor="{StaticResource Black}" VerticalOptions="End" />
+
+                                </StackLayout>
+                                <Grid Grid.Column="2" Grid.Row="0" Grid.RowSpan="4" BackgroundColor="{StaticResource Primary}" Padding="5">
+                                    <Button Text="✓"
+                                        HorizontalOptions="Start"
+                                        VerticalOptions="Center"
+                                        Padding="10"
+                                        WidthRequest="40"
+                                        CornerRadius="10"
+                                        Background="Green"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:RideRequestsViewModel}},
+                                        Path=AcceptRideCommand}"
+                                        CommandParameter="{Binding Id}"
+                                        IsVisible="{Binding Source={RelativeSource AncestorType={x:Type vm:RideRequestsViewModel}},
+                                        Path=RideModel.Incoming}"
+                                        ContentLayout="Left,20"
+                                        Margin="0,0,0,0">           
+                                    </Button>
+                                    <Button Text="X"
+                                        HorizontalOptions="Start"
+                                        VerticalOptions="Center"
+                                        Padding="10"
+                                        WidthRequest="40"
+                                        CornerRadius="5"
+                                        Background="Red"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:RideRequestsViewModel}},
+                                        Path=DeleteRequestCommand}"
+                                        CommandParameter="{Binding Id}"
+                                        IsVisible="{Binding Source={RelativeSource AncestorType={x:Type vm:RideRequestsViewModel}},
+                                        Path=RideModel.Outgoing}"
+                                        ContentLayout="Left,20"
+                                        Margin="0,0,0,0">       
+                                    </Button>
+                                </Grid>
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+    </ScrollView>
+</v:ContentPageBase>

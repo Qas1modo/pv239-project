@@ -3,7 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace GetDrive.ViewModels
 {
-    [INotifyPropertyChanged]
+    [ObservableObject]
     public abstract partial class ViewModelBase : IViewModel
     {
         public virtual Task OnAppearingAsync()

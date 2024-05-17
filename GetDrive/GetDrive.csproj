@@ -58,6 +58,7 @@
 
 	<ItemGroup>
 	  <None Remove="appsettings.json" />
+	  <None Remove="Resources\Images\incoming_arrow.svg" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -85,6 +86,9 @@
 	  <Compile Update="Views\ChangePassword.xaml.cs">
 	    <DependentUpon>ChangePassword.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Views\RideRequests.xaml.cs">
+	    <DependentUpon>RideRequests.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\Ride\RidePublishView.xaml.cs">
 	    <DependentUpon>RidePublishView.xaml</DependentUpon>
 	  </Compile>
@@ -95,6 +99,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Base\ContentPageBase.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\RideRequests.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Profile.xaml">

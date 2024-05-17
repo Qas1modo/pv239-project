@@ -25,7 +25,12 @@
             ContentTemplate="{DataTemplate vs:RidePublishView}"
             Icon="add_circle.svg"
             Route="ridepublishview"/>
-
+        
+        <ShellContent
+            ContentTemplate="{DataTemplate vs:RideRequests}"
+            Icon="request_icon.svg"
+            Route="riderequests"/>
+        
         <ShellContent
             ContentTemplate="{DataTemplate vs:Profile}"
             Icon="profile.svg"
