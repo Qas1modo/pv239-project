@@ -6,6 +6,7 @@ using GetDrive.Models;
 using GetDrive.Models.ApiModels;
 using GetDrive.Services;
 using GetDrive.Views;
+using System.Collections.ObjectModel;
 
 namespace GetDrive.ViewModels
 {
@@ -17,7 +18,7 @@ namespace GetDrive.ViewModels
         private readonly IMapper mapper;
 
         [ObservableProperty]
-        private IList<RideListModel>? items;
+        private ObservableCollection<RideListModel>? items;
 
         [ObservableProperty]
         private RideFilterDTO currentFilter = new RideFilterDTO();
@@ -32,7 +33,7 @@ namespace GetDrive.ViewModels
         public async Task OnAppearingAsync()
         {
             var rides = await rideClient.GetAllRides(CurrentFilter);
-            Items = mapper.Map<IEnumerable<RideListModel>>(rides.Response).ToList();
+            Items = mapper.Map<ObservableCollection<RideListModel>>(rides.Response);
         }
 
         [RelayCommand]
@@ -46,7 +47,7 @@ namespace GetDrive.ViewModels
         public async Task ApplyFilters()
         {
             var rides = await rideClient.GetAllRides(CurrentFilter);
-            Items = mapper.Map<IEnumerable<RideListModel>>(rides).ToList();
+            Items = mapper.Map<ObservableCollection<RideListModel>>(rides.Response);
             await NavigateBack();
         }
 
@@ -55,7 +56,7 @@ namespace GetDrive.ViewModels
         {
             CurrentFilter = new RideFilterDTO();
             var rides = await rideClient.GetAllRides(CurrentFilter);
-            Items = mapper.Map<IEnumerable<RideListModel>>(rides.Response).ToList();
+            Items = mapper.Map<ObservableCollection<RideListModel>>(rides.Response);
         }
 
         [RelayCommand]
