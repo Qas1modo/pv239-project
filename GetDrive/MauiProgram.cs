@@ -30,7 +30,8 @@ namespace GetDrive
                 fonts.AddFont("Montserrat-Bold.ttf", Fonts.Bold);
                 fonts.AddFont("Montserrat-Medium.ttf", Fonts.Medium);
                 fonts.AddFont("Montserrat-Regular.ttf", Fonts.Regular);
-            }).UseMauiCommunityToolkit();
+            }).UseMauiMaps().UseMauiCommunityToolkit();
+
             ConfigureAppSettings(builder);
 #if DEBUG
     		builder.Logging.AddDebug();
@@ -93,6 +94,7 @@ namespace GetDrive
             services.AddSingleton<IRoutingService, RoutingService>();
             services.AddSingleton<IShare>(_ => Share.Default);
             services.AddSingleton<IGlobalExceptionService, GlobalExceptionService>();
+            services.AddSingleton<IGeocodingService, NominatimGeocodingService>();
             //services.AddSingleton<IGlobalExceptionServiceInitializer, GlobalExceptionServiceInitializer>();
         }
 

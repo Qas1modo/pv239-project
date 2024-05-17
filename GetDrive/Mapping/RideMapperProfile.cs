@@ -15,6 +15,9 @@ namespace GetDrive.Mapping
         {
             CreateMap<RideResponseDTO, RideListModel>().ReverseMap();
             CreateMap<CreateRideDTO, RidePublishModel>().ReverseMap();
+            CreateMap<RideDetailResponseDTO, RideDetailModel>().ReverseMap();
+            CreateMap<PassengerResponseDTO, PassengerRideDetailModel>().ReverseMap();
+            CreateMap<ReviewResponseDTO, ReviewListModel>().ReverseMap();
         }
     }
 }

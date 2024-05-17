@@ -64,5 +64,15 @@ namespace GetDrive.ViewModels
         {
             await Shell.Current.GoToAsync("..");
         }
+
+        [RelayCommand]
+        private void GoToDetail(int id)
+        {
+            Shell.Current.GoToAsync("//ridedetailview", new Dictionary<string, object>
+            {
+                [nameof(RideDetailViewModel.Id)] = id
+            });
+        }
+
     }
 }

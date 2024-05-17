@@ -13,7 +13,8 @@ namespace GetDrive.Services
             new("//ridepublishview", typeof(RidePublishView), typeof(RidePublishViewModel)),
             new("//ridefilterview", typeof(RideFilterView), typeof(RideListViewModel)),
             new("//auth", typeof(Auth), typeof(AuthViewModel)),
-            new("//profile", typeof(Profile), typeof(ProfileViewModel))
+            new("//profile", typeof(Profile), typeof(ProfileViewModel)),
+            new("//ridedetailview", typeof(RideDetailView), typeof(RideDetailViewModel))
         };
 
         public string GetRouteByViewModel<TViewModel>() where TViewModel : IViewModel
