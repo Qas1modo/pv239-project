@@ -5,6 +5,7 @@ using GetDrive.Clients;
 using GetDrive.Controls;
 using GetDrive.Models;
 using GetDrive.Services;
+using GetDrive.Views;
 using Microsoft.Maui.Controls.Maps;
 using Microsoft.Maui.Maps;
 
@@ -82,6 +83,13 @@ namespace GetDrive.ViewModels
         }
 
         [RelayCommand]
+        public async Task GoToReview()
+        {
+            var reviewPage = new ReviewView(this);
+            await Shell.Current.Navigation.PushAsync(reviewPage);
+        }
+
+        [RelayCommand]
         public async Task NavigateBack()
         {
             await Shell.Current.GoToAsync("..");
@@ -89,24 +97,24 @@ namespace GetDrive.ViewModels
 
         private async Task ShowRouteOnMap(string startLocation, string destination)
         {
-            var startLocationCoordinates = await geocodingService.GetLocationAsync(startLocation);
-            var destinationLocationCoordinates = await geocodingService.GetLocationAsync(destination);
+            var startLocationCoords = await geocodingService.GetLocationAsync(startLocation);
+            var destinationLocationCoords = await geocodingService.GetLocationAsync(destination);
 
-            if (startLocationCoordinates != null && destinationLocationCoordinates != null)
+            if (startLocationCoords != null && destinationLocationCoords != null)
             {
                 var startPin = new Pin
                 {
                     Label = "Start Location",
                     Address = startLocation,
                     Type = PinType.Place,
-                    Location = startLocationCoordinates
+                    Location = startLocationCoords
                 };
                 var destinationPin = new Pin
                 {
                     Label = "Destination",
                     Address = destination,
                     Type = PinType.Place,
-                    Location = destinationLocationCoordinates
+                    Location = destinationLocationCoords
                 };
 
                 if (RideMap != null)
@@ -122,12 +130,13 @@ namespace GetDrive.ViewModels
                     };
 
                     route.Geopath.Clear();
-                    route.Geopath.Add(new Location(startLocationCoordinates.Latitude, startLocationCoordinates.Longitude));
-                    route.Geopath.Add(new Location(destinationLocationCoordinates.Latitude, destinationLocationCoordinates.Longitude));
+                    route.Geopath.Add(new Location(startLocationCoords.Latitude, startLocationCoords.Longitude));
+                    route.Geopath.Add(new Location(destinationLocationCoords.Latitude, destinationLocationCoords.Longitude));
 
                     RideMap.MapElements.Clear();
                     RideMap.MapElements.Add(route);
-                    RideMap.MoveToRegion(MapSpan.FromCenterAndRadius(new Location((startLocationCoordinates.Latitude + destinationLocationCoordinates.Latitude) / 2, (startLocationCoordinates.Longitude + destinationLocationCoordinates.Longitude) / 2), Distance.FromKilometers(50)));
+                    Location mapLocation = new Location((startLocationCoords.Latitude + destinationLocationCoords.Latitude) / 2, (startLocationCoords.Longitude + destinationLocationCoords.Longitude) / 2);
+                    RideMap.MoveToRegion(MapSpan.FromCenterAndRadius(mapLocation, Distance.FromKilometers(50)));
                 }
             }
         }

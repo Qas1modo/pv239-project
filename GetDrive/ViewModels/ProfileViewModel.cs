@@ -2,10 +2,10 @@
 using CommunityToolkit.Mvvm.Input;
 using GetDrive.Clients;
 using GetDrive.Api;
-using System.Collections.ObjectModel;
 using AutoMapper;
 using GetDrive.Models;
 using GetDrive.Services;
+using System.Diagnostics;
 
 
 namespace GetDrive.ViewModels;
@@ -17,7 +17,7 @@ public partial class ProfileViewModel : ViewModelBase
     private readonly IMapper _mapper;
 
     [ObservableProperty]
-    private UserProfileModel userProfile;
+    private UserProfileModel userProfile = new();
 
     public ProfileViewModel(IUserClient userClient, IMapper mapper, IRoutingService routingService)
     {
@@ -28,14 +28,11 @@ public partial class ProfileViewModel : ViewModelBase
 
     public override async Task OnAppearingAsync()
     {
-        await base.OnAppearingAsync();
-
         var token = await SecureStorage.GetAsync("Token");
         if (string.IsNullOrEmpty(token))
         {
             var authRoute = _routingService.GetRouteByViewModel<AuthViewModel>();
             await Shell.Current.GoToAsync(authRoute);
-            return;
         }
 
         var userIdString = await SecureStorage.GetAsync("UserId");
@@ -43,13 +40,11 @@ public partial class ProfileViewModel : ViewModelBase
         {
             var authRoute = _routingService.GetRouteByViewModel<AuthViewModel>();
             await Shell.Current.GoToAsync(authRoute);
-            return;
         }
-
         var userProfileDto = await _userClient.GetProfile(userId);
         UserProfile = _mapper.Map<UserProfileModel>(userProfileDto.Response);
+        await base.OnAppearingAsync();
     }
-
 
 
     [RelayCommand]

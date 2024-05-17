@@ -4,7 +4,8 @@ using GetDrive.Clients;
 using GetDrive.Models;
 using AutoMapper;
 using GetDrive.Api;
-using GetDrive.Views;
+using GetDrive.Services;
+using System.Diagnostics;
 
 namespace GetDrive.ViewModels;
 
@@ -12,21 +13,23 @@ public partial class AuthViewModel : ViewModelBase
 {
     private readonly IAuthClient _authClient;
     private readonly IMapper _mapper;
+    private readonly IRoutingService _routingService;
 
     [ObservableProperty]
     private AuthModel auth = new();
 
-    public AuthViewModel(IAuthClient authClient, IMapper mapper)
+    public AuthViewModel(IAuthClient authClient, IMapper mapper, IRoutingService routingService)
     {
         _authClient = authClient;
         _mapper = mapper;
+        _routingService = routingService;
         UpdateToggleButtonText();
     }
 
     public override async Task OnAppearingAsync()
     {
-        await base.OnAppearingAsync();
         await CheckLoginStatus();
+        await base.OnAppearingAsync();
     }
 
     public async Task CheckLoginStatus()
@@ -43,11 +46,13 @@ public partial class AuthViewModel : ViewModelBase
         UpdateToggleButtonText();
     }
 
+
     private void UpdateToggleButtonText()
     {
         Auth.ToggleButtonText = Auth.IsRegistering ? "Switch to Login form" : "Switch to Register form";
         Auth.StatusMessage = Auth.IsRegistering ? "Please fill in registration entries." : "Please fill in login entries.";
     }
+
 
     [RelayCommand]
     private async Task RegisterAsync()
@@ -67,7 +72,9 @@ public partial class AuthViewModel : ViewModelBase
         else if (response.Response != null && response.Response.Token != null)
         {
             Auth.StatusMessage = "Registration successful.";
-            await Shell.Current.GoToAsync("//ridelistview");
+            var rideListRoute = _routingService.GetRouteByViewModel<RideListViewModel>();
+            await Task.Delay(500);
+            await Shell.Current.GoToAsync(rideListRoute);
         }
         else
         {
@@ -84,53 +91,50 @@ public partial class AuthViewModel : ViewModelBase
         if (!string.IsNullOrEmpty(response.ErrorMessage))
         {
             Auth.StatusMessage = response.ErrorMessage;
-        } 
+        }
         else if (response.Response != null && response.Response.Token != null)
         {
             Auth.IsLoggedIn = true;
             Auth.StatusMessage = "Login successful.";
-            await Shell.Current.GoToAsync("//ridelistview");
+            var rideListRoute = _routingService.GetRouteByViewModel<RideListViewModel>();
+            await Task.Delay(500);
+            await Shell.Current.GoToAsync(rideListRoute);
         }
     }
 
     [RelayCommand]
     private async Task LogoutAsync()
     {
-        await _authClient.Logout();
-        Auth.IsLoggedIn = false;
-        await Shell.Current.GoToAsync("//ridelistview");
-    }
-
-
-    [RelayCommand]
-    public async Task ShowChangePasswordPopup()
-    {
-        var changePasswordModalPage = new ChangePassword(this);
-        await Application.Current.MainPage.Navigation.PushModalAsync(changePasswordModalPage);
-    }
-
-    [RelayCommand]
-    public async Task ChangePasswordAsync()
-    {
-        if (!Auth.ChangePassword.IsValid())
+        try
         {
-            Auth.ChangePasswordStatusMessage = "Check your password inputs and try again.";
-            return;
+            await _authClient.Logout();
+            Auth.IsLoggedIn = false;
+            var rideListRoute = _routingService.GetRouteByViewModel<RideListViewModel>();
+            await Shell.Current.GoToAsync(rideListRoute);
+
         }
-
-        var changePasswordDTO = _mapper.Map<ChangePasswordDTO>(Auth.ChangePassword);
-        var result = await _authClient.ChangePassword(changePasswordDTO);
-        if (result != null)
+        catch (Exception ex)
         {
-            if (!string.IsNullOrEmpty(result.Response))
-            {
-                Auth.ChangePasswordStatusMessage = result.Response;
-            }
-            Auth.ChangePasswordStatusMessage = result.ErrorMessage;
-            return;
+            Debug.WriteLine(ex.Message);
         }
     }
 
+
+
     [RelayCommand]
-    public async Task HideChangePasswordModal() => await Application.Current.MainPage.Navigation.PopModalAsync();
+    public async Task GoToChangePassword()
+    {
+        try
+        {
+            var changePasswordRoute = _routingService.GetRouteByViewModel<ChangePasswordViewModel>();
+            await Shell.Current.GoToAsync(changePasswordRoute);
+
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex.Message);
+        }
+       
+    }
 }
+       

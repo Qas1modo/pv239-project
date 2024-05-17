@@ -84,8 +84,8 @@
 	  <Compile Update="Views\Auth.xaml.cs">
 	    <DependentUpon>Auth.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Views\ChangePassword.xaml.cs">
-	    <DependentUpon>ChangePassword.xaml</DependentUpon>
+	  <Compile Update="Views\ChangePasswordView.xaml.cs">
+	    <DependentUpon>ChangePasswordView.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Views\Ride\RideDetailView.xaml.cs">
 	    <DependentUpon>RideDetailView.xaml</DependentUpon>
@@ -99,7 +99,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="Views\ChangePassword.xaml">
+	  <MauiXaml Update="Views\ChangePasswordView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Base\ContentPageBase.xaml">
@@ -109,6 +109,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Profile.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\ReviewView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Ride\RideFilterView.xaml">
