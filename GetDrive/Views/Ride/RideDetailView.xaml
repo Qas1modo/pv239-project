@@ -1,51 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<views:ContentPageBase xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                       xmlns:t="clr-namespace:GetDrive.Resources.Texts"
-                       xmlns:f="clr-namespace:GetDrive.Resources.Fonts"
-                       xmlns:m="clr-namespace:GetDrive.Models"
-                       xmlns:maps="clr-namespace:Microsoft.Maui.Controls.Maps;assembly=Microsoft.Maui.Controls.Maps"
-                       xmlns:vm="clr-namespace:GetDrive.ViewModels"
-                       xmlns:views="clr-namespace:GetDrive.Views"
+<views:ContentPageBase
+	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:t="clr-namespace:GetDrive.Resources.Texts"
+	xmlns:f="clr-namespace:GetDrive.Resources.Fonts"
+	xmlns:m="clr-namespace:GetDrive.Models"
+	xmlns:maps="clr-namespace:Microsoft.Maui.Controls.Maps;assembly=Microsoft.Maui.Controls.Maps"
+	xmlns:vm="clr-namespace:GetDrive.ViewModels"
+	xmlns:views="clr-namespace:GetDrive.Views"
                        x:Class="GetDrive.Views.RideDetailView"
-                       xmlns:controls="clr-namespace:GetDrive.Controls"
+	xmlns:controls="clr-namespace:GetDrive.Controls"
                        Title="Ride detail"
                        x:DataType="vm:RideDetailViewModel">
     <ScrollView>
         <VerticalStackLayout Spacing="5" Padding="5,5,5,5">
-
             <Frame CornerRadius="0" Padding="15" BackgroundColor="White">
-                <controls:CustomMap x:Name="RideMap"
-                  HeightRequest="300"
-                  MapType="Street"
-                  BindingContext="{Binding RideMap, Mode=TwoWay}"/>
+                <VerticalStackLayout>
+                    <controls:CustomMap x:Name="RideMap"
+                          HeightRequest="300"
+                          MapType="Street"
+                          BindingContext="{Binding RideMap, Mode=TwoWay}"/>
+                </VerticalStackLayout>
             </Frame>
-
             <Button Text="Cancel Ride"
                     BackgroundColor="Red"
                     TextColor="White"
                     Command="{Binding DeleteRideCommand}"
                     IsVisible="{Binding IsDriver}"
                     Margin="0,5,0,5"/>
-
             <Frame CornerRadius="0" 
                    Margin="0,0,0,0"
                    Padding="0,5,0,5"
                    BackgroundColor="{StaticResource Primary}">
-                <Label Text="General ride info" 
-                        FontSize="18" 
-                        FontAttributes="Bold" 
-                        TextColor="White" 
-                        HorizontalOptions="Center"/>
+                <VerticalStackLayout>
+                    <Label Text="General ride info" 
+                            FontSize="18" 
+                            FontAttributes="Bold" 
+                            TextColor="White" 
+                            HorizontalOptions="Center"/>
+                </VerticalStackLayout>
             </Frame>
-
             <Frame CornerRadius="3"
                    Margin="0,0,0,5"
                    Padding="0,0,0,0" 
                    BackgroundColor="White"
                    HasShadow="False"
                    BorderColor="Transparent">
-                
                 <Grid ColumnDefinitions="Auto, *" 
                       RowDefinitions="Auto, 10, Auto, 10, Auto, 10, Auto, 10, Auto, 10"
                       Padding="0,0,0,10"
@@ -56,7 +56,6 @@
                     <BoxView Grid.RowSpan="10" 
                              Grid.Column="1" 
                              Color="{StaticResource Primary}" />
-
                     <Label Text="Departure " 
                            FontSize="16" 
                            FontAttributes="Bold" 
@@ -70,7 +69,6 @@
                            TextColor="White" 
                            Padding="5,5,0,0"
                            LineBreakMode="TailTruncation"/>
-
                     <Label Text="Starting location " 
                            FontSize="16" 
                            FontAttributes="Bold" 
@@ -84,7 +82,6 @@
                            TextColor="White"
                            Padding="5,5,0,0"
                            LineBreakMode="TailTruncation"/>
-
                     <Label Text="Destination " 
                            FontSize="16" 
                            FontAttributes="Bold" 
@@ -98,7 +95,6 @@
                            TextColor="White" 
                            Padding="5,5,0,0"
                            LineBreakMode="TailTruncation"/>
-
                     <Label Text="Available Seats " 
                            FontSize="16" 
                            FontAttributes="Bold" 
@@ -111,7 +107,6 @@
                            TextColor="White" 
                            Padding="5,5,0,0"
                            LineBreakMode="TailTruncation"/>
-
                     <Label Text="Price " 
                            FontSize="16" 
                            FontAttributes="Bold" 
@@ -126,108 +121,101 @@
                            LineBreakMode="TailTruncation"/>
                 </Grid>
             </Frame>
-
-
             <Frame CornerRadius="0" 
-                   Margin="0,0,0,0"
-                   Padding="0,5,0,5"
-                   BackgroundColor="{StaticResource Primary}">
-                <Label Text="Driver info" 
+            Margin="0,0,0,0"
+            Padding="0,5,0,5"
+            BackgroundColor="{StaticResource Primary}">
+                <VerticalStackLayout>
+                    <Label Text="Driver info" 
                         FontSize="18" 
                         FontAttributes="Bold" 
                         TextColor="White" 
                         HorizontalOptions="Center"/>
+                </VerticalStackLayout>
             </Frame>
-
             <Frame CornerRadius="3"
-                   Margin="0,0,0,5"
-                   Padding="0,0,0,0" 
-                   BackgroundColor="White"
-                   HasShadow="False"
-                   BorderColor="Transparent">
+            Margin="0,0,0,5"
+            Padding="0,0,0,0" 
+            BackgroundColor="White"
+            HasShadow="False"
+            BorderColor="Transparent">
                 <Grid ColumnDefinitions="Auto, *" 
-                      RowDefinitions="Auto, 10, Auto, 10, Auto, 10, Auto, 10, Auto, 10"
-                      Padding="0,0,0,10"
-                      Margin="0,0,0,10">
+                RowDefinitions="Auto, 10, Auto, 10, Auto, 10, Auto, 10, Auto, 10"
+                Padding="0,0,0,10"
+                Margin="0,0,0,10">
                     <BoxView Grid.RowSpan="10" 
-                             Grid.Column="0"  
-                             Color="{StaticResource Secondary}" />
+                        Grid.Column="0"  
+                        Color="{StaticResource Secondary}" />
                     <BoxView Grid.RowSpan="10" 
-                             Grid.Column="1" 
-                             Color="{StaticResource Primary}" />
-
+                        Grid.Column="1" 
+                        Color="{StaticResource Primary}" />
                     <Label Text="Driver name " 
-                           FontSize="16" 
-                           FontAttributes="Bold" 
-                           Grid.Row="0" 
-                           Grid.Column="0" 
-                           Padding="5,5,0,0"/>
+                    FontSize="16" 
+                    FontAttributes="Bold" 
+                    Grid.Row="0" 
+                    Grid.Column="0" 
+                    Padding="5,5,0,0"/>
                     <Label Text="{Binding Ride.DriverName}" 
-                           FontSize="15" 
-                           Grid.Row="0" 
-                           Grid.Column="1" 
-                           TextColor="White" 
-                           Padding="5,5,0,0"
-                           LineBreakMode="TailTruncation"/>
-
+                    FontSize="15" 
+                    Grid.Row="0" 
+                    Grid.Column="1" 
+                    TextColor="White" 
+                    Padding="5,5,0,0"
+                    LineBreakMode="TailTruncation"/>
                     <Label Text="Driver email " 
-                           FontSize="16" 
-                           FontAttributes="Bold" 
-                           Grid.Row="2" 
-                           Grid.Column="0" 
-                           Padding="5,5,0,0"/>
+                    FontSize="16" 
+                    FontAttributes="Bold" 
+                    Grid.Row="2" 
+                    Grid.Column="0" 
+                    Padding="5,5,0,0"/>
                     <Label Text="{Binding Ride.DriverEmail}" 
-                           FontSize="15" 
-                           Grid.Row="2" 
-                           Grid.Column="1" 
-                           TextColor="White" 
-                           Padding="5,5,0,0"
-                           LineBreakMode="TailTruncation"/>
-
+                    FontSize="15" 
+                    Grid.Row="2" 
+                    Grid.Column="1" 
+                    TextColor="White" 
+                    Padding="5,5,0,0"
+                    LineBreakMode="TailTruncation"/>
                     <Label Text="Driver phone " 
-                           FontSize="16" 
-                           FontAttributes="Bold" 
-                           Grid.Row="4" 
-                           Grid.Column="0" 
-                           Padding="5,5,0,0"/>
+                    FontSize="16" 
+                    FontAttributes="Bold" 
+                    Grid.Row="4" 
+                    Grid.Column="0" 
+                    Padding="5,5,0,0"/>
                     <Label Text="{Binding Ride.DriverPhone}" 
-                           FontSize="15" 
-                           Grid.Row="4" 
-                           Grid.Column="1" 
-                           TextColor="White" 
-                           Padding="5,5,0,0"
-                           LineBreakMode="TailTruncation"/>
-
+                    FontSize="15" 
+                    Grid.Row="4" 
+                    Grid.Column="1" 
+                    TextColor="White" 
+                    Padding="5,5,0,0"
+                    LineBreakMode="TailTruncation"/>
                     <Label Text="Driver Note:" 
-                           FontSize="16" 
-                           FontAttributes="Bold" 
-                           Grid.Row="6" 
-                           Grid.Column="0" 
-                           Padding="5,5,0,0"/>
+                    FontSize="16" 
+                    FontAttributes="Bold" 
+                    Grid.Row="6" 
+                    Grid.Column="0" 
+                    Padding="5,5,0,0"/>
                     <Label Text="{Binding Ride.DriverNote}" 
-                           FontSize="15" 
-                           Grid.Row="6" 
-                           Grid.Column="1" 
-                           TextColor="White" 
-                           Padding="5,5,0,0"
-                           LineBreakMode="TailTruncation"/>
-
+                    FontSize="15" 
+                    Grid.Row="6" 
+                    Grid.Column="1" 
+                    TextColor="White" 
+                    Padding="5,5,0,0"
+                    LineBreakMode="TailTruncation"/>
                     <Label Text="Canceled:" 
-                           FontSize="16" 
-                           FontAttributes="Bold" 
-                           Grid.Row="8" 
-                           Grid.Column="0" 
-                           Padding="5,5,0,0"/>
+                    FontSize="16" 
+                    FontAttributes="Bold" 
+                    Grid.Row="8" 
+                    Grid.Column="0" 
+                    Padding="5,5,0,0"/>
                     <Label Text="{Binding Ride.Canceled}" 
-                           FontSize="15" 
-                           Grid.Row="8" 
-                           Grid.Column="1" 
-                           TextColor="White" 
-                           Padding="5,5,0,0"
-                           LineBreakMode="TailTruncation"/>
+                    FontSize="15" 
+                    Grid.Row="8" 
+                    Grid.Column="1" 
+                    TextColor="White" 
+                    Padding="5,5,0,0"
+                    LineBreakMode="TailTruncation"/>
                 </Grid>
             </Frame>
-
             <Frame CornerRadius="3" 
                    Margin="0,0,0,5"
                    Padding="0,0,0,0" 
@@ -266,7 +254,6 @@
                                                TextColor="White" 
                                                Padding="5,5,0,0"
                                                LineBreakMode="TailTruncation"/>
-
                                         <Label Text="Email " 
                                                FontSize="14" 
                                                Grid.Row="2" 
@@ -280,7 +267,6 @@
                                                TextColor="White" 
                                                Padding="5,5,0,0"
                                                LineBreakMode="TailTruncation"/>
-
                                         <Label Text="Phone " 
                                                FontSize="14" 
                                                Grid.Row="4" 
@@ -294,7 +280,6 @@
                                                TextColor="White" 
                                                Padding="5,5,0,0"
                                                LineBreakMode="TailTruncation"/>
-
                                         <Label Text="Note " 
                                                FontSize="14" 
                                                Grid.Row="6" 
@@ -316,7 +301,6 @@
                     </CollectionView>
                 </VerticalStackLayout>
             </Frame>
-
             <Frame CornerRadius="3" 
                    Margin="0,0,0,5"
                    Padding="0,0,0,0" 
@@ -330,7 +314,6 @@
                            FontAttributes="Bold" 
                            TextColor="{StaticResource Primary}"
                            Padding="0,0,0,10" />
-                                        
                     <Button
                         Text="Add Review"
                         HorizontalOptions="Start"
@@ -339,9 +322,7 @@
                         CornerRadius="10"
                         Command="{Binding GoToReviewCommand}"
                         ImageSource="chat.svg"
-                        Margin="5,0,0,0">
-                    </Button>
-
+                        Margin="5,0,0,0"></Button>
                     <CollectionView ItemsSource="{Binding Ride.DriverReviews}">
                         <CollectionView.ItemsLayout>
                             <LinearItemsLayout Orientation="Vertical" />
@@ -369,7 +350,6 @@
                                                TextColor="White" 
                                                Padding="5,5,0,0"
                                                LineBreakMode="TailTruncation"/>
-
                                         <Label Text="Review:" 
                                                FontSize="16" 
                                                FontAttributes="Bold" 
@@ -385,7 +365,6 @@
                                                Padding="5,5,0,0"
                                                LineBreakMode="TailTruncation"
                                                MaxLines="3"/>
-
                                         <Label Text="Score:" 
                                                FontSize="16" 
                                                FontAttributes="Bold" 

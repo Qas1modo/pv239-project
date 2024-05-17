@@ -12,6 +12,7 @@ namespace GetDrive.Models
         private string oldPassword = string.Empty;
         private string newPassword = string.Empty;
         private string confirmPassword = string.Empty;
+        private string changePasswordStatusMessage = string.Empty;
 
         public string OldPassword
         {
@@ -30,6 +31,13 @@ namespace GetDrive.Models
             get => confirmPassword;
             set => SetProperty(ref confirmPassword, value);
         }
+
+        public string ChangePasswordStatusMessage
+        {
+            get => changePasswordStatusMessage;
+            set => SetProperty(ref changePasswordStatusMessage, value);
+        }
+
 
         public bool IsValid()
         {

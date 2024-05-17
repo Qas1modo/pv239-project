@@ -28,7 +28,7 @@
                 </DataTrigger>
             </StackLayout.Triggers>
             <Button Text="Logout" Command="{Binding LogoutCommand}" Margin="10"/>
-            <Button Text="Change Password" Command="{Binding ShowChangePasswordPopupCommand}" Margin="10" />
+            <Button Text="Change Password" Command="{Binding GoToChangePasswordCommand}" Margin="10" />
         </StackLayout>
     
         <StackLayout>
@@ -41,9 +41,9 @@
                 </DataTrigger>
             </StackLayout.Triggers>
             <Button Text="{Binding Auth.ToggleButtonText}" Command="{Binding ToggleModeCommand}"/>
-            <Frame Padding="20,10,10,10" Margin="0,10,0,10" BackgroundColor="Red">
+            <!--<Frame Padding="20,10,10,10" Margin="0,10,0,10" BackgroundColor="Red"> -->
                 <Label Text="{Binding Auth.StatusMessage}" FontSize="12" TextColor="White"/>
-            </Frame>
+            <!--</Frame> -->
         </StackLayout>
         
         <StackLayout>
@@ -64,8 +64,8 @@
                         <Setter Property="IsVisible" Value="False" />
                     </DataTrigger>
                 </StackLayout.Triggers>
-                <Frame Padding="10,2,2,2" Margin="0,0,0,10">
-                    <HorizontalStackLayout>
+                <!-- <Frame Padding="10,2,2,2" Margin="0,0,0,10"> -->
+                <HorizontalStackLayout>
                         <Label Text="User name" VerticalOptions="Center" WidthRequest="70" FontSize="11"/>
                         <Entry Text="{Binding Auth.Registration.Name}">
                             <Entry.Behaviors>
@@ -78,9 +78,9 @@
                             </Entry.Behaviors>
                         </Entry>
                     </HorizontalStackLayout>
-                </Frame>
+                <!--</Frame> -->
 
-                <Frame Padding="10,2,2,2" Margin="0,0,0,10">
+                <!--<Frame Padding="10,2,2,2" Margin="0,0,0,10"> -->
                     <HorizontalStackLayout>
                         <Label Text="Email" VerticalOptions="Center" WidthRequest="70" FontSize="12"/>
                         <Entry Keyboard="Email" Text="{Binding Auth.Registration.Email}">
@@ -93,16 +93,16 @@
                             </Entry.Behaviors>
                         </Entry>
                     </HorizontalStackLayout>
-                </Frame>
+                <!--</Frame> -->
 
-                <Frame Padding="10,2,2,2" Margin="0,0,0,10">
+                <!--<Frame Padding="10,2,2,2" Margin="0,0,0,10"> -->
                     <HorizontalStackLayout>
                         <Label Text="Phone" VerticalOptions="Center" WidthRequest="70" FontSize="12"/>
                         <Entry Keyboard="Telephone" Text="{Binding Auth.Registration.Phone}" />
                     </HorizontalStackLayout>
-                </Frame>
+                <!--</Frame> -->
 
-                <Frame Padding="10,2,2,2" Margin="0,0,0,10">
+                <!--<Frame Padding="10,2,2,2" Margin="0,0,0,10"> -->
                     <HorizontalStackLayout>
                         <Label Text="Password" VerticalOptions="Center" WidthRequest="70" FontSize="12"/>
                         <Entry IsPassword="True" Text="{Binding Auth.Registration.Password}">
@@ -116,9 +116,9 @@
                             </Entry.Behaviors>
                         </Entry>
                     </HorizontalStackLayout>
-                </Frame>
+                <!--</Frame> -->
 
-                <Frame Padding="10,2,2,2" Margin="0,0,0,10">
+                <!-- <Frame Padding="10,2,2,2" Margin="0,0,0,10"> -->
                     <HorizontalStackLayout>
                         <Label Text="Repeat password" VerticalOptions="Center" WidthRequest="70" FontSize="12"/>
                         <Entry IsPassword="True" Text="{Binding Auth.Registration.RepeatPassword}" >
@@ -132,10 +132,10 @@
                             </Entry.Behaviors>
                         </Entry>
                     </HorizontalStackLayout>
-                </Frame>
-                <Frame Padding="0,0,0,2" Margin="0,0,0,0">
+                <!--</Frame> -->
+                <!--<Frame Padding="0,0,0,2" Margin="0,0,0,0"> -->
                     <Button x:Name="registerBtn" Text="Register" Command="{Binding RegisterCommand}"/>
-                </Frame>
+                <!--</Frame> -->
             </StackLayout>
 
             <StackLayout>
@@ -147,8 +147,8 @@
                         <Setter Property="IsVisible" Value="True" />
                     </DataTrigger>
                 </StackLayout.Triggers>
-                <Frame Padding="10,2,2,2" Margin="0,0,0,10">
-                    <HorizontalStackLayout>
+                <!--<Frame Padding="10,2,2,2" Margin="0,0,0,10"> -->
+                <HorizontalStackLayout>
                         <Label Text="Email" VerticalOptions="Center" WidthRequest="70" FontSize="12"/>
                         <Entry Keyboard="Email" Text="{Binding Auth.Login.Email}">
                             <Entry.Behaviors>
@@ -160,9 +160,9 @@
                             </Entry.Behaviors>
                         </Entry>
                     </HorizontalStackLayout>
-                </Frame>
+                <!--</Frame> -->
 
-                <Frame Padding="10,2,2,2" Margin="0,0,0,10">
+                 <!--<Frame Padding="10,2,2,2" Margin="0,0,0,10">-->
                     <HorizontalStackLayout>
                         <Label Text="Password" VerticalOptions="Center" WidthRequest="70" FontSize="12"/>
                         <Entry IsPassword="True" Text="{Binding Auth.Login.Password}">
@@ -176,10 +176,10 @@
                             </Entry.Behaviors>
                         </Entry>
                     </HorizontalStackLayout>
-                </Frame>
-                <Frame Padding="0,0,0,2" Margin="0,0,0,0">
+                <!--</Frame> -->
+                <!--<Frame Padding="0,0,0,2" Margin="0,0,0,0"> -->
                     <Button x:Name="loginBtn" Text="Login" Command="{Binding LoginCommand}"/>
-                </Frame>
+                <!-- </Frame> -->
             </StackLayout>
         </StackLayout>
     </VerticalStackLayout>
