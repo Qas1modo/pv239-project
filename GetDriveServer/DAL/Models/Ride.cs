@@ -23,6 +23,18 @@ namespace DAL.Models
         public int MaxPassengerCount { get; set; }
 
         [Required]
+        public double StartLatitude { get; set; }
+
+        [Required] 
+        public double StartLongitude { get; set; }
+
+        [Required]
+        public double DestinationLatitude { get; set; }
+
+        [Required] 
+        public double DestinationLongitude { get; set;}
+
+        [Required]
         public decimal Price { get; set; }
 
         [Required]

@@ -19,59 +19,68 @@ namespace GetDriveServer.Controllers
 
         [HttpPost("login")]
         [AllowAnonymous]
-        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiErrorResponseDTO), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(AuthResponseDTO), StatusCodes.Status200OK)]
-        public ActionResult<AuthResponseDTO> Login([FromBody] LoginDto loginDto)
+        public ActionResult<AuthResponseDTO> Login(LoginDto loginDto)
         {
-            if (loginDto == null)
+            if (!ModelState.IsValid)
             {
-                return BadRequest("Invalid Data");
+                var errorMessage = ModelState.Values.SelectMany(v => v.Errors)
+                               .Select(e => e.ErrorMessage)
+                               .Aggregate((a, b) => a + Environment.NewLine + b);
+                return BadRequest(new ApiErrorResponseDTO(errorMessage));
             }
             var data = authService.Login(loginDto);
             if (data == null)
             {
-                return BadRequest("Invalid email or password");
+                return BadRequest(new ApiErrorResponseDTO("Invalid username or password"));
             }
             return Ok(data);
         }
 
         [HttpPost("register")]
         [AllowAnonymous]
-        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiErrorResponseDTO), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(AuthResponseDTO), StatusCodes.Status200OK)]
         public async Task<ActionResult<AuthResponseDTO?>> Register([FromBody] RegistrationDTO registrationDTO)
         {
-            if (registrationDTO == null)
+            if (!ModelState.IsValid)
             {
-                return BadRequest("Invalid Data");
+                var errorMessage = ModelState.Values.SelectMany(v => v.Errors)
+                               .Select(e => e.ErrorMessage)
+                               .Aggregate((a, b) => a + "\n" + b);
+                return BadRequest(new ApiErrorResponseDTO(errorMessage));
             }
             var result = await authService.RegisterUserAsync(registrationDTO);
             if (result == null)
             {
-                return BadRequest("User with this name or email already exists");
+                return BadRequest(new ApiErrorResponseDTO("User with this name or email already exists"));
             }
             return Ok(result);
         }
 
         [HttpPost("changepassword")]
         [Authorize]
-        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiErrorResponseDTO), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiSuccessResponseDTO), StatusCodes.Status200OK)]
         public async Task<ActionResult<string>> ChangePassword([FromBody] ChangePasswordDTO changePasswordDTO)
         {
-            if (changePasswordDTO == null)
+            if (!ModelState.IsValid)
             {
-                return BadRequest("Invalid Data");
+                var errorMessage = ModelState.Values.SelectMany(v => v.Errors)
+                               .Select(e => e.ErrorMessage)
+                               .Aggregate((a, b) => a + Environment.NewLine + b);
+                return BadRequest(new ApiErrorResponseDTO(errorMessage));
             }
             if (!int.TryParse(User.Identity?.Name, out int userId))
             {
-                return BadRequest("Cannot get logged in user!");
+                return BadRequest(new ApiErrorResponseDTO("Cannot get logged in user!"));
             }
             if (!await authService.ChangePasswordAsync(changePasswordDTO, userId))
             {
-                return BadRequest("Invalid old password");
+                return BadRequest(new ApiErrorResponseDTO("Invalid old password"));
             }
-            return Ok("Password changed");
+            return Ok(new ApiSuccessResponseDTO("Password changed"));
         }
     }
 }

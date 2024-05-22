@@ -60,6 +60,7 @@ public partial class AuthViewModel : ViewModelBase
         if (!Auth.Registration.IsFormValid())
         {
             Auth.StatusMessage = "Please check your registration inputs and try again.";
+            Auth.MessageColour = "#FF0000";
             return;
         }
         var registrationDTO = _mapper.Map<RegistrationDTO>(Auth.Registration);
@@ -72,6 +73,7 @@ public partial class AuthViewModel : ViewModelBase
         else if (response.Response != null && response.Response.Token != null)
         {
             Auth.StatusMessage = "Registration successful.";
+            Auth.MessageColour = "#00FF00";
             var rideListRoute = _routingService.GetRouteByViewModel<RideListViewModel>();
             await Task.Delay(500);
             await Shell.Current.GoToAsync(rideListRoute);
@@ -79,6 +81,7 @@ public partial class AuthViewModel : ViewModelBase
         else
         {
             Auth.StatusMessage = "Unexpected issue occured during registration.";
+            Auth.MessageColour = "#FF0000";
         }
     }
 
@@ -87,7 +90,7 @@ public partial class AuthViewModel : ViewModelBase
     {
         var loginDto = _mapper.Map<LoginDto>(Auth.Login);
         var response = await _authClient.Login(loginDto);
-
+        Auth.MessageColour = "#FF0000";
         if (!string.IsNullOrEmpty(response.ErrorMessage))
         {
             Auth.StatusMessage = response.ErrorMessage;
@@ -96,9 +99,18 @@ public partial class AuthViewModel : ViewModelBase
         {
             Auth.IsLoggedIn = true;
             Auth.StatusMessage = "Login successful.";
+            Auth.MessageColour = "#00FF00";
             var rideListRoute = _routingService.GetRouteByViewModel<RideListViewModel>();
             await Task.Delay(500);
             await Shell.Current.GoToAsync(rideListRoute);
+        } 
+        else if (response.StatusCode == 400)
+        {
+            Auth.StatusMessage = "Invalid user name or password";
+        } 
+        else
+        {
+            Auth.StatusMessage = "Unexpected issue occured during login.";
         }
     }
 

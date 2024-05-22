@@ -69,6 +69,10 @@ namespace GetDriveServer.Migrations
                     StartLocation = table.Column<string>(type: "TEXT", maxLength: 200, nullable: false),
                     Destination = table.Column<string>(type: "TEXT", maxLength: 200, nullable: false),
                     MaxPassengerCount = table.Column<int>(type: "INTEGER", nullable: false),
+                    StartLatitude = table.Column<double>(type: "REAL", nullable: false),
+                    StartLongitude = table.Column<double>(type: "REAL", nullable: false),
+                    DestinationLatitude = table.Column<double>(type: "REAL", nullable: false),
+                    DestinationLongitude = table.Column<double>(type: "REAL", nullable: false),
                     Price = table.Column<decimal>(type: "TEXT", nullable: false),
                     Departure = table.Column<DateTime>(type: "TEXT", nullable: false),
                     AvailableSeats = table.Column<int>(type: "INTEGER", nullable: false),
@@ -128,17 +132,31 @@ namespace GetDriveServer.Migrations
             migrationBuilder.InsertData(
                 table: "Review",
                 columns: new[] { "Id", "AuthorId", "PostedAt", "ReviewText", "Score", "UserId" },
-                values: new object[] { 1, 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Pretty Good!", 5, 1 });
+                values: new object[,]
+                {
+                    { 1, 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Pretty Good!", 5, 1 },
+                    { 2, 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Almost excellent trip!", 4, 1 }
+                });
 
             migrationBuilder.InsertData(
                 table: "Ride",
-                columns: new[] { "Id", "AvailableSeats", "Canceled", "Departure", "Destination", "DriverId", "DriverNote", "MaxPassengerCount", "Price", "StartLocation" },
-                values: new object[] { 1, 2, false, new DateTime(2024, 5, 8, 20, 22, 23, 85, DateTimeKind.Local).AddTicks(6251), "Bratislava", 1, "Nebereme nikoho po cestě", 4, 2.1m, "Brno" });
+                columns: new[] { "Id", "AvailableSeats", "Canceled", "Departure", "Destination", "DestinationLatitude", "DestinationLongitude", "DriverId", "DriverNote", "MaxPassengerCount", "Price", "StartLatitude", "StartLocation", "StartLongitude" },
+                values: new object[,]
+                {
+                    { 1, 2, false, new DateTime(2024, 6, 12, 1, 51, 30, 912, DateTimeKind.Local).AddTicks(7789), "Bratislava", 0.0, 0.0, 1, "Nebereme nikoho po cestě", 4, 2.1m, 0.0, "Brno", 0.0 },
+                    { 2, 1, false, new DateTime(2024, 6, 2, 1, 51, 30, 912, DateTimeKind.Local).AddTicks(7862), "Košice", 0.0, 0.0, 2, "Beriem psa.", 3, 4.6m, 0.0, "Bratislava", 0.0 }
+                });
 
             migrationBuilder.InsertData(
                 table: "UserRide",
                 columns: new[] { "Id", "Accepted", "PassengerCount", "PassengerId", "PassengerNote", "RideId" },
-                values: new object[] { 1, true, 2, 2, "Test", 1 });
+                values: new object[,]
+                {
+                    { 1, false, 2, 2, "Test", 1 },
+                    { 2, false, 1, 1, "Potrebujem prísť včas", 2 },
+                    { 3, true, 1, 3, "Testing accepted ride", 1 },
+                    { 4, false, 1, 3, "Testing not accepted ride", 2 }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Review_AuthorId",

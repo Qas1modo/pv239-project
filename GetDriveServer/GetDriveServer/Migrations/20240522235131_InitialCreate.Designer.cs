@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GetDriveServer.Migrations
 {
     [DbContext(typeof(GetDriveDbContext))]
-    [Migration("20240418182223_InitialCreate")]
+    [Migration("20240522235131_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -62,6 +62,15 @@ namespace GetDriveServer.Migrations
                             ReviewText = "Pretty Good!",
                             Score = 5,
                             UserId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AuthorId = 3,
+                            PostedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ReviewText = "Almost excellent trip!",
+                            Score = 4,
+                            UserId = 1
                         });
                 });
 
@@ -85,6 +94,12 @@ namespace GetDriveServer.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("TEXT");
 
+                    b.Property<double>("DestinationLatitude")
+                        .HasColumnType("REAL");
+
+                    b.Property<double>("DestinationLongitude")
+                        .HasColumnType("REAL");
+
                     b.Property<int>("DriverId")
                         .HasColumnType("INTEGER");
 
@@ -98,10 +113,16 @@ namespace GetDriveServer.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("TEXT");
 
+                    b.Property<double>("StartLatitude")
+                        .HasColumnType("REAL");
+
                     b.Property<string>("StartLocation")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("TEXT");
+
+                    b.Property<double>("StartLongitude")
+                        .HasColumnType("REAL");
 
                     b.HasKey("Id");
 
@@ -115,13 +136,34 @@ namespace GetDriveServer.Migrations
                             Id = 1,
                             AvailableSeats = 2,
                             Canceled = false,
-                            Departure = new DateTime(2024, 5, 8, 20, 22, 23, 85, DateTimeKind.Local).AddTicks(6251),
+                            Departure = new DateTime(2024, 6, 12, 1, 51, 30, 912, DateTimeKind.Local).AddTicks(7789),
                             Destination = "Bratislava",
+                            DestinationLatitude = 0.0,
+                            DestinationLongitude = 0.0,
                             DriverId = 1,
                             DriverNote = "Nebereme nikoho po cestě",
                             MaxPassengerCount = 4,
                             Price = 2.1m,
-                            StartLocation = "Brno"
+                            StartLatitude = 0.0,
+                            StartLocation = "Brno",
+                            StartLongitude = 0.0
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AvailableSeats = 1,
+                            Canceled = false,
+                            Departure = new DateTime(2024, 6, 2, 1, 51, 30, 912, DateTimeKind.Local).AddTicks(7862),
+                            Destination = "Košice",
+                            DestinationLatitude = 0.0,
+                            DestinationLongitude = 0.0,
+                            DriverId = 2,
+                            DriverNote = "Beriem psa.",
+                            MaxPassengerCount = 3,
+                            Price = 4.6m,
+                            StartLatitude = 0.0,
+                            StartLocation = "Bratislava",
+                            StartLongitude = 0.0
                         });
                 });
 
@@ -219,11 +261,38 @@ namespace GetDriveServer.Migrations
                         new
                         {
                             Id = 1,
-                            Accepted = true,
+                            Accepted = false,
                             PassengerCount = 2,
                             PassengerId = 2,
                             PassengerNote = "Test",
                             RideId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Accepted = false,
+                            PassengerCount = 1,
+                            PassengerId = 1,
+                            PassengerNote = "Potrebujem prísť včas",
+                            RideId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Accepted = true,
+                            PassengerCount = 1,
+                            PassengerId = 3,
+                            PassengerNote = "Testing accepted ride",
+                            RideId = 1
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Accepted = false,
+                            PassengerCount = 1,
+                            PassengerId = 3,
+                            PassengerNote = "Testing not accepted ride",
+                            RideId = 2
                         });
                 });
 

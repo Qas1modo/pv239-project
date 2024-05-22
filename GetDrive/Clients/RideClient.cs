@@ -38,12 +38,12 @@ namespace GetDrive.Clients
                     StatusCode = 200
                 };
             }
-            catch (ApiException ex)
+            catch (ApiException<ApiErrorResponseDTO> ex)
             {
                 return new ClientResponse<RideDetailResponseDTO>
                 {
                     Response = null,
-                    ErrorMessage = ex.Response,
+                    ErrorMessage = ex.Result.ErrorMessage,
                     StatusCode = ex.StatusCode
                 };
             }
@@ -70,12 +70,12 @@ namespace GetDrive.Clients
                     StatusCode = 200
                 };
             }
-            catch (ApiException ex)
+            catch (ApiException<ApiErrorResponseDTO> ex)
             {
                 return new ClientResponse<RideResponseDTO>
                 {
                     Response = null,
-                    ErrorMessage = ex.Response,
+                    ErrorMessage = ex.Result.ErrorMessage,
                     StatusCode = ex.StatusCode
                 };
             }
@@ -92,7 +92,7 @@ namespace GetDrive.Clients
 
         public async Task<string> CancelRide(int id)
         {
-            return await _api.RideDELETEAsync(id);
+            return (await _api.RideDELETEAsync(id)).Message;
         }
 
         public async Task<ClientResponse<IEnumerable<RideResponseDTO>>> GetAllRides(RideFilterDTO filter)
@@ -108,12 +108,12 @@ namespace GetDrive.Clients
                     StatusCode = 200
                 };
             }
-            catch (ApiException ex)
+            catch (ApiException<ApiErrorResponseDTO> ex)
             {
                 return new ClientResponse<IEnumerable<RideResponseDTO>>
                 {
                     Response = null,
-                    ErrorMessage = ex.Response,
+                    ErrorMessage = ex.Result.ErrorMessage,
                     StatusCode = ex.StatusCode
                 };
             }

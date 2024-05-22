@@ -17,14 +17,14 @@ namespace GetDriveServer.Controllers
 
         [HttpGet("{id}")]
         [AllowAnonymous]
-        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ApiErrorResponseDTO), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(UserProfileResponseDTO), StatusCodes.Status200OK)]
         public async Task<ActionResult<UserProfileResponseDTO>> GetProfile(int id)
         {
             var profile = await userService.GetProfile(id);
             if (profile == null)
             {
-                return NotFound("Profile not found");
+                return NotFound(new ApiErrorResponseDTO("Profile not found"));
             }
             return Ok(profile);
         }

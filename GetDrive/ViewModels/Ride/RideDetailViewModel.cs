@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using GetDrive.Api;
 using GetDrive.Clients;
 using GetDrive.Controls;
 using GetDrive.Models;
@@ -15,13 +16,16 @@ namespace GetDrive.ViewModels
     public partial class RideDetailViewModel : ViewModelBase
     {
         private readonly IRoutingService routingService;
-        private readonly IGeocodingService geocodingService;
         private readonly IRideClient rideClient;
+        private readonly IUserRideClient userRideClient;
         private readonly IMapper mapper;
 
         public int Id { get; set; }
 
         private RideDetailModel ride;
+
+        [ObservableProperty]
+        private PassengerDTO rideRequest = new();
 
         public RideDetailModel Ride
         {
@@ -35,17 +39,24 @@ namespace GetDrive.ViewModels
         [ObservableProperty]
         private bool isDriver;
 
+        [ObservableProperty]
+        private string message = string.Empty;
+
+        [ObservableProperty]
+        private string messageColour = "#000000";
+
         partial void OnRideMapChanged(CustomMap value)
         {
             OnPropertyChanged(nameof(RideMap));
         }
 
-        public RideDetailViewModel(IRoutingService routingService, IRideClient rideClient, IMapper mapper, IGeocodingService geocodingService)
+        public RideDetailViewModel(IRoutingService routingService, IRideClient rideClient,
+            IMapper mapper, IUserRideClient userRideClient)
         {
             this.routingService = routingService;
             this.rideClient = rideClient;
             this.mapper = mapper;
-            this.geocodingService = geocodingService;
+            this.userRideClient = userRideClient;
         }
 
         public override async Task OnAppearingAsync()
@@ -61,6 +72,27 @@ namespace GetDrive.ViewModels
             else
             {
                 await NavigateBack();
+            }
+        }
+
+        [RelayCommand]
+        private async Task RideRequestCreateAsync()
+        {
+            RideRequest.RideId = Id;
+            var result = await userRideClient.RequestRide(RideRequest);
+            MessageColour = "#FF0000";
+            if (result.StatusCode == 200)
+            {
+                Message = result.Response ?? "Ride successfully sent";
+                MessageColour = "#00FF00";
+            }
+            else if (!string.IsNullOrEmpty(result.ErrorMessage))
+            {
+                Message = result.ErrorMessage;
+            }
+            else
+            {
+                Message = "Unknown error!";
             }
         }
 
@@ -97,8 +129,8 @@ namespace GetDrive.ViewModels
 
         private async Task ShowRouteOnMap(string startLocation, string destination)
         {
-            var startLocationCoords = await geocodingService.GetLocationAsync(startLocation);
-            var destinationLocationCoords = await geocodingService.GetLocationAsync(destination);
+            var startLocationCoords = new Location(ride.StartLatitude, ride.StartLongitude);
+            var destinationLocationCoords = new Location(ride.DestinationLatitude,ride.DestinationLongitude);
 
             if (startLocationCoords != null && destinationLocationCoords != null)
             {

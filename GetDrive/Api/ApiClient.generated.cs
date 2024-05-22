@@ -44,30 +44,30 @@ namespace GetDrive.Api
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<string> ChangepasswordAsync(ChangePasswordDTO body);
+        System.Threading.Tasks.Task<ApiSuccessResponseDTO> ChangepasswordAsync(ChangePasswordDTO body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<string> ChangepasswordAsync(ChangePasswordDTO body, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<ApiSuccessResponseDTO> ChangepasswordAsync(ChangePasswordDTO body, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<string> ReviewPOSTAsync(ReviewDTO body);
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<string> ReviewPOSTAsync(ReviewDTO body, System.Threading.CancellationToken cancellationToken);
-
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<string> ReviewDELETEAsync(int id);
+        System.Threading.Tasks.Task<ApiSuccessResponseDTO> ReviewPOSTAsync(ReviewDTO body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<string> ReviewDELETEAsync(int id, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<ApiSuccessResponseDTO> ReviewPOSTAsync(ReviewDTO body, System.Threading.CancellationToken cancellationToken);
+
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<ApiSuccessResponseDTO> ReviewDELETEAsync(int id);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<ApiSuccessResponseDTO> ReviewDELETEAsync(int id, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -80,12 +80,12 @@ namespace GetDrive.Api
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<string> RideDELETEAsync(int id);
+        System.Threading.Tasks.Task<ApiSuccessResponseDTO> RideDELETEAsync(int id);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<string> RideDELETEAsync(int id, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<ApiSuccessResponseDTO> RideDELETEAsync(int id, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -134,30 +134,30 @@ namespace GetDrive.Api
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<string> RequestsPOSTAsync(PassengerDTO body);
+        System.Threading.Tasks.Task<ApiSuccessResponseDTO> RequestsPOSTAsync(PassengerDTO body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<string> RequestsPOSTAsync(PassengerDTO body, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<ApiSuccessResponseDTO> RequestsPOSTAsync(PassengerDTO body, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<string> RequestsDELETEAsync(int id);
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<string> RequestsDELETEAsync(int id, System.Threading.CancellationToken cancellationToken);
-
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<string> RequestsPUTAsync(int id);
+        System.Threading.Tasks.Task<ApiSuccessResponseDTO> RequestsDELETEAsync(int id);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<string> RequestsPUTAsync(int id, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<ApiSuccessResponseDTO> RequestsDELETEAsync(int id, System.Threading.CancellationToken cancellationToken);
+
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<ApiSuccessResponseDTO> RequestsPUTAsync(int id);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<ApiSuccessResponseDTO> RequestsPUTAsync(int id, System.Threading.CancellationToken cancellationToken);
 
     }
 
@@ -211,7 +211,7 @@ namespace GetDrive.Api
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                
+
                     // Operation Path: "auth/login"
                     urlBuilder_.Append("auth/login");
 
@@ -240,12 +240,12 @@ namespace GetDrive.Api
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 400)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<string>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<ApiErrorResponseDTO>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            throw new ApiException<string>("Bad Request", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                            throw new ApiException<ApiErrorResponseDTO>("Bad Request", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                         }
                         else
                         if (status_ == 200)
@@ -303,7 +303,7 @@ namespace GetDrive.Api
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                
+
                     // Operation Path: "auth/register"
                     urlBuilder_.Append("auth/register");
 
@@ -332,12 +332,12 @@ namespace GetDrive.Api
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 400)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<string>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<ApiErrorResponseDTO>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            throw new ApiException<string>("Bad Request", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                            throw new ApiException<ApiErrorResponseDTO>("Bad Request", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                         }
                         else
                         if (status_ == 200)
@@ -371,7 +371,7 @@ namespace GetDrive.Api
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<string> ChangepasswordAsync(ChangePasswordDTO body)
+        public virtual System.Threading.Tasks.Task<ApiSuccessResponseDTO> ChangepasswordAsync(ChangePasswordDTO body)
         {
             return ChangepasswordAsync(body, System.Threading.CancellationToken.None);
         }
@@ -379,7 +379,7 @@ namespace GetDrive.Api
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<string> ChangepasswordAsync(ChangePasswordDTO body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<ApiSuccessResponseDTO> ChangepasswordAsync(ChangePasswordDTO body, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -395,7 +395,7 @@ namespace GetDrive.Api
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                
+
                     // Operation Path: "auth/changepassword"
                     urlBuilder_.Append("auth/changepassword");
 
@@ -424,17 +424,17 @@ namespace GetDrive.Api
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 400)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<string>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<ApiErrorResponseDTO>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            throw new ApiException<string>("Bad Request", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                            throw new ApiException<ApiErrorResponseDTO>("Bad Request", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                         }
                         else
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<string>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<ApiSuccessResponseDTO>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -463,7 +463,7 @@ namespace GetDrive.Api
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<string> ReviewPOSTAsync(ReviewDTO body)
+        public virtual System.Threading.Tasks.Task<ApiSuccessResponseDTO> ReviewPOSTAsync(ReviewDTO body)
         {
             return ReviewPOSTAsync(body, System.Threading.CancellationToken.None);
         }
@@ -471,7 +471,7 @@ namespace GetDrive.Api
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<string> ReviewPOSTAsync(ReviewDTO body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<ApiSuccessResponseDTO> ReviewPOSTAsync(ReviewDTO body, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -487,7 +487,7 @@ namespace GetDrive.Api
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                
+
                     // Operation Path: "review"
                     urlBuilder_.Append("review");
 
@@ -516,17 +516,17 @@ namespace GetDrive.Api
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 400)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<string>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<ApiErrorResponseDTO>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            throw new ApiException<string>("Bad Request", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                            throw new ApiException<ApiErrorResponseDTO>("Bad Request", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                         }
                         else
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<string>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<ApiSuccessResponseDTO>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -555,7 +555,7 @@ namespace GetDrive.Api
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<string> ReviewDELETEAsync(int id)
+        public virtual System.Threading.Tasks.Task<ApiSuccessResponseDTO> ReviewDELETEAsync(int id)
         {
             return ReviewDELETEAsync(id, System.Threading.CancellationToken.None);
         }
@@ -563,7 +563,7 @@ namespace GetDrive.Api
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<string> ReviewDELETEAsync(int id, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<ApiSuccessResponseDTO> ReviewDELETEAsync(int id, System.Threading.CancellationToken cancellationToken)
         {
             if (id == null)
                 throw new System.ArgumentNullException("id");
@@ -578,7 +578,7 @@ namespace GetDrive.Api
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                
+
                     // Operation Path: "review/{id}"
                     urlBuilder_.Append("review/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
@@ -608,17 +608,17 @@ namespace GetDrive.Api
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 400)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<string>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<ApiErrorResponseDTO>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            throw new ApiException<string>("Bad Request", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                            throw new ApiException<ApiErrorResponseDTO>("Bad Request", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                         }
                         else
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<string>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<ApiSuccessResponseDTO>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -670,7 +670,7 @@ namespace GetDrive.Api
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                
+
                     // Operation Path: "ride/{id}"
                     urlBuilder_.Append("ride/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
@@ -700,12 +700,12 @@ namespace GetDrive.Api
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 404)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<string>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<ApiErrorResponseDTO>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            throw new ApiException<string>("Not Found", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                            throw new ApiException<ApiErrorResponseDTO>("Not Found", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                         }
                         else
                         if (status_ == 200)
@@ -739,7 +739,7 @@ namespace GetDrive.Api
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<string> RideDELETEAsync(int id)
+        public virtual System.Threading.Tasks.Task<ApiSuccessResponseDTO> RideDELETEAsync(int id)
         {
             return RideDELETEAsync(id, System.Threading.CancellationToken.None);
         }
@@ -747,7 +747,7 @@ namespace GetDrive.Api
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<string> RideDELETEAsync(int id, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<ApiSuccessResponseDTO> RideDELETEAsync(int id, System.Threading.CancellationToken cancellationToken)
         {
             if (id == null)
                 throw new System.ArgumentNullException("id");
@@ -762,7 +762,7 @@ namespace GetDrive.Api
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                
+
                     // Operation Path: "ride/{id}"
                     urlBuilder_.Append("ride/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
@@ -792,17 +792,17 @@ namespace GetDrive.Api
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 400)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<string>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<ApiErrorResponseDTO>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            throw new ApiException<string>("Bad Request", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                            throw new ApiException<ApiErrorResponseDTO>("Bad Request", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                         }
                         else
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<string>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<ApiSuccessResponseDTO>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -851,7 +851,7 @@ namespace GetDrive.Api
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                
+
                     // Operation Path: "ride"
                     urlBuilder_.Append("ride");
                     urlBuilder_.Append('?');
@@ -959,7 +959,7 @@ namespace GetDrive.Api
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                
+
                     // Operation Path: "ride"
                     urlBuilder_.Append("ride");
 
@@ -988,12 +988,12 @@ namespace GetDrive.Api
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 400)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<string>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<ApiErrorResponseDTO>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            throw new ApiException<string>("Bad Request", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                            throw new ApiException<ApiErrorResponseDTO>("Bad Request", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                         }
                         else
                         if (status_ == 200)
@@ -1050,7 +1050,7 @@ namespace GetDrive.Api
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                
+
                     // Operation Path: "user/{id}"
                     urlBuilder_.Append("user/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
@@ -1080,12 +1080,12 @@ namespace GetDrive.Api
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 404)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<string>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<ApiErrorResponseDTO>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            throw new ApiException<string>("Not Found", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                            throw new ApiException<ApiErrorResponseDTO>("Not Found", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                         }
                         else
                         if (status_ == 200)
@@ -1139,7 +1139,7 @@ namespace GetDrive.Api
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                
+
                     // Operation Path: "requests/driver"
                     urlBuilder_.Append("requests/driver");
 
@@ -1168,12 +1168,12 @@ namespace GetDrive.Api
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 400)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<string>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<ApiErrorResponseDTO>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            throw new ApiException<string>("Bad Request", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                            throw new ApiException<ApiErrorResponseDTO>("Bad Request", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                         }
                         else
                         if (status_ == 200)
@@ -1227,7 +1227,7 @@ namespace GetDrive.Api
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                
+
                     // Operation Path: "requests/user"
                     urlBuilder_.Append("requests/user");
 
@@ -1256,12 +1256,12 @@ namespace GetDrive.Api
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 400)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<string>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<ApiErrorResponseDTO>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            throw new ApiException<string>("Bad Request", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                            throw new ApiException<ApiErrorResponseDTO>("Bad Request", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                         }
                         else
                         if (status_ == 200)
@@ -1295,7 +1295,7 @@ namespace GetDrive.Api
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<string> RequestsPOSTAsync(PassengerDTO body)
+        public virtual System.Threading.Tasks.Task<ApiSuccessResponseDTO> RequestsPOSTAsync(PassengerDTO body)
         {
             return RequestsPOSTAsync(body, System.Threading.CancellationToken.None);
         }
@@ -1303,7 +1303,7 @@ namespace GetDrive.Api
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<string> RequestsPOSTAsync(PassengerDTO body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<ApiSuccessResponseDTO> RequestsPOSTAsync(PassengerDTO body, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -1319,7 +1319,7 @@ namespace GetDrive.Api
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                
+
                     // Operation Path: "requests"
                     urlBuilder_.Append("requests");
 
@@ -1348,17 +1348,17 @@ namespace GetDrive.Api
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 400)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<string>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<ApiErrorResponseDTO>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            throw new ApiException<string>("Bad Request", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                            throw new ApiException<ApiErrorResponseDTO>("Bad Request", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                         }
                         else
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<string>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<ApiSuccessResponseDTO>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -1387,7 +1387,7 @@ namespace GetDrive.Api
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<string> RequestsDELETEAsync(int id)
+        public virtual System.Threading.Tasks.Task<ApiSuccessResponseDTO> RequestsDELETEAsync(int id)
         {
             return RequestsDELETEAsync(id, System.Threading.CancellationToken.None);
         }
@@ -1395,7 +1395,7 @@ namespace GetDrive.Api
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<string> RequestsDELETEAsync(int id, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<ApiSuccessResponseDTO> RequestsDELETEAsync(int id, System.Threading.CancellationToken cancellationToken)
         {
             if (id == null)
                 throw new System.ArgumentNullException("id");
@@ -1410,7 +1410,7 @@ namespace GetDrive.Api
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                
+
                     // Operation Path: "requests/{id}"
                     urlBuilder_.Append("requests/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
@@ -1440,17 +1440,17 @@ namespace GetDrive.Api
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 400)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<string>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<ApiErrorResponseDTO>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            throw new ApiException<string>("Bad Request", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                            throw new ApiException<ApiErrorResponseDTO>("Bad Request", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                         }
                         else
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<string>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<ApiSuccessResponseDTO>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -1479,7 +1479,7 @@ namespace GetDrive.Api
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<string> RequestsPUTAsync(int id)
+        public virtual System.Threading.Tasks.Task<ApiSuccessResponseDTO> RequestsPUTAsync(int id)
         {
             return RequestsPUTAsync(id, System.Threading.CancellationToken.None);
         }
@@ -1487,7 +1487,7 @@ namespace GetDrive.Api
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<string> RequestsPUTAsync(int id, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<ApiSuccessResponseDTO> RequestsPUTAsync(int id, System.Threading.CancellationToken cancellationToken)
         {
             if (id == null)
                 throw new System.ArgumentNullException("id");
@@ -1503,7 +1503,7 @@ namespace GetDrive.Api
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                
+
                     // Operation Path: "requests/{id}"
                     urlBuilder_.Append("requests/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
@@ -1533,17 +1533,17 @@ namespace GetDrive.Api
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 400)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<string>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<ApiErrorResponseDTO>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            throw new ApiException<string>("Bad Request", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                            throw new ApiException<ApiErrorResponseDTO>("Bad Request", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                         }
                         else
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<string>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<ApiSuccessResponseDTO>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -1680,6 +1680,22 @@ namespace GetDrive.Api
             var result = System.Convert.ToString(value, cultureInfo);
             return result == null ? "" : result;
         }
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.0.7.0 (NJsonSchema v11.0.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ApiErrorResponseDTO
+    {
+        [Newtonsoft.Json.JsonProperty("errorMessage", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string ErrorMessage { get; set; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.0.7.0 (NJsonSchema v11.0.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ApiSuccessResponseDTO
+    {
+        [Newtonsoft.Json.JsonProperty("message", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Message { get; set; }
+
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.0.7.0 (NJsonSchema v11.0.0.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -1940,6 +1956,18 @@ namespace GetDrive.Api
 
         [Newtonsoft.Json.JsonProperty("maxPassengerCount", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int MaxPassengerCount { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("startLatitude", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public double StartLatitude { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("startLongitude", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public double StartLongitude { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("destinationLatitude", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public double DestinationLatitude { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("destinationLongitude", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public double DestinationLongitude { get; set; }
 
         [Newtonsoft.Json.JsonProperty("price", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public double Price { get; set; }

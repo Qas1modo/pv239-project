@@ -33,12 +33,12 @@ namespace GetDrive.Clients
                     StatusCode = 200
                 };
             }
-            catch (ApiException ex)
+            catch (ApiException<ApiErrorResponseDTO> ex)
             {
                 return new ClientResponse<UserProfileResponseDTO>
                 {
                     Response = null,
-                    ErrorMessage = ex.Response,
+                    ErrorMessage = ex.Result.ErrorMessage,
                     StatusCode = ex.StatusCode
                 };
             }

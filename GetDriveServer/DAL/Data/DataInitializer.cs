@@ -48,11 +48,17 @@ namespace DAL.Data
             };
             modelBuilder.Entity<Ride>().HasData(ride2);
 
-            UserRide userRide1 = new() { RideId = 1, PassengerId = 2, PassengerCount = 2, Id = 1, Accepted = true, PassengerNote = "Test" };
+            UserRide userRide1 = new() { RideId = 1, PassengerId = 2, PassengerCount = 2, Id = 1, Accepted = false, PassengerNote = "Test" };
             modelBuilder.Entity<UserRide>().HasData(userRide1);
 
-            UserRide userRide2 = new() { RideId = 2, PassengerId = 1, PassengerCount = 1, Id = 2, Accepted = true, PassengerNote = "Potrebujem prísť včas" };
+            UserRide userRide2 = new() { RideId = 2, PassengerId = 1, PassengerCount = 1, Id = 2, Accepted = false, PassengerNote = "Potrebujem prísť včas" };
             modelBuilder.Entity<UserRide>().HasData(userRide2);
+
+            UserRide userRide3 = new() { RideId = 1, PassengerId = 3, PassengerCount = 1, Id = 3, Accepted = true, PassengerNote = "Testing accepted ride" };
+            modelBuilder.Entity<UserRide>().HasData(userRide3);
+
+            UserRide userRide4 = new() { RideId = 2, PassengerId = 3, PassengerCount = 1, Id = 4, Accepted = false, PassengerNote = "Testing not accepted ride" };
+            modelBuilder.Entity<UserRide>().HasData(userRide4);
 
 
             Review review1 = new() { Id = 1, AuthorId = 2, ReviewText = "Pretty Good!", Score = 5, UserId = 1 };
@@ -60,7 +66,6 @@ namespace DAL.Data
 
             Review review2 = new() { Id = 2, AuthorId = 3, ReviewText = "Almost excellent trip!", Score = 4, UserId = 1 };
             modelBuilder.Entity<Review>().HasData(review2);
-
         }
     }
 }
