@@ -17,6 +17,10 @@ namespace BL.ResponseDTOs
         public string StartLocation { get; set; }
         public string Destination { get; set; }
         public int MaxPassengerCount { get; set; }
+        public double StartLatitude { get; set; }
+        public double StartLongitude { get; set; }
+        public double DestinationLatitude { get; set; }
+        public double DestinationLongitude { get; set; }
         public decimal Price { get; set; }
         public DateTime Departure { get; set; }
         public string? DriverNote { get; set; }

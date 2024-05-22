@@ -39,12 +39,12 @@ namespace GetDrive.Clients
                     StatusCode = 200
                 };
             }
-            catch (ApiException ex)
+            catch (ApiException<ApiErrorResponseDTO> ex)
             {
                 return new ClientResponse<AuthResponseDTO>
                 {
                     Response = null,
-                    ErrorMessage = ex.Response,
+                    ErrorMessage = ex.Result.ErrorMessage,
                     StatusCode = ex.StatusCode
                 }; 
             }
@@ -73,12 +73,12 @@ namespace GetDrive.Clients
                     StatusCode = 200
                 };
             }
-            catch (ApiException ex)
+            catch (ApiException<ApiErrorResponseDTO> ex)
             {
                 return new ClientResponse<AuthResponseDTO>
                 {
                     Response = null,
-                    ErrorMessage = ex.Response,
+                    ErrorMessage = ex.Result.ErrorMessage,
                     StatusCode = ex.StatusCode
                 };
             }
@@ -106,17 +106,17 @@ namespace GetDrive.Clients
                 var response = await _api.ChangepasswordAsync(changePasswordDTO);
                 return new ClientResponse<string>
                 {
-                    Response = response,
+                    Response = response.Message,
                     ErrorMessage = string.Empty,
                     StatusCode = 200
                 };
             }
-            catch (ApiException ex)
+            catch (ApiException<ApiErrorResponseDTO> ex)
             {
                 return new ClientResponse<string>
                 {
                     Response = null,
-                    ErrorMessage = ex.Response,
+                    ErrorMessage = ex.Result.ErrorMessage,
                     StatusCode = ex.StatusCode
                 };
             }

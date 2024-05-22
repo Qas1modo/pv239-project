@@ -10,6 +10,7 @@ public class AuthModel : ModelBase
     private bool isRegistering;
     private bool isLoggedIn;
     private string statusMessage = string.Empty;
+    private string messageColour ="#000000";
     private string changePasswordStatusMessage = string.Empty;
     private string toggleButtonText = "Switch to Login form";
 
@@ -42,6 +43,12 @@ public class AuthModel : ModelBase
         get => statusMessage;
         set => SetProperty(ref statusMessage, value);
     }
+    public string MessageColour
+    {
+        get => messageColour;
+        set => SetProperty(ref messageColour, value);
+    }
+
     public string ChangePasswordStatusMessage
     {
         get => changePasswordStatusMessage;

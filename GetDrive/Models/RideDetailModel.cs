@@ -24,6 +24,10 @@ namespace GetDrive.Models
         public string StartLocation { get; set; }
 
         public string Destination { get; set; }
+        public double StartLatitude { get; set; }
+        public double StartLongitude { get; set; }
+        public double DestinationLatitude { get; set; }
+        public double DestinationLongitude { get; set; }
 
         public int MaxPassengerCount { get; set; }
 

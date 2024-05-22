@@ -30,17 +30,17 @@ namespace GetDrive.Clients
                 var response = await _api.ReviewPOSTAsync(review);
                 return new ClientResponse<string>
                 {
-                    Response = response,
+                    Response = response.Message,
                     ErrorMessage = string.Empty,
                     StatusCode = 200
                 };
             }
-            catch (ApiException ex)
+            catch (ApiException<ApiErrorResponseDTO> ex)
             {
                 return new ClientResponse<string>
                 {
                     Response = null,
-                    ErrorMessage = ex.Response,
+                    ErrorMessage = ex.Result.ErrorMessage,
                     StatusCode = ex.StatusCode
                 };
             }
@@ -62,17 +62,17 @@ namespace GetDrive.Clients
                 var response = await _api.ReviewDELETEAsync(id);
                 return new ClientResponse<string>
                 {
-                    Response = response,
+                    Response = response.Message,
                     ErrorMessage = string.Empty,
                     StatusCode = 200
                 };
             }
-            catch (ApiException ex)
+            catch (ApiException<ApiErrorResponseDTO> ex)
             {
                 return new ClientResponse<string>
                 {
                     Response = null,
-                    ErrorMessage = ex.Response,
+                    ErrorMessage = ex.Result.ErrorMessage,
                     StatusCode = ex.StatusCode
                 };
             }

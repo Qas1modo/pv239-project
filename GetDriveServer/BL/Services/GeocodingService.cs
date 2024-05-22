@@ -1,20 +1,25 @@
-﻿using System.Net.Http;
+﻿using BL.DTOs;
+using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Microsoft.Maui.Devices.Sensors;
 
 namespace GetDrive.Services
 {
-    public class NominatimGeocodingService : IGeocodingService
+    public interface IGeocodingService
+    {
+        Task<LocationDTO?> GetLocationAsync(string address);
+    }
+
+    public class GeocodingService : IGeocodingService
     {
         private readonly HttpClient _httpClient;
 
-        public NominatimGeocodingService()
+        public GeocodingService()
         {
             _httpClient = new HttpClient();
         }
 
-        public async Task<Location> GetLocationAsync(string address)
+        public async Task<LocationDTO?> GetLocationAsync(string address)
         {
             var url = $"https://nominatim.openstreetmap.org/search?q={address}&format=json&addressdetails=1";
             var response = await _httpClient.GetStringAsync(url);
@@ -31,12 +36,11 @@ namespace GetDrive.Services
                         if (double.TryParse(latElement.GetString(), System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out double lat) &&
                             double.TryParse(lonElement.GetString(), System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out double lon))
                         {
-                            return new Location(lat, lon);
+                            return new LocationDTO(lat, lon);
                         }
                     }
                 }
             }
-
             return null;
         }
     }

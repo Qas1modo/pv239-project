@@ -25,6 +25,12 @@ namespace GetDrive.ViewModels
         [ObservableProperty]
         private TimeSpan departureTime = DateTime.Now.TimeOfDay;
 
+        [ObservableProperty]
+        private string message = string.Empty;
+
+        [ObservableProperty]
+        private string messageColour = "#000000";
+
         public RidePublishViewModel(IRoutingService routingService, IRideClient rideClient, IMapper mapper)
         {
             _routingService = routingService;
@@ -42,7 +48,25 @@ namespace GetDrive.ViewModels
         {
             Ride.Departure = CombineDateTime(DepartureDate, DepartureTime);
             var createRideDTO = _mapper.Map<CreateRideDTO>(Ride);
-            var response = await _rideClient.CreateRide(createRideDTO);
+            var result = await _rideClient.CreateRide(createRideDTO);
+            MessageColour = "#FF0000";
+            if (result.StatusCode == 200)
+            {
+                Message = "Ride successfully created";
+                MessageColour = "#00FF00";
+            }
+            if (result.StatusCode == 401)
+            {
+                Message = "You must sign in before you can create the ride.";
+            }
+            else if (!string.IsNullOrEmpty(result.ErrorMessage))
+            {
+                Message = result.ErrorMessage;
+            }
+            else
+            {
+                Message = "Unknown error!";
+            }
         }
 
         private DateTime CombineDateTime(DateTime date, TimeSpan time)

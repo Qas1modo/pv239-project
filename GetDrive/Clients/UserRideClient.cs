@@ -33,17 +33,17 @@ namespace GetDrive.Clients
                 var response = await api.RequestsPUTAsync(id);;
                 return new ClientResponse<string>
                 {
-                    Response = response,
+                    Response = response.Message,
                     ErrorMessage = string.Empty,
                     StatusCode = 200
                 };
             }
-            catch (ApiException ex)
+            catch (ApiException<ApiErrorResponseDTO> ex)
             {
                 return new ClientResponse<string>
                 {
                     Response = null,
-                    ErrorMessage = ex.Response,
+                    ErrorMessage = ex.Result.ErrorMessage,
                     StatusCode = ex.StatusCode
                 };
             }
@@ -65,17 +65,17 @@ namespace GetDrive.Clients
                 var response = await api.RequestsDELETEAsync(id);
                 return new ClientResponse<string>
                 {
-                    Response = response,
+                    Response = response.Message,
                     ErrorMessage = string.Empty,
                     StatusCode = 200
                 };
             }
-            catch (ApiException ex)
+            catch (ApiException<ApiErrorResponseDTO> ex)
             {
                 return new ClientResponse<string>
                 {
                     Response = null,
-                    ErrorMessage = ex.Response,
+                    ErrorMessage = ex.Result.ErrorMessage,
                     StatusCode = ex.StatusCode
                 };
             }
@@ -102,12 +102,12 @@ namespace GetDrive.Clients
                     StatusCode = 200
                 };
             }
-            catch (ApiException ex)
+            catch (ApiException<ApiErrorResponseDTO> ex)
             {
                 return new ClientResponse<IEnumerable<PassengerDetailResponseDTO>>
                 {
                     Response = null,
-                    ErrorMessage = ex.Response,
+                    ErrorMessage = ex.Result.ErrorMessage,
                     StatusCode = ex.StatusCode
                 };
             }
@@ -134,12 +134,12 @@ namespace GetDrive.Clients
                     StatusCode = 200
                 };
             }
-            catch (ApiException ex)
+            catch (ApiException<ApiErrorResponseDTO> ex)
             {
                 return new ClientResponse<IEnumerable<PassengerDetailResponseDTO>>
                 {
                     Response = null,
-                    ErrorMessage = ex.Response,
+                    ErrorMessage = ex.Result.ErrorMessage,
                     StatusCode = ex.StatusCode
                 };
             }
@@ -161,17 +161,17 @@ namespace GetDrive.Clients
                 var response = await api.RequestsPOSTAsync(requestRideDTO); ;
                 return new ClientResponse<string>
                 {
-                    Response = response,
+                    Response = response.Message,
                     ErrorMessage = string.Empty,
                     StatusCode = 200
                 };
             }
-            catch (ApiException ex)
+            catch (ApiException<ApiErrorResponseDTO> ex)
             {
                 return new ClientResponse<string>
                 {
                     Response = null,
-                    ErrorMessage = ex.Response,
+                    ErrorMessage = ex.Result.ErrorMessage,
                     StatusCode = ex.StatusCode
                 };
             }

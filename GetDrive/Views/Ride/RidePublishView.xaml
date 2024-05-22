@@ -15,6 +15,10 @@
 
     <ScrollView>
         <VerticalStackLayout Spacing="20" Padding="10">
+            <Label Text="{Binding Message}" 
+                        HorizontalOptions="Center" 
+                        VerticalOptions="Center"
+                        TextColor="{Binding MessageColour}" Padding="5"/>
             <Frame CornerRadius="10" BorderColor="LightGray" HasShadow="True">
                 <StackLayout>
                     <Label Text="Start location" FontSize="14" FontAttributes="Bold"/>

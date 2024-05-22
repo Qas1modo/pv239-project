@@ -4,6 +4,7 @@ using BL.ResponseDTOs;
 using DAL.Models;
 using DAL.Repository;
 using DAL.UnitOfWork.Interface;
+using GetDrive.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,11 +25,13 @@ namespace BL.Services
     {
         private readonly IUnitOfWork uow;
         private readonly IMapper mapper;
+        private readonly IGeocodingService geocodingService;
 
-        public RideService(IUnitOfWork uow, IMapper mapper)
+        public RideService(IUnitOfWork uow, IMapper mapper, IGeocodingService geocodingService)
         {
             this.uow = uow;
             this.mapper = mapper;
+            this.geocodingService = geocodingService;
         }
 
         public async Task<Ride> CreateRide(CreateRideDTO rideDto, int driverId)
@@ -37,6 +40,12 @@ namespace BL.Services
             ride.Canceled = false;
             ride.DriverId = driverId;
             ride.AvailableSeats = rideDto.MaxPassengerCount;
+            var startLocation = await geocodingService.GetLocationAsync(ride.StartLocation);
+            ride.StartLongitude = startLocation?.Longitude ?? 0;
+            ride.StartLatitude = startLocation?.Latitude ?? 0;
+            var destination = await geocodingService.GetLocationAsync(ride.Destination);
+            ride.DestinationLongitude = destination?.Longitude ?? 0;
+            ride.DestinationLatitude = destination?.Latitude ?? 0;
             await uow.RideRepository.InsertAsync(ride);
             await uow.CommitAsync();
             return ride;

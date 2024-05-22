@@ -1,5 +1,6 @@
 using Configuration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
@@ -56,6 +57,11 @@ builder.Services.AddSwaggerGen(c => {
     });
 });
 builder.Services.AddControllers();
+builder.Services.AddHttpClient();
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    options.SuppressModelStateInvalidFilter = true;
+});
 
 var app = builder.Build();
 

@@ -94,7 +94,6 @@ namespace GetDrive
             services.AddSingleton<IRoutingService, RoutingService>();
             services.AddSingleton<IShare>(_ => Share.Default);
             services.AddSingleton<IGlobalExceptionService, GlobalExceptionService>();
-            services.AddSingleton<IGeocodingService, NominatimGeocodingService>();
             //services.AddSingleton<IGlobalExceptionServiceInitializer, GlobalExceptionServiceInitializer>();
         }
 

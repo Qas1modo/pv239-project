@@ -5,6 +5,7 @@ using DAL.Models;
 using DAL.Repository;
 using DAL.UnitOfWork;
 using DAL.UnitOfWork.Interface;
+using GetDrive.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Configuration
@@ -34,6 +35,7 @@ namespace Configuration
             services.AddScoped<IReviewService, ReviewService>();
             services.AddScoped<IUserRideService, UserRideService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IGeocodingService, GeocodingService>();
         }
     }
 }
