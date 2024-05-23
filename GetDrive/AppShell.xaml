@@ -12,8 +12,8 @@
     Shell.ForegroundColor="{StaticResource White}"
     Shell.TitleColor="{StaticResource White}"
     Shell.TabBarBackgroundColor="{StaticResource Primary}"
-    Shell.TabBarUnselectedColor="{StaticResource White}"
-    Shell.TabBarForegroundColor="{StaticResource PrimaryDark}">
+    Shell.TabBarUnselectedColor="{StaticResource PrimaryDark}"
+    Shell.TabBarForegroundColor="{StaticResource White}">
 
     <TabBar>
         <ShellContent
@@ -32,9 +32,9 @@
             Route="riderequests"/>
         
         <ShellContent
-            ContentTemplate="{DataTemplate vs:Profile}"
+            ContentTemplate="{DataTemplate vs:ManageProfileView}"
             Icon="profile.svg"
-            Route="profile"/>
+            Route="manageprofileview"/>
 
     </TabBar>
 </Shell>

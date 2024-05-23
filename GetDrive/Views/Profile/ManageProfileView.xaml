@@ -5,9 +5,9 @@
                        xmlns:models="clr-namespace:GetDrive.Models"
                        xmlns:views="clr-namespace:GetDrive.Views"
                        xmlns:viewmodels="clr-namespace:GetDrive.ViewModels"
-                       x:Class="GetDrive.Views.Profile"
-                       x:DataType="viewmodels:ProfileViewModel"
-                       Title="User Profile">
+                       x:Class="GetDrive.Views.ManageProfileView"
+                       x:DataType="viewmodels:ManageProfileViewModel"
+                       Title="Manage your profile">
     <ContentPage.Resources>
         <ResourceDictionary>
             <Style x:Key="EntryStyle" TargetType="Entry">
@@ -29,17 +29,23 @@
     <ScrollView>
         <VerticalStackLayout Spacing="20" Padding="10">
             <!-- <Frame CornerRadius="10" BorderColor="LightGray" HasShadow="True"> -->
-                <StackLayout>
-                    <Label Text="User Name" FontSize="14" FontAttributes="Bold"/>
-                    <Entry Text="{Binding UserProfile.UserName}" FontSize="14" IsReadOnly="True"/>
-                    <Label Text="Email" FontSize="14" FontAttributes="Bold"/>
-                    <Entry Text="{Binding UserProfile.Email}" FontSize="14" IsReadOnly="True"/>
-                    <Label Text="Phone" FontSize="14" FontAttributes="Bold"/>
-                    <Entry Text="{Binding UserProfile.Phone}" FontSize="14" IsReadOnly="True"/>
-                    <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Spacing="10" Margin="0,10,0,0" Padding="20">
-                        <Button Text="Manage Profile" Command="{Binding ManageProfileCommand}" HorizontalOptions="FillAndExpand"/>
+            <StackLayout Margin="20">
+                <Frame BackgroundColor="LightGray" Padding="5" CornerRadius="50" HorizontalOptions="Center" VerticalOptions="Start">
+                    <Image Source="avatar.svg" WidthRequest="100" HeightRequest="100"/>
+                </Frame>
+                <Frame Padding="10" Margin="10" CornerRadius="10" BorderColor="Gray">
+                    <StackLayout>
+                        <Label Text="User Name" FontSize="14" FontAttributes="Bold"/>
+                        <Label Text="{Binding UserProfile.UserName}" FontSize="14"/>
+
+                        <Label Text="Email" FontSize="14" FontAttributes="Bold"/>
+                        <Label Text="{Binding UserProfile.Email}" FontSize="14"/>
+
+                        <Label Text="Phone" FontSize="14" FontAttributes="Bold"/>
+                        <Label Text="{Binding UserProfile.Phone}" FontSize="14"/>
                     </StackLayout>
-                </StackLayout>
+                </Frame>
+            </StackLayout>
             <!-- </Frame> -->
 
 
@@ -115,7 +121,7 @@
                                     <Label Text="{Binding Destination}" FontSize="13" Grid.Column="1" HorizontalOptions="Start"/>
                                     <Label Text="{Binding Departure, StringFormat='{0:dd/MM/yyyy}'}" FontSize="13" Grid.Column="2" HorizontalOptions="Start"/>
                                     <Button Text=">" Grid.Column="3" 
-                                            Command="{Binding Source={RelativeSource AncestorType={x:Type views:Profile}}, Path=BindingContext.GoToRideDetailCommand}"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type views:ManageProfileView}}, Path=BindingContext.GoToRideDetailCommand}"
                                             CommandParameter="{Binding Id}"
                                             HorizontalOptions="End"
                                             FontSize="10"
@@ -161,7 +167,7 @@
                                     <Label Text="{Binding Destination}" FontSize="13" Grid.Column="1" HorizontalOptions="Start"/>
                                     <Label Text="{Binding Departure, StringFormat='{0:dd/MM/yyyy}'}" FontSize="13" Grid.Column="2" HorizontalOptions="Start"/>
                                     <Button Text=">" Grid.Column="3" 
-                                             Command="{Binding Source={RelativeSource AncestorType={x:Type views:Profile}}, Path=BindingContext.GoToRideDetailCommand}"
+                                             Command="{Binding Source={RelativeSource AncestorType={x:Type views:ManageProfileView}}, Path=BindingContext.GoToRideDetailCommand}"
                                              CommandParameter="{Binding Id}"
                                              HorizontalOptions="End"
                                              FontSize="10"

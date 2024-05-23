@@ -3,9 +3,9 @@ using GetDrive.ViewModels;
 
 namespace GetDrive.Views
 {
-    public partial class Profile : ContentPageBase
+    public partial class ManageProfileView : ContentPageBase
     {
-        public Profile(ProfileViewModel viewModel, IGlobalExceptionService globalExceptionService)
+        public ManageProfileView(ManageProfileViewModel viewModel, IGlobalExceptionService globalExceptionService)
             : base(viewModel, globalExceptionService)
         {
             InitializeComponent();

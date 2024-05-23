@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<views:ContentPageBase xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       xmlns:converters="clr-namespace:GetDrive.Converters"
+                       xmlns:models="clr-namespace:GetDrive.Models"
+                       xmlns:views="clr-namespace:GetDrive.Views"
+                       xmlns:viewmodels="clr-namespace:GetDrive.ViewModels"
+                       x:Class="GetDrive.Views.ProfileView"
+                       x:DataType="viewmodels:ProfileViewModel"
+                       Title="Profile">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="EntryStyle" TargetType="Entry">
+                <Setter Property="Margin" Value="5,10"/>
+                <Setter Property="HorizontalOptions" Value="End"/>
+                <Setter Property="HeightRequest" Value="35"/>
+            </Style>
+            <Style x:Key="LabelHeaderStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="TextColor" Value="#333"/>
+                <Setter Property="VerticalOptions" Value="Center"/>
+                <Setter Property="Margin" Value="10, 0"/>
+            </Style>
+            <converters:ValueConverter x:Key="ValueConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="20" Padding="10">
+            <StackLayout Margin="20">
+                <Frame BackgroundColor="LightGray" Padding="5" CornerRadius="50" HorizontalOptions="Center" VerticalOptions="Start">
+                    <Image Source="avatar.svg" WidthRequest="100" HeightRequest="100"/>
+                </Frame>
+                <Frame Padding="10" Margin="10" CornerRadius="10" BorderColor="Gray">
+                    <StackLayout>
+                        <Label Text="User Name" FontSize="14" FontAttributes="Bold"/>
+                        <Label Text="{Binding Profile.UserName}" FontSize="14"/>
+
+                        <Label Text="Email" FontSize="14" FontAttributes="Bold"/>
+                        <Label Text="{Binding Profile.Email}" FontSize="14"/>
+
+                        <Label Text="Phone" FontSize="14" FontAttributes="Bold"/>
+                        <Label Text="{Binding Profile.Phone}" FontSize="14"/>
+                    </StackLayout>
+                </Frame>
+            </StackLayout>
+
+            <Label Text="Reviews" FontSize="24" FontAttributes="Bold" Margin="0,30,0,0"/>
+            <StackLayout>
+                <Grid Padding="5" Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="4*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Text="Author" FontSize="14" FontAttributes="Bold" Grid.Column="0" HorizontalOptions="Start"/>
+                    <Label Text="Review" FontSize="14" FontAttributes="Bold" Grid.Column="1" HorizontalOptions="Start"/>
+                    <Label Text="Rating" FontSize="14" FontAttributes="Bold" Grid.Column="2" HorizontalOptions="End"/>
+                </Grid>
+
+                <CollectionView ItemsSource="{Binding Profile.Reviews}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:ReviewListModel">
+                            <Grid ColumnSpacing="20" Margin="10,10,5,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="4*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Text="{Binding AuthorName}" FontSize="14" FontAttributes="Bold" Grid.Column="0"/>
+                                <Label Text="{Binding ReviewText}" FontSize="13" Grid.Column="1"/>
+                                <Label Text="{Binding Score, StringFormat='{0}/5'}" FontSize="13" Grid.Column="2" FontAttributes="Bold" HorizontalOptions="End"/>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </StackLayout>
+
+            <StackLayout Orientation="Vertical" VerticalOptions="Center" Margin="10,20,10,5">
+                <Label Text="{Binding Profile.Score, StringFormat='Overall score {0}/5'}" FontSize="16" FontAttributes="Bold" VerticalOptions="Center"/>
+                <ProgressBar Progress="{Binding Profile.Score, Converter={StaticResource ValueConverter}}"></ProgressBar>
+            </StackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</views:ContentPageBase>

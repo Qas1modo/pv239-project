@@ -10,7 +10,7 @@ using System.Diagnostics;
 
 namespace GetDrive.ViewModels;
 
-public partial class ProfileViewModel : ViewModelBase
+public partial class ManageProfileViewModel : ViewModelBase
 {
     private readonly IUserClient _userClient;
     private readonly IRoutingService _routingService;
@@ -19,7 +19,7 @@ public partial class ProfileViewModel : ViewModelBase
     [ObservableProperty]
     private UserProfileModel userProfile = new();
 
-    public ProfileViewModel(IUserClient userClient, IMapper mapper, IRoutingService routingService)
+    public ManageProfileViewModel(IUserClient userClient, IMapper mapper, IRoutingService routingService)
     {
         _userClient = userClient;
         _mapper = mapper;
