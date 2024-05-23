@@ -19,6 +19,9 @@ namespace GetDrive.Mapping
                 .ForMember(dest => dest.DriverRides, opt => opt.MapFrom(src => src.DriverRides))
                 .ForMember(dest => dest.PassengerRides, opt => opt.MapFrom(src => src.PassengerRides));
 
+            CreateMap<UserProfileResponseDTO, ProfileModel>()
+               .ForMember(dest => dest.Reviews, opt => opt.MapFrom(src => src.Reviews));
+
         }
     }
 

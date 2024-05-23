@@ -5,9 +5,9 @@ using Microsoft.Maui.Controls;
 
 namespace GetDrive.Views;
 
-public partial class Auth : ContentPageBase
+public partial class AuthView : ContentPageBase
 {
-    public Auth(AuthViewModel authViewModel, IGlobalExceptionService globalExceptionService) : base(authViewModel, globalExceptionService)
+    public AuthView(AuthViewModel authViewModel, IGlobalExceptionService globalExceptionService) : base(authViewModel, globalExceptionService)
     {
         InitializeComponent();
         this.BindingContext = authViewModel;

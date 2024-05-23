@@ -8,10 +8,10 @@
 	xmlns:maps="clr-namespace:Microsoft.Maui.Controls.Maps;assembly=Microsoft.Maui.Controls.Maps"
 	xmlns:vm="clr-namespace:GetDrive.ViewModels"
 	xmlns:views="clr-namespace:GetDrive.Views"
-                       x:Class="GetDrive.Views.RideDetailView"
+    x:Class="GetDrive.Views.RideDetailView"
 	xmlns:controls="clr-namespace:GetDrive.Controls"
-                       Title="Ride detail"
-                       x:DataType="vm:RideDetailViewModel">
+    Title="Ride detail"
+    x:DataType="vm:RideDetailViewModel">
     <ScrollView>
         <VerticalStackLayout Spacing="5" Padding="5,5,5,5">
             <Frame CornerRadius="0" Padding="15" BackgroundColor="White">
@@ -122,9 +122,9 @@
                 </Grid>
             </Frame>
             <Frame CornerRadius="0" 
-            Margin="0,0,0,0"
-            Padding="0,5,0,5"
-            BackgroundColor="{StaticResource Primary}">
+                Margin="0,0,0,0"
+                Padding="0,5,0,5"
+                BackgroundColor="{StaticResource Primary}">
                 <VerticalStackLayout>
                     <Label Text="Driver info" 
                         FontSize="18" 
@@ -134,15 +134,15 @@
                 </VerticalStackLayout>
             </Frame>
             <Frame CornerRadius="3"
-            Margin="0,0,0,5"
-            Padding="0,0,0,0" 
-            BackgroundColor="White"
-            HasShadow="False"
-            BorderColor="Transparent">
+                Margin="0,0,0,5"
+                Padding="0,0,0,0" 
+                BackgroundColor="White"
+                HasShadow="False"
+                BorderColor="Transparent">
                 <Grid ColumnDefinitions="Auto, *" 
-                RowDefinitions="Auto, 10, Auto, 10, Auto, 10, Auto, 10, Auto, 10"
-                Padding="0,0,0,10"
-                Margin="0,0,0,10">
+                    RowDefinitions="Auto, 10, Auto, 10, Auto, 10, Auto, 10, Auto, 10"
+                    Padding="0,0,0,10"
+                    Margin="0,0,0,10">  
                     <BoxView Grid.RowSpan="10" 
                         Grid.Column="0"  
                         Color="{StaticResource Secondary}" />
@@ -150,70 +150,81 @@
                         Grid.Column="1" 
                         Color="{StaticResource Primary}" />
                     <Label Text="Driver name " 
-                    FontSize="16" 
-                    FontAttributes="Bold" 
-                    Grid.Row="0" 
-                    Grid.Column="0" 
-                    Padding="5,5,0,0"/>
+                        FontSize="16" 
+                        FontAttributes="Bold" 
+                        Grid.Row="0" 
+                        Grid.Column="0" 
+                        Padding="5,5,0,0"/>
                     <Label Text="{Binding Ride.DriverName}" 
-                    FontSize="15" 
-                    Grid.Row="0" 
-                    Grid.Column="1" 
-                    TextColor="White" 
-                    Padding="5,5,0,0"
-                    LineBreakMode="TailTruncation"/>
+                           FontSize="18"
+                           FontAttributes="Bold" 
+                           Grid.Row="0" 
+                           Grid.Column="1" 
+                           TextColor="{StaticResource PrimaryDark}"  
+                            Padding="5,5,0,0"
+                            LineBreakMode="TailTruncation">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding GoToProfileCommand}" 
+                                                  CommandParameter="{Binding Ride.DriverId}" />
+                        </Label.GestureRecognizers>
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="{Binding Ride.DriverName}" TextDecorations="Underline" TextColor="Orange" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
                     <Label Text="Driver email " 
-                    FontSize="16" 
-                    FontAttributes="Bold" 
-                    Grid.Row="2" 
-                    Grid.Column="0" 
-                    Padding="5,5,0,0"/>
+                        FontSize="16" 
+                        FontAttributes="Bold" 
+                        Grid.Row="2" 
+                        Grid.Column="0" 
+                        Padding="5,5,0,0"/>
                     <Label Text="{Binding Ride.DriverEmail}" 
-                    FontSize="15" 
-                    Grid.Row="2" 
-                    Grid.Column="1" 
-                    TextColor="White" 
-                    Padding="5,5,0,0"
-                    LineBreakMode="TailTruncation"/>
+                        FontSize="15" 
+                        Grid.Row="2" 
+                        Grid.Column="1" 
+                        TextColor="White" 
+                        Padding="5,5,0,0"
+                        LineBreakMode="TailTruncation"/>
                     <Label Text="Driver phone " 
-                    FontSize="16" 
-                    FontAttributes="Bold" 
-                    Grid.Row="4" 
-                    Grid.Column="0" 
-                    Padding="5,5,0,0"/>
+                        FontSize="16" 
+                        FontAttributes="Bold" 
+                        Grid.Row="4" 
+                        Grid.Column="0" 
+                        Padding="5,5,0,0"/>
                     <Label Text="{Binding Ride.DriverPhone}" 
-                    FontSize="15" 
-                    Grid.Row="4" 
-                    Grid.Column="1" 
-                    TextColor="White" 
-                    Padding="5,5,0,0"
-                    LineBreakMode="TailTruncation"/>
+                        FontSize="15" 
+                        Grid.Row="4" 
+                        Grid.Column="1" 
+                        TextColor="White" 
+                        Padding="5,5,0,0"
+                        LineBreakMode="TailTruncation"/>
                     <Label Text="Driver Note:" 
-                    FontSize="16" 
-                    FontAttributes="Bold" 
-                    Grid.Row="6" 
-                    Grid.Column="0" 
-                    Padding="5,5,0,0"/>
+                        FontSize="16" 
+                        FontAttributes="Bold" 
+                        Grid.Row="6" 
+                        Grid.Column="0" 
+                        Padding="5,5,0,0"/>
                     <Label Text="{Binding Ride.DriverNote}" 
-                    FontSize="15" 
-                    Grid.Row="6" 
-                    Grid.Column="1" 
-                    TextColor="White" 
-                    Padding="5,5,0,0"
-                    LineBreakMode="TailTruncation"/>
+                        FontSize="15" 
+                        Grid.Row="6" 
+                        Grid.Column="1" 
+                        TextColor="White" 
+                        Padding="5,5,0,0"
+                        LineBreakMode="TailTruncation"/>
                     <Label Text="Canceled:" 
-                    FontSize="16" 
-                    FontAttributes="Bold" 
-                    Grid.Row="8" 
-                    Grid.Column="0" 
-                    Padding="5,5,0,0"/>
+                        FontSize="16" 
+                        FontAttributes="Bold" 
+                        Grid.Row="8" 
+                        Grid.Column="0" 
+                        Padding="5,5,0,0"/>
                     <Label Text="{Binding Ride.Canceled}" 
-                    FontSize="15" 
-                    Grid.Row="8" 
-                    Grid.Column="1" 
-                    TextColor="White" 
-                    Padding="5,5,0,0"
-                    LineBreakMode="TailTruncation"/>
+                        FontSize="15" 
+                        Grid.Row="8" 
+                        Grid.Column="1" 
+                        TextColor="White" 
+                        Padding="5,5,0,0"
+                        LineBreakMode="TailTruncation"/>
                 </Grid>
             </Frame>
             <Frame CornerRadius="3" 
@@ -248,12 +259,23 @@
                                                TextColor="White" 
                                                Padding="5,5,0,0"/>
                                         <Label Text="{Binding Name}" 
-                                               FontSize="15" 
-                                               Grid.Row="0" 
-                                               Grid.Column="1" 
-                                               TextColor="White" 
-                                               Padding="5,5,0,0"
-                                               LineBreakMode="TailTruncation"/>
+                                                FontSize="18"
+                                                FontAttributes="Bold" 
+                                                Grid.Row="0" 
+                                                Grid.Column="1" 
+                                                Padding="5,0,0,0"
+                                                LineBreakMode="TailTruncation">
+                                            <Label.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:RideDetailViewModel}}, Path=GoToProfileCommand}"
+                                                                      CommandParameter="{Binding PassengerId}" />
+                                            </Label.GestureRecognizers>
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="{Binding Name}" TextDecorations="Underline"  TextColor="Orange"  />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                
                                         <Label Text="Email " 
                                                FontSize="14" 
                                                Grid.Row="2" 
@@ -344,12 +366,23 @@
                                                TextColor="White" 
                                                Padding="5,5,0,0"/>
                                         <Label Text="{Binding AuthorName}" 
-                                               FontSize="16" 
-                                               Grid.Row="0" 
-                                               Grid.Column="1" 
-                                               TextColor="White" 
-                                               Padding="5,5,0,0"
-                                               LineBreakMode="TailTruncation"/>
+                                                FontSize="18"
+                                                FontAttributes="Bold" 
+                                                Grid.Row="0" 
+                                                Grid.Column="1" 
+                                                Padding="5,5,0,0"
+                                                LineBreakMode="TailTruncation">
+                                            <Label.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:RideDetailViewModel}}, Path=GoToProfileCommand}"
+                                                                      CommandParameter="{Binding AuthorId}" />
+                                            </Label.GestureRecognizers>
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="{Binding AuthorName}" TextDecorations="Underline"  TextColor="Orange" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                        
                                         <Label Text="Review:" 
                                                FontSize="16" 
                                                FontAttributes="Bold" 

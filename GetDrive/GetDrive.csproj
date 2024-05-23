@@ -58,11 +58,20 @@
 
 	<ItemGroup>
 	  <None Remove="appsettings.json" />
+	  <None Remove="Resources\Images\avatar.svg" />
 	  <None Remove="Resources\Images\incoming_arrow.svg" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <EmbeddedResource Include="Configuration\appsettings.json" />
+		<EmbeddedResource Include="Configuration\appsettings.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="Configuration\appsettings.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+	  </Content>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -81,11 +90,17 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Views\Auth.xaml.cs">
+	  <Compile Update="Views\AuthView.xaml.cs">
 	    <DependentUpon>Auth.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Views\ChangePasswordView.xaml.cs">
 	    <DependentUpon>ChangePasswordView.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\Profile\ProfileView.xaml.cs">
+	    <DependentUpon>ProfileView.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\Profile\ManageProfileView.xaml.cs">
+	    <DependentUpon>ManageProfileView.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Views\Ride\RideDetailView.xaml.cs">
 	    <DependentUpon>RideDetailView.xaml</DependentUpon>
@@ -105,10 +120,13 @@
 	  <MauiXaml Update="Views\Base\ContentPageBase.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\Profile\ProfileView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\RideRequests.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\Profile.xaml">
+	  <MauiXaml Update="Views\Profile\ManageProfileView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\ReviewView.xaml">

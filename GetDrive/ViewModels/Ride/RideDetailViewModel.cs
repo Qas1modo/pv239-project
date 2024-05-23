@@ -77,7 +77,7 @@ namespace GetDrive.ViewModels
             {
                 // TODO handle this result
                 var result = await rideClient.CancelRide(Ride.Id);
-                var profileRoute = routingService.GetRouteByViewModel<ProfileViewModel>();
+                var profileRoute = routingService.GetRouteByViewModel<ManageProfileViewModel>();
                 await Shell.Current.GoToAsync(profileRoute);
             }
         }
@@ -139,6 +139,16 @@ namespace GetDrive.ViewModels
                     RideMap.MoveToRegion(MapSpan.FromCenterAndRadius(mapLocation, Distance.FromKilometers(50)));
                 }
             }
+        }
+
+        [RelayCommand]
+        public async Task GoToProfile(int id)
+        {
+            var profileRoute = routingService.GetRouteByViewModel<ProfileViewModel>();
+            await Shell.Current.GoToAsync(profileRoute, new Dictionary<string, object>
+            {
+                [nameof(ProfileViewModel.Id)] = id
+            });
         }
     }
 }
