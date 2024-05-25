@@ -47,6 +47,7 @@
             </StackLayout>
 
             <Label Text="Reviews" FontSize="24" FontAttributes="Bold" Margin="0,30,0,0"/>
+            <Button Text="Add Review" Command="{Binding GoToReviewCommand}" />
             <StackLayout>
                 <Grid Padding="5" Margin="10">
                     <Grid.ColumnDefinitions>

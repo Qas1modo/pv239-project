@@ -6,7 +6,6 @@ using GetDrive.Clients;
 using GetDrive.Controls;
 using GetDrive.Models;
 using GetDrive.Services;
-using GetDrive.Views;
 using Microsoft.Maui.Controls.Maps;
 using Microsoft.Maui.Maps;
 
@@ -112,13 +111,6 @@ namespace GetDrive.ViewModels
                 var profileRoute = routingService.GetRouteByViewModel<ManageProfileViewModel>();
                 await Shell.Current.GoToAsync(profileRoute);
             }
-        }
-
-        [RelayCommand]
-        public async Task GoToReview()
-        {
-            var reviewPage = new ReviewView(this);
-            await Shell.Current.Navigation.PushAsync(reviewPage);
         }
 
         [RelayCommand]
