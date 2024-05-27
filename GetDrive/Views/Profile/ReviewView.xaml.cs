@@ -5,7 +5,7 @@ namespace GetDrive.Views
 {
     public partial class ReviewView : ContentPageBase
     {
-        public ReviewView(ProfileViewModel viewModel, IGlobalExceptionService globalExceptionService)
+        public ReviewView(ReviewViewModel viewModel, IGlobalExceptionService globalExceptionService)
             : base(viewModel, globalExceptionService)
         {
             InitializeComponent();

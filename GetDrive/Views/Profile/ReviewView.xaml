@@ -7,37 +7,35 @@
                        xmlns:m="clr-namespace:GetDrive.Models"
                        xmlns:vm="clr-namespace:GetDrive.ViewModels"
                        xmlns:views="clr-namespace:GetDrive.Views"
+                       xmlns:converters="clr-namespace:GetDrive.Converters"
                        x:Class="GetDrive.Views.ReviewView"
                        x:DataType="vm:ReviewViewModel"
                        Style="{StaticResource ContentPageStyle}"
                        Title="Add Review">
 
-    <StackLayout Orientation="Horizontal">
-        <Image Source="{Binding StarImages[0]}" Aspect="AspectFit">
-            <Image.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding RateCommand}" CommandParameter="1"/>
-            </Image.GestureRecognizers>
-        </Image>
-        <Image Source="{Binding StarImages[1]}" Aspect="AspectFit">
-            <Image.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding RateCommand}" CommandParameter="2"/>
-            </Image.GestureRecognizers>
-        </Image>
-        <Image Source="{Binding StarImages[2]}" Aspect="AspectFit">
-            <Image.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding RateCommand}" CommandParameter="3"/>
-            </Image.GestureRecognizers>
-        </Image>
-        <Image Source="{Binding StarImages[3]}" Aspect="AspectFit">
-            <Image.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding RateCommand}" CommandParameter="4"/>
-            </Image.GestureRecognizers>
-        </Image>
-        <Image Source="{Binding StarImages[4]}" Aspect="AspectFit">
-            <Image.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding RateCommand}" CommandParameter="5"/>
-            </Image.GestureRecognizers>
-        </Image>
-    </StackLayout>
+    <ScrollView>
+        <VerticalStackLayout Spacing="10" Padding="20">
+
+            <!-- Star Rating -->
+            <Label Text="Your Rating"/>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Padding="10">
+                <!-- Existing star images and tap gestures go here -->
+            </StackLayout>
+
+            <!-- Textual Review Section wrapped in a Frame -->
+            <Label Text="Your Review" />
+            <Frame BorderColor="{StaticResource Primary}" Padding="0" CornerRadius="5">
+                <Editor Placeholder="Write your review here..."
+                        AutoSize="TextChanges"
+                        HeightRequest="150" />
+            </Frame>
+
+
+            <!-- Submit Button -->
+            
+            <Button Text="Submit Review" Command="{Binding AddReviewCommand}" />
+
+        </VerticalStackLayout>
+    </ScrollView>
 
 </views:ContentPageBase>

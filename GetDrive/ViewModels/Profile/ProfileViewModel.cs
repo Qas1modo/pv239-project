@@ -49,8 +49,8 @@ namespace GetDrive.ViewModels
         [RelayCommand]
         public async Task GoToReview()
         {
-            var reviewPage = new ReviewView(this, _globalExceptionService);
-            await Shell.Current.Navigation.PushAsync(reviewPage);
+            var reviewPage = _routingService.GetRouteByViewModel<ReviewViewModel>();
+            await Shell.Current.GoToAsync(reviewPage);
         }
 
         [RelayCommand]
@@ -58,6 +58,5 @@ namespace GetDrive.ViewModels
         {
             await Shell.Current.GoToAsync("..");
         }
-
     }
 }

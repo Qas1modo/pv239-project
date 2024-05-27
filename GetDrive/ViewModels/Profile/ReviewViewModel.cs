@@ -21,12 +21,16 @@ namespace GetDrive.ViewModels
         private readonly IMapper _mapper;
 
         [ObservableProperty]
-        private ReviewListModel review = new();
+        private ReviewDTO review = new();
 
         [ObservableProperty]
-        private int rating;
+        private int score;
 
-        public ObservableCollection<string> StarImages { get; set; } = new ObservableCollection<string>();
+        [RelayCommand]
+        public void SetScore(int rating)
+        {
+            Score = rating;
+        }
 
         [ObservableProperty]
         private string message = string.Empty;
@@ -39,7 +43,6 @@ namespace GetDrive.ViewModels
             _routingService = routingService;
             _reviewClient = reviewClient;
             _mapper = mapper;
-            InitializeStarRatings();
         }
 
         public override async Task OnAppearingAsync()
@@ -47,29 +50,13 @@ namespace GetDrive.ViewModels
             await base.OnAppearingAsync();
         }
 
-        private void InitializeStarRatings()
-        {
-            for (int i = 0; i < 5; i++)
-            {
-                StarImages.Add("star_empty.svg");
-            }
-        }
-
-        [RelayCommand]
-        private void Rate(int starValue)
-        {
-            Rating = starValue;
-            for (int i = 0; i < StarImages.Count; i++)
-            {
-                StarImages[i] = i < starValue ? "star_filled.svg" : "star_empty.svg";
-            }
-        }
-
         [RelayCommand]
         private async Task AddReview()
         {
-            var createReviewDTO = _mapper.Map<ReviewDTO>(Review);
-            var result = await _reviewClient.CreateReviewAsync(createReviewDTO);
+            Review.UserId = int.Parse(await SecureStorage.GetAsync("UserId"));
+            Review.ReviewText = "Super fast ride!";
+            Review.Score = 5;
+            var result = await _reviewClient.CreateReviewAsync(Review);
             MessageColour = "#FF0000";
             if (result.StatusCode == 200)
             {
