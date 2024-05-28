@@ -27,9 +27,11 @@ namespace GetDrive.ViewModels
         private int score;
 
         [RelayCommand]
-        public void SetScore(int rating)
+        public void SetScore(String ratingString)
         {
+            int.TryParse(ratingString, out int rating);
             Score = rating;
+            Review.Score = rating;
         }
 
         [ObservableProperty]
@@ -43,6 +45,7 @@ namespace GetDrive.ViewModels
             _routingService = routingService;
             _reviewClient = reviewClient;
             _mapper = mapper;
+            Score = 0;
         }
 
         public override async Task OnAppearingAsync()
@@ -53,9 +56,14 @@ namespace GetDrive.ViewModels
         [RelayCommand]
         private async Task AddReview()
         {
-            Review.UserId = int.Parse(await SecureStorage.GetAsync("UserId"));
-            Review.ReviewText = "Super fast ride!";
-            Review.Score = 5;
+            var userIdString = await SecureStorage.GetAsync("UserId");
+            if (!int.TryParse(userIdString, out int userId))
+            {
+                var authRoute = _routingService.GetRouteByViewModel<AuthViewModel>();
+                await Shell.Current.GoToAsync(authRoute);
+            }
+            Review.UserId = userId;
+
             var result = await _reviewClient.CreateReviewAsync(Review);
             MessageColour = "#FF0000";
             if (result.StatusCode == 200)

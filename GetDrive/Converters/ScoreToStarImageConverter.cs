@@ -11,9 +11,12 @@ namespace GetDrive.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            int score = (int)value;
-            int starPosition = int.Parse((string)parameter);
-            return starPosition <= score ? "star_filled.svg" : "star_empty.svg";
+            if (value is int score && int.TryParse(parameter.ToString(), out int starPosition))
+            {
+                var result = starPosition <= score ? "star_filled_primary_color.svg" : "star_filled_grey.svg";
+                return result;
+            }
+            return "star_filled_grey.svg";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

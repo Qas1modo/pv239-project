@@ -10,7 +10,8 @@ namespace GetDrive.Converters
         {
             if (value is double score)
             {
-                return score / 5;
+                double result = score / 5;
+                return Math.Round(result, 1);
             }
             return 0;
         }

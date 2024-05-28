@@ -6,10 +6,4 @@
              x:Name="Page"
              Title="ContentPageBase">
 
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <converters:ScoreToStarImageConverter x:Key="ScoreToStarImageConverter"/>
-        </ResourceDictionary>
-    </ContentPage.Resources>
-
 </ContentPage>

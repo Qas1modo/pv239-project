@@ -13,26 +13,55 @@
                        Style="{StaticResource ContentPageStyle}"
                        Title="Add Review">
 
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:ScoreToStarImageConverter x:Key="ScoreToStarImageConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
     <ScrollView>
-        <VerticalStackLayout Spacing="10" Padding="20">
+        <VerticalStackLayout Spacing="20" Padding="20, 30">
 
             <!-- Star Rating -->
-            <Label Text="Your Rating"/>
+            <Label Text="Your Rating" FontAttributes="Bold"/>
             <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Padding="10">
-                <!-- Existing star images and tap gestures go here -->
+                <Image Source="{Binding Score, Converter={StaticResource ScoreToStarImageConverter}, ConverterParameter=1}" HeightRequest="50">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SetScoreCommand}" CommandParameter="1"/>
+                    </Image.GestureRecognizers>
+                </Image>
+                <Image Source="{Binding Score, Converter={StaticResource ScoreToStarImageConverter}, ConverterParameter=2}" HeightRequest="50">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SetScoreCommand}" CommandParameter="2"/>
+                    </Image.GestureRecognizers>
+                </Image>
+                <Image Source="{Binding Score, Converter={StaticResource ScoreToStarImageConverter}, ConverterParameter=3}" HeightRequest="50">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SetScoreCommand}" CommandParameter="3"/>
+                    </Image.GestureRecognizers>
+                </Image>
+                <Image Source="{Binding Score, Converter={StaticResource ScoreToStarImageConverter}, ConverterParameter=4}" HeightRequest="50">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SetScoreCommand}" CommandParameter="4"/>
+                    </Image.GestureRecognizers>
+                </Image>
+                <Image Source="{Binding Score, Converter={StaticResource ScoreToStarImageConverter}, ConverterParameter=5}" HeightRequest="50">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SetScoreCommand}" CommandParameter="5"/>
+                    </Image.GestureRecognizers>
+                </Image>
             </StackLayout>
 
-            <!-- Textual Review Section wrapped in a Frame -->
-            <Label Text="Your Review" />
+            <!-- Textual Review -->
+            <Label Text="Your Review" FontAttributes="Bold"/>
             <Frame BorderColor="{StaticResource Primary}" Padding="0" CornerRadius="5">
                 <Editor Placeholder="Write your review here..."
+                        Text="{Binding Review.ReviewText}"
                         AutoSize="TextChanges"
                         HeightRequest="150" />
             </Frame>
 
-
             <!-- Submit Button -->
-            
             <Button Text="Submit Review" Command="{Binding AddReviewCommand}" />
 
         </VerticalStackLayout>

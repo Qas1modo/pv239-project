@@ -53,6 +53,9 @@ namespace GetDrive.ViewModels
             await Shell.Current.GoToAsync(reviewPage);
         }
 
+        private bool 
+
+
         [RelayCommand]
         public async Task NavigateBack()
         {

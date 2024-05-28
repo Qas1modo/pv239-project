@@ -60,6 +60,7 @@
 	  <None Remove="appsettings.json" />
 	  <None Remove="Resources\Images\avatar.svg" />
 	  <None Remove="Resources\Images\incoming_arrow.svg" />
+	  <None Remove="Resources\Images\star_filled_primary_color.svg" />
 	</ItemGroup>
 
 	<ItemGroup>
