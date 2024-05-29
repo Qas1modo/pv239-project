@@ -24,12 +24,31 @@ namespace GetDrive.ViewModels
         [ObservableProperty]
         private ProfileModel profile = new();
 
+        [ObservableProperty]
+        private bool isNotCurrentUser;
+
         public ProfileViewModel(IUserClient userClient, IMapper mapper, IRoutingService routingService, IGlobalExceptionService globalExceptionService)
         {
             _userClient = userClient;
             _mapper = mapper;
             _routingService = routingService;
             _globalExceptionService = globalExceptionService;
+            InitializeData();
+        }
+
+        public async Task InitializeData()
+        {
+            var userIdString = await SecureStorage.GetAsync("UserId");
+            if (!int.TryParse(userIdString, out int userId))
+            {
+                var authRoute = _routingService.GetRouteByViewModel<AuthViewModel>();
+                await Shell.Current.GoToAsync(authRoute);
+                IsNotCurrentUser = false;
+            }
+            else
+            {
+                IsNotCurrentUser = Id != userId;
+            }
         }
 
         public override async Task OnAppearingAsync()
@@ -52,9 +71,6 @@ namespace GetDrive.ViewModels
             var reviewPage = _routingService.GetRouteByViewModel<ReviewViewModel>();
             await Shell.Current.GoToAsync(reviewPage);
         }
-
-        private bool 
-
 
         [RelayCommand]
         public async Task NavigateBack()

@@ -54,7 +54,7 @@
                 <ProgressBar Progress="{Binding Profile.Score, Converter={StaticResource ValueConverter}}"></ProgressBar>
             </StackLayout>
 
-            <Button Text="Add Review" Command="{Binding GoToReviewCommand}" />
+            <Button Text="Add Review" Command="{Binding GoToReviewCommand}" IsVisible="{Binding IsNotCurrentUser}" />
             <StackLayout>
                 <Grid Padding="5" Margin="10">
                     <Grid.ColumnDefinitions>
