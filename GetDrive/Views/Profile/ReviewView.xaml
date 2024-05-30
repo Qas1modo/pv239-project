@@ -20,8 +20,13 @@
     </ContentPage.Resources>
     
     <ScrollView>
-        <VerticalStackLayout Spacing="20" Padding="20, 30">
+        <VerticalStackLayout Spacing="20" Padding="20, 2">
 
+            <Label Text="{Binding Message}" 
+                   HorizontalOptions="Center" 
+                   VerticalOptions="Center"
+                   TextColor="{Binding MessageColour}" Padding="5"/>
+            
             <!-- Star Rating -->
             <Label Text="Your Rating" FontAttributes="Bold"/>
             <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Padding="10">
