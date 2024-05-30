@@ -40,6 +40,7 @@ public partial class RideRequestsViewModel : ViewModelBase
     {
         RideModel.Incoming = false;
         RideModel.Outgoing = false;
+        RideRequests = new ObservableCollection<RideListModel>();
         var requests = await _userRideClient.GetDriverRequests();
         RideModel.Incoming = true;
         if (requests.StatusCode == 200)
@@ -72,6 +73,7 @@ public partial class RideRequestsViewModel : ViewModelBase
     {
         RideModel.Incoming = false;
         RideModel.Outgoing = false;
+        RideRequests = new ObservableCollection<RideListModel>();
         var requests = await _userRideClient.GetPassengerRequests();
         RideModel.Outgoing = true;
         if (requests.StatusCode == 200)

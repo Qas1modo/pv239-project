@@ -21,27 +21,34 @@ namespace GetDrive.Services
 
         public async Task<LocationDTO?> GetLocationAsync(string address)
         {
-            var url = $"https://nominatim.openstreetmap.org/search?q={address}&format=json&addressdetails=1";
-            var response = await _httpClient.GetStringAsync(url);
-
-            using (JsonDocument document = JsonDocument.Parse(response))
+            try
             {
-                JsonElement root = document.RootElement;
-                if (root.ValueKind == JsonValueKind.Array && root.GetArrayLength() > 0)
+                var url = $"https://nominatim.openstreetmap.org/search?q={address}&format=json&addressdetails=1";
+                var response = await _httpClient.GetStringAsync(url);
+
+                using (JsonDocument document = JsonDocument.Parse(response))
                 {
-                    JsonElement firstResult = root[0];
-                    if (firstResult.TryGetProperty("lat", out JsonElement latElement) &&
-                        firstResult.TryGetProperty("lon", out JsonElement lonElement))
+                    JsonElement root = document.RootElement;
+                    if (root.ValueKind == JsonValueKind.Array && root.GetArrayLength() > 0)
                     {
-                        if (double.TryParse(latElement.GetString(), System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out double lat) &&
-                            double.TryParse(lonElement.GetString(), System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out double lon))
+                        JsonElement firstResult = root[0];
+                        if (firstResult.TryGetProperty("lat", out JsonElement latElement) &&
+                            firstResult.TryGetProperty("lon", out JsonElement lonElement))
                         {
-                            return new LocationDTO(lat, lon);
+                            if (double.TryParse(latElement.GetString(), System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out double lat) &&
+                                double.TryParse(lonElement.GetString(), System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out double lon))
+                            {
+                                return new LocationDTO(lat, lon);
+                            }
                         }
                     }
                 }
+                return null;
             }
-            return null;
+            catch
+            {
+                return null;
+            }
         }
     }
 }
