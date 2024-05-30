@@ -3,11 +3,12 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GetDrive.Api;
 using GetDrive.Clients;
-using GetDrive.Controls;
 using GetDrive.Models;
 using GetDrive.Services;
 using Microsoft.Maui.Controls.Maps;
 using Microsoft.Maui.Maps;
+using GetDrive.Views;
+using System.Collections.ObjectModel;
 
 namespace GetDrive.ViewModels
 {
@@ -21,19 +22,14 @@ namespace GetDrive.ViewModels
 
         public int Id { get; set; }
 
+        [ObservableProperty]
         private RideDetailModel ride;
 
         [ObservableProperty]
         private PassengerDTO rideRequest = new();
 
-        public RideDetailModel Ride
-        {
-            get => ride;
-            set => SetProperty(ref ride, value);
-        }
-
         [ObservableProperty]
-        private CustomMap rideMap = new();
+        private ObservableCollection<PinModel> routeCoordinates;
 
         [ObservableProperty]
         private bool isDriver;
@@ -44,11 +40,6 @@ namespace GetDrive.ViewModels
         [ObservableProperty]
         private string messageColour = "#000000";
 
-        partial void OnRideMapChanged(CustomMap value)
-        {
-            OnPropertyChanged(nameof(RideMap));
-        }
-
         public RideDetailViewModel(IRoutingService routingService, IRideClient rideClient,
             IMapper mapper, IUserRideClient userRideClient)
         {
@@ -56,6 +47,7 @@ namespace GetDrive.ViewModels
             this.rideClient = rideClient;
             this.mapper = mapper;
             this.userRideClient = userRideClient;
+            RouteCoordinates = new ObservableCollection<PinModel>(); // please this is required for proper Map function
         }
 
         public override async Task OnAppearingAsync()
@@ -106,7 +98,6 @@ namespace GetDrive.ViewModels
         {
             if (Ride != null && IsDriver)
             {
-                // TODO handle this result
                 var result = await rideClient.CancelRide(Ride.Id);
                 var profileRoute = routingService.GetRouteByViewModel<ManageProfileViewModel>();
                 await Shell.Current.GoToAsync(profileRoute);
@@ -121,47 +112,24 @@ namespace GetDrive.ViewModels
 
         private async Task ShowRouteOnMap(string startLocation, string destination)
         {
-            var startLocationCoords = new Location(ride.StartLatitude, ride.StartLongitude);
-            var destinationLocationCoords = new Location(ride.DestinationLatitude,ride.DestinationLongitude);
+            var startLocationCoords = new Location(Ride.StartLatitude, Ride.StartLongitude);
+            var destinationLocationCoords = new Location(Ride.DestinationLatitude, Ride.DestinationLongitude);
 
             if (startLocationCoords != null && destinationLocationCoords != null)
             {
-                var startPin = new Pin
+                RouteCoordinates.Clear();
+                RouteCoordinates.Add(new PinModel
                 {
-                    Label = "Start Location",
+                    Label = "Start location",
                     Address = startLocation,
-                    Type = PinType.Place,
                     Location = startLocationCoords
-                };
-                var destinationPin = new Pin
+                });
+                RouteCoordinates.Add(new PinModel
                 {
-                    Label = "Destination",
+                    Label = "Ride destination",
                     Address = destination,
-                    Type = PinType.Place,
                     Location = destinationLocationCoords
-                };
-
-                if (RideMap != null)
-                {
-                    RideMap.Pins.Clear();
-                    RideMap.Pins.Add(startPin);
-                    RideMap.Pins.Add(destinationPin);
-
-                    var route = new Polyline
-                    {
-                        StrokeColor = Colors.Blue,
-                        StrokeWidth = 12
-                    };
-
-                    route.Geopath.Clear();
-                    route.Geopath.Add(new Location(startLocationCoords.Latitude, startLocationCoords.Longitude));
-                    route.Geopath.Add(new Location(destinationLocationCoords.Latitude, destinationLocationCoords.Longitude));
-
-                    RideMap.MapElements.Clear();
-                    RideMap.MapElements.Add(route);
-                    Location mapLocation = new Location((startLocationCoords.Latitude + destinationLocationCoords.Latitude) / 2, (startLocationCoords.Longitude + destinationLocationCoords.Longitude) / 2);
-                    RideMap.MoveToRegion(MapSpan.FromCenterAndRadius(mapLocation, Distance.FromKilometers(50)));
-                }
+                });
             }
         }
 
