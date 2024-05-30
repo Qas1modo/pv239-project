@@ -53,7 +53,13 @@
             <Label Text="Reviews" FontSize="24" FontAttributes="Bold" Margin="0,30,0,0"/>
             <!-- <Frame Padding="10" CornerRadius="10" Margin="5" BackgroundColor="#FFFFFF" HasShadow="True"> -->
                 <StackLayout>
-                    <Grid Padding="5" Margin="10">
+
+                <StackLayout Orientation="Vertical" VerticalOptions="Center" Margin="10,20,10,5">
+                    <Label Text="{Binding UserProfile.Score, StringFormat='Overall score {0:0.0}/5'}" FontSize="16" FontAttributes="Bold" VerticalOptions="Center"/>
+                    <ProgressBar Progress="{Binding UserProfile.Score, Converter={StaticResource ValueConverter}}"></ProgressBar>
+                </StackLayout>
+                    
+                <Grid Padding="5" Margin="10">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="2*"/>
                             <ColumnDefinition Width="4*"/>
@@ -85,11 +91,6 @@
                 </StackLayout>
             <!-- </Frame> -->
 
-
-            <StackLayout Orientation="Vertical" VerticalOptions="Center" Margin="10,20,10,5">
-                <Label Text="{Binding UserProfile.Score, StringFormat='Overall score {0}/5'}" FontSize="16" FontAttributes="Bold" VerticalOptions="Center"/>
-                <ProgressBar Progress="{Binding UserProfile.Score, Converter={StaticResource ValueConverter}}"></ProgressBar>
-            </StackLayout>
 
             <Label Text="Driver Rides" FontSize="24" FontAttributes="Bold" Margin="10"/>
             <!--<Frame Padding="10" CornerRadius="10" Margin="0" BackgroundColor="#FFFFFF" HasShadow="True">  -->

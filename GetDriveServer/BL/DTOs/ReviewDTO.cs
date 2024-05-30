@@ -17,7 +17,7 @@ namespace BL.DTOs
         public string? ReviewText { get; set; }
 
         [Required]
-        [Range(1, 10, ErrorMessage = "Score must be between 1 and 10")]
+        [Range(0, 5, ErrorMessage = "Score must be between 0 and 5")]
         public int Score { get; set; }
     }
 }

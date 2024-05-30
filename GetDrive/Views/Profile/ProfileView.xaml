@@ -23,6 +23,7 @@
                 <Setter Property="Margin" Value="10, 0"/>
             </Style>
             <converters:ValueConverter x:Key="ValueConverter" />
+            <converters:ScoreToStarImageConverter x:Key="ScoreToStarImageConverter"/>
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -47,6 +48,13 @@
             </StackLayout>
 
             <Label Text="Reviews" FontSize="24" FontAttributes="Bold" Margin="0,30,0,0"/>
+
+            <StackLayout Orientation="Vertical" VerticalOptions="Center" Margin="10,20,10,5">
+                <Label Text="{Binding Profile.Score, StringFormat='Overall score {0:0.0}/5'}" FontSize="16" FontAttributes="Bold" VerticalOptions="Center"/>
+                <ProgressBar Progress="{Binding Profile.Score, Converter={StaticResource ValueConverter}}"></ProgressBar>
+            </StackLayout>
+
+            <Button Text="Add Review" Command="{Binding GoToReviewCommand}" IsVisible="{Binding IsNotCurrentUser}" />
             <StackLayout>
                 <Grid Padding="5" Margin="10">
                     <Grid.ColumnDefinitions>
@@ -77,10 +85,6 @@
                 </CollectionView>
             </StackLayout>
 
-            <StackLayout Orientation="Vertical" VerticalOptions="Center" Margin="10,20,10,5">
-                <Label Text="{Binding Profile.Score, StringFormat='Overall score {0}/5'}" FontSize="16" FontAttributes="Bold" VerticalOptions="Center"/>
-                <ProgressBar Progress="{Binding Profile.Score, Converter={StaticResource ValueConverter}}"></ProgressBar>
-            </StackLayout>
         </VerticalStackLayout>
     </ScrollView>
 </views:ContentPageBase>

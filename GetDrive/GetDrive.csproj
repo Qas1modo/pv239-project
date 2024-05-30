@@ -60,6 +60,7 @@
 	  <None Remove="appsettings.json" />
 	  <None Remove="Resources\Images\avatar.svg" />
 	  <None Remove="Resources\Images\incoming_arrow.svg" />
+	  <None Remove="Resources\Images\star_filled_primary_color.svg" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -123,13 +124,13 @@
 	  <MauiXaml Update="Views\Profile\ProfileView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\Profile\ReviewView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\RideRequests.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Profile\ManageProfileView.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\ReviewView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Ride\RideFilterView.xaml">

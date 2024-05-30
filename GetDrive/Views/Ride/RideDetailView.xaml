@@ -359,15 +359,6 @@
                            FontAttributes="Bold" 
                            TextColor="{StaticResource Primary}"
                            Padding="0,0,0,10" />
-                    <Button
-                        Text="Add Review"
-                        HorizontalOptions="Start"
-                        VerticalOptions="Center"
-                        Padding="10"
-                        CornerRadius="10"
-                        Command="{Binding GoToReviewCommand}"
-                        ImageSource="chat.svg"
-                        Margin="5,0,0,0"></Button>
                     <CollectionView ItemsSource="{Binding Ride.DriverReviews}">
                         <CollectionView.ItemsLayout>
                             <LinearItemsLayout Orientation="Vertical" />
