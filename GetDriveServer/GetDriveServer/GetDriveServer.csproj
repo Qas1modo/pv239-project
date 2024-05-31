@@ -28,4 +28,8 @@
     <ProjectReference Include="..\Configuration\Configuration.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>
