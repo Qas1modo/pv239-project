@@ -1,47 +1,48 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                       xmlns:t="clr-namespace:GetDrive.Resources.Texts"
-                       xmlns:f="clr-namespace:GetDrive.Resources.Fonts"
-                       xmlns:m="clr-namespace:GetDrive.Models"
-                       xmlns:vm="clr-namespace:GetDrive.ViewModels"
-                       xmlns:views="clr-namespace:GetDrive.Views"
-                       xmlns:sys="clr-namespace:System;assembly=mscorlib"
-                       x:Class="GetDrive.Views.RideFilterView"
-                       x:DataType="vm:RideListViewModel"
-                       Style="{StaticResource ContentPageStyle}"
-                       Title="Filter Ride">
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:t="clr-namespace:GetDrive.Resources.Texts"
+             xmlns:f="clr-namespace:GetDrive.Resources.Fonts"
+             xmlns:m="clr-namespace:GetDrive.Models"
+             xmlns:vm="clr-namespace:GetDrive.ViewModels"
+             xmlns:views="clr-namespace:GetDrive.Views"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             x:Class="GetDrive.Views.RideFilterView"
+             x:DataType="vm:RideListViewModel"
+             Style="{StaticResource ContentPageStyle}"
+             Title="Filter Rides">
 
     <ScrollView>
-        <VerticalStackLayout Spacing="20" Padding="10">
-            <Frame CornerRadius="10" BorderColor="LightGray" HasShadow="True">
-                <StackLayout>
-                    <Label Text="Start location" FontSize="14" FontAttributes="Bold"/>
-                    <Entry Text="{Binding CurrentFilter.StartLocation}" FontSize="14" MaxLength="30"/>
-                    <Label Text="Destination" FontSize="14" FontAttributes="Bold"/>
-                    <Entry Text="{Binding CurrentFilter.Destination}" FontSize="14" MaxLength="30"/>
-                    <Label Text="Departure" FontSize="14" FontAttributes="Bold"/>
-                    <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
-                        <DatePicker Date="{Binding CurrentFilter.Departure, Mode=TwoWay}"
-                                    Format="D"
-                                    HorizontalOptions="Center"
-                                    VerticalOptions="Center" />
-                    </StackLayout>
-                    <Label Text="Maximum price" FontSize="14" FontAttributes="Bold"/>
-                    <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
-                        <Entry Text="{Binding CurrentFilter.MaximumPrice}" Keyboard="Numeric" FontSize="14" MaxLength="10" HorizontalOptions="Start"/>
-                        <Label Text="$" VerticalOptions="Center" Margin="5,0,0,0"/>
-                    </StackLayout>
-                    <Label Text="Minimum seats" FontSize="14" FontAttributes="Bold"/>
-                    <Entry Text="{Binding CurrentFilter.AvailableSeats}" Keyboard="Numeric" FontSize="14" MaxLength="10" HorizontalOptions="Start"/>
-                    <Label Text="Show canceled" FontSize="14" FontAttributes="Bold"/>
-                    <Switch IsToggled="{Binding CurrentFilter.ShowCanceled}" HorizontalOptions="Start"/>
-                    <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Spacing="10" Margin="0,10,0,0" Padding="20">
-                        <Button Text="Apply Filters" Command="{Binding ApplyFiltersCommand}" HorizontalOptions="FillAndExpand"/>
-                    </StackLayout>
+        <VerticalStackLayout Spacing="20" Padding="30">
+            <StackLayout Spacing="10">
+                
+                <Label Text="Start location" FontAttributes="Bold" TextColor="{StaticResource Gray900}"/>
+                <Entry Text="{Binding CurrentFilter.StartLocation}" MaxLength="30" Placeholder="Enter start location" BackgroundColor="{StaticResource Gray50}"/>
+
+                <Label Text="Destination" FontAttributes="Bold" TextColor="{StaticResource Gray900}"/>
+                <Entry Text="{Binding CurrentFilter.Destination}" MaxLength="30" Placeholder="Enter destination" BackgroundColor="{StaticResource Gray50}"/>
+
+                <Label Text="Departure" FontAttributes="Bold" TextColor="{StaticResource Gray900}"/>
+                <DatePicker Date="{Binding CurrentFilter.Departure, Mode=TwoWay}"
+                            Format="MMMM dd, yyyy"
+                            HorizontalOptions="FillAndExpand"
+                            BackgroundColor="{StaticResource Gray50}"/>
+
+                <Label Text="Maximum price" FontAttributes="Bold" TextColor="{StaticResource Gray900}"/>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                    <Entry Text="{Binding CurrentFilter.MaximumPrice}" Keyboard="Numeric" MaxLength="10" HorizontalOptions="FillAndExpand" BackgroundColor="{StaticResource Gray50}"/>
+                    <Label Text="$" VerticalOptions="Center" Margin="5,0,0,0" TextColor="{StaticResource Gray900}"/>
                 </StackLayout>
-            </Frame>
+
+                <Label Text="Minimum seats" FontAttributes="Bold" TextColor="{StaticResource Gray900}"/>
+                <Entry Text="{Binding CurrentFilter.AvailableSeats}" Keyboard="Numeric" MaxLength="10" BackgroundColor="{StaticResource Gray50}"/>
+
+                <Label Text="Show canceled" FontAttributes="Bold" TextColor="{StaticResource Gray900}"/>
+                <Switch IsToggled="{Binding CurrentFilter.ShowCanceled}" HorizontalOptions="Start"/>
+
+                <Button Text="Apply Filters" Command="{Binding ApplyFiltersCommand}" HorizontalOptions="FillAndExpand" Style="{StaticResource ButtonStyle}"/>
+            </StackLayout>
         </VerticalStackLayout>
     </ScrollView>
 
