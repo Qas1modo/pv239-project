@@ -63,12 +63,12 @@ namespace GetDrive.ViewModels
                 await Shell.Current.GoToAsync(authRoute);
             }
             Review.UserId = userId;
-
             var result = await _reviewClient.CreateReviewAsync(Review);
+
             MessageColour = "#FF0000";
             if (result.StatusCode == 200)
             {
-                Message = "Review successfully created";
+                Message = result.Response ?? "Review successfully created";
                 MessageColour = "#00FF00";
             }
             if (result.StatusCode == 401)

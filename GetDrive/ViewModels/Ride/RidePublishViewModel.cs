@@ -54,8 +54,11 @@ namespace GetDrive.ViewModels
             {
                 Message = "Ride successfully created";
                 MessageColour = "#00FF00";
+                ResetForm();
+                var route = _routingService.GetRouteByViewModel<RideListViewModel>();
+                await Shell.Current.GoToAsync(route);
             }
-            if (result.StatusCode == 401)
+            else if (result.StatusCode == 401)
             {
                 Message = "You must sign in before you can create the ride.";
             }
@@ -72,6 +75,15 @@ namespace GetDrive.ViewModels
         private DateTime CombineDateTime(DateTime date, TimeSpan time)
         {
             return new DateTime(date.Year, date.Month, date.Day, time.Hours, time.Minutes, time.Seconds);
+        }
+
+        private void ResetForm()
+        {
+            Ride = new RidePublishModel();
+            DepartureDate = DateTime.Today;
+            DepartureTime = DateTime.Now.TimeOfDay;
+            Message = string.Empty;
+            MessageColour = "#000000";
         }
     }
 }
