@@ -36,6 +36,8 @@ namespace Configuration
             services.AddScoped<IUserRideService, UserRideService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IGeocodingService, GeocodingService>();
+
+            services.AddHttpClient();
         }
     }
 }

@@ -12,39 +12,40 @@
     x:Class="GetDrive.Views.RideDetailView"
     Title="Ride detail"
     x:DataType="vm:RideDetailViewModel">
-    <ScrollView>
-        <VerticalStackLayout Spacing="5" Padding="5,5,5,5">
-                       <Frame CornerRadius="0" Padding="15" BackgroundColor="White">
-                <VerticalStackLayout>
-                    <maps:Map x:Name="RideMap"
+    <VerticalStackLayout>
+    <Frame CornerRadius="0" Padding="15" BackgroundColor="White">
+        <VerticalStackLayout>
+            <maps:Map x:Name="RideMap"
                               HeightRequest="300"
                               MapType="Street"
                               ItemsSource="{Binding RouteCoordinates}">
-                       <x:Arguments>
-                            <maps:MapSpan>
+                <x:Arguments>
+                    <maps:MapSpan>
+                        <x:Arguments>
+                            <sensors:Location>
                                 <x:Arguments>
-                                    <sensors:Location>
-                                        <x:Arguments>
-                                            <x:Double>48.669</x:Double>
-                                            <x:Double>17.699</x:Double>
-                                        </x:Arguments>
-                                    </sensors:Location>
-                                    <x:Double>6.00</x:Double>
-                                    <x:Double>6.00</x:Double>
+                                    <x:Double>48.669</x:Double>
+                                    <x:Double>17.699</x:Double>
                                 </x:Arguments>
-                            </maps:MapSpan>
+                            </sensors:Location>
+                            <x:Double>6.00</x:Double>
+                            <x:Double>6.00</x:Double>
                         </x:Arguments>
-                        <maps:Map.ItemTemplate>
-                            <DataTemplate x:DataType="m:PinModel">
-                                <maps:Pin 
+                    </maps:MapSpan>
+                </x:Arguments>
+                <maps:Map.ItemTemplate>
+                    <DataTemplate x:DataType="m:PinModel">
+                        <maps:Pin 
                                     Label="{Binding Label}"
                                     Address="{Binding Address}"
                                     Location="{Binding Location}"/>
-                            </DataTemplate>
-                        </maps:Map.ItemTemplate>
-                    </maps:Map>
-                </VerticalStackLayout>
-            </Frame>
+                    </DataTemplate>
+                </maps:Map.ItemTemplate>
+            </maps:Map>
+        </VerticalStackLayout>
+    </Frame>
+        <ScrollView HeightRequest="500">
+        <VerticalStackLayout Spacing="5" Padding="5,5,5,5">
             <Button Text="Cancel Ride"
                     BackgroundColor="Red"
                     TextColor="White"
@@ -460,4 +461,5 @@
             </Frame>
         </VerticalStackLayout>
     </ScrollView>
+    </VerticalStackLayout>
 </views:ContentPageBase>

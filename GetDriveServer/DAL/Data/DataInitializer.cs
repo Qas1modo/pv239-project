@@ -28,9 +28,16 @@ namespace DAL.Data
                 Departure = DateTime.Now.AddDays(20),
                 DriverNote = "Nebereme nikoho po cestě",
                 Destination = "Bratislava",
+                DestinationLatitude = 48.15926025,
+                DestinationLongitude = 17.139658691421687,
+                StartLatitude = 49.192244299999999,
+                StartLongitude = 16.6113382,
                 StartLocation = "Brno",
                 Price = 2.1m,
-                MaxPassengerCount = 4, AvailableSeats= 2, Canceled = false };
+                MaxPassengerCount = 4,
+                AvailableSeats = 2,
+                Canceled = false
+            };
             modelBuilder.Entity<Ride>().HasData(ride1);
 
             Ride ride2 = new()
@@ -41,6 +48,10 @@ namespace DAL.Data
                 DriverNote = "Beriem psa.",
                 Destination = "Košice",
                 StartLocation = "Bratislava",
+                StartLatitude = 48.15926025,
+                StartLongitude = 17.139658691421687,
+                DestinationLatitude = 48.7172272,
+                DestinationLongitude = 21.2496774,
                 Price = 4.6m,
                 MaxPassengerCount = 3,
                 AvailableSeats = 1,

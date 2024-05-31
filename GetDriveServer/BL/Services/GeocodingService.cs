@@ -1,5 +1,6 @@
 ﻿using BL.DTOs;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -14,9 +15,9 @@ namespace GetDrive.Services
     {
         private readonly HttpClient _httpClient;
 
-        public GeocodingService()
+        public GeocodingService(HttpClient client)
         {
-            _httpClient = new HttpClient();
+            _httpClient = client;
         }
 
         public async Task<LocationDTO?> GetLocationAsync(string address)
@@ -24,9 +25,10 @@ namespace GetDrive.Services
             try
             {
                 var url = $"https://nominatim.openstreetmap.org/search?q={address}&format=json&addressdetails=1";
-                var response = await _httpClient.GetStringAsync(url);
+                _httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (compatible; AcmeInc/1.0)");
+                var response = await _httpClient.GetAsync(url);
 
-                using (JsonDocument document = JsonDocument.Parse(response))
+                using (JsonDocument document = JsonDocument.Parse(await response.Content.ReadAsStringAsync()))
                 {
                     JsonElement root = document.RootElement;
                     if (root.ValueKind == JsonValueKind.Array && root.GetArrayLength() > 0)

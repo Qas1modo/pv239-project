@@ -71,7 +71,7 @@ namespace GetDrive.ViewModels
                 Message = result.Response ?? "Review successfully created";
                 MessageColour = "#00FF00";
             }
-            if (result.StatusCode == 401)
+            else if (result.StatusCode == 401)
             {
                 Message = "You must sign in before you can create a review.";
             }
