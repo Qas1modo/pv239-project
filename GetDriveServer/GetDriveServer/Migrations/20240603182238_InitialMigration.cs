@@ -143,8 +143,8 @@ namespace GetDriveServer.Migrations
                 columns: new[] { "Id", "AvailableSeats", "Canceled", "Departure", "Destination", "DestinationLatitude", "DestinationLongitude", "DriverId", "DriverNote", "MaxPassengerCount", "Price", "StartLatitude", "StartLocation", "StartLongitude" },
                 values: new object[,]
                 {
-                    { 1, 2, false, new DateTime(2024, 6, 20, 18, 0, 23, 922, DateTimeKind.Local).AddTicks(9361), "Bratislava", 48.159260250000003, 17.139658691421687, 1, "Nebereme nikoho po cestě", 4, 2.1m, 49.192244299999999, "Brno", 16.611338199999999 },
-                    { 2, 1, false, new DateTime(2024, 6, 10, 18, 0, 23, 922, DateTimeKind.Local).AddTicks(9435), "Košice", 48.717227200000004, 21.249677399999999, 2, "Beriem psa.", 3, 4.6m, 48.159260250000003, "Bratislava", 17.139658691421687 }
+                    { 1, 2, false, new DateTime(2024, 6, 23, 20, 22, 37, 915, DateTimeKind.Local).AddTicks(6456), "Bratislava", 48.159260250000003, 17.139658691421687, 1, "Nebereme nikoho po cestě", 4, 2.1m, 49.192244299999999, "Brno", 16.611338199999999 },
+                    { 2, 1, false, new DateTime(2024, 6, 13, 20, 22, 37, 915, DateTimeKind.Local).AddTicks(6530), "Košice", 48.717227200000004, 21.249677399999999, 2, "Beriem psa.", 3, 4.6m, 48.159260250000003, "Bratislava", 17.139658691421687 }
                 });
 
             migrationBuilder.InsertData(

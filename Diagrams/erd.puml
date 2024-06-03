@@ -8,7 +8,10 @@ Entity User {
     * id
     --
     * name: String
+    * email: String
+    * phone: String
     * password: String
+    * salt: String
 }
 
 
@@ -16,11 +19,18 @@ Entity Ride {
   * id
   --
   * driverID: <<FK>>
-  * start: string
+  * startLocation: string
   * destination: string
   * price: decimal
   * departure: DateTime
+  * maxPassangerCount: Int
+  * startLatitude: Double
+  * startLongitude: Double
+  * destinationLatitude: Double
+  * destinationLongitude: Double
+  * availableSeats: int
   driverNote: string
+  canceled: bool
 }
 
 Entity Review {
@@ -30,6 +40,7 @@ Entity Review {
     * authorId: <<FK>>
     * score: int
     reviewText: string
+    postedAt: DateTime
 }
 
 Entity UserRide {
@@ -38,13 +49,14 @@ Entity UserRide {
     * passangerId: <<FK>>
     * rideId: <<FK>>
     * passangerCount: int
-    note: string
     accepted: bool
+    note: string
 }
 
 
 User ||--o{ Ride
-User ||--o{ Review
+User ||--o{ UserRide
+User 2--o{ Review
 Ride ||--o{ UserRide
 
 @enduml

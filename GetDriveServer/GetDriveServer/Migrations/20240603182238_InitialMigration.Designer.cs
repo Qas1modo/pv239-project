@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GetDriveServer.Migrations
 {
     [DbContext(typeof(GetDriveDbContext))]
-    [Migration("20240531160024_InitialMigration")]
+    [Migration("20240603182238_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -136,7 +136,7 @@ namespace GetDriveServer.Migrations
                             Id = 1,
                             AvailableSeats = 2,
                             Canceled = false,
-                            Departure = new DateTime(2024, 6, 20, 18, 0, 23, 922, DateTimeKind.Local).AddTicks(9361),
+                            Departure = new DateTime(2024, 6, 23, 20, 22, 37, 915, DateTimeKind.Local).AddTicks(6456),
                             Destination = "Bratislava",
                             DestinationLatitude = 48.159260250000003,
                             DestinationLongitude = 17.139658691421687,
@@ -153,7 +153,7 @@ namespace GetDriveServer.Migrations
                             Id = 2,
                             AvailableSeats = 1,
                             Canceled = false,
-                            Departure = new DateTime(2024, 6, 10, 18, 0, 23, 922, DateTimeKind.Local).AddTicks(9435),
+                            Departure = new DateTime(2024, 6, 13, 20, 22, 37, 915, DateTimeKind.Local).AddTicks(6530),
                             Destination = "Košice",
                             DestinationLatitude = 48.717227200000004,
                             DestinationLongitude = 21.249677399999999,
