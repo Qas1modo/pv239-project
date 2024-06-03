@@ -23,10 +23,10 @@
             <StackLayout Spacing="10">
 
                 <Label Text="Start location" FontAttributes="Bold" TextColor="{StaticResource Gray900}"/>
-                <Entry Text="{Binding Ride.StartLocation}" MaxLength="30" Placeholder="Enter start location" BackgroundColor="{StaticResource Gray50}"/>
+                <Entry Text="{Binding Ride.StartLocation}" MaxLength="100" Placeholder="Enter start location" BackgroundColor="{StaticResource Gray50}"/>
 
                 <Label Text="Destination" FontAttributes="Bold" TextColor="{StaticResource Gray900}"/>
-                <Entry Text="{Binding Ride.Destination}" MaxLength="30" Placeholder="Enter destination" BackgroundColor="{StaticResource Gray50}"/>
+                <Entry Text="{Binding Ride.Destination}" MaxLength="100" Placeholder="Enter destination" BackgroundColor="{StaticResource Gray50}"/>
 
                 <Label Text="Seats" FontAttributes="Bold" TextColor="{StaticResource Gray900}"/>
                 <Entry Text="{Binding Ride.MaxPassengerCount}" Keyboard="Numeric" MaxLength="10"/>
