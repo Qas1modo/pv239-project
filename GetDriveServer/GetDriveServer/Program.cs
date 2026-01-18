@@ -2,7 +2,7 @@ using Configuration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -43,17 +43,11 @@ builder.Services.AddSwaggerGen(c => {
         Description = "Enter JWT Bearer token **_only_**",
         In = ParameterLocation.Header,
         Scheme = "bearer", // must be lower case
-        BearerFormat = "JWT",
-        Reference = new OpenApiReference
-        {
-            Id = JwtBearerDefaults.AuthenticationScheme,
-            Type = ReferenceType.SecurityScheme
-        }
+        BearerFormat = "JWT"
     };
-    c.AddSecurityDefinition(securityScheme.Reference.Id, securityScheme);
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    c.AddSecurityRequirement(document => new OpenApiSecurityRequirement
     {
-        {securityScheme, Array.Empty<string>()}
+        [new OpenApiSecuritySchemeReference("Bearer", document)] = []
     });
 });
 builder.Services.AddControllers();
