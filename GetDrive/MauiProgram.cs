@@ -108,7 +108,16 @@ namespace GetDrive
                 }
 
                 client.BaseAddress = new Uri(address);
-            });
+            })
+#if DEBUG && ANDROID
+            .ConfigurePrimaryHttpMessageHandler(() =>
+            {
+                var handler = new HttpClientHandler();
+                handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true;
+                return handler;
+            })
+#endif
+            ;
             services.AddSingleton<IAuthClient, AuthClient>();
             services.AddSingleton<IReviewClient, ReviewClient>();
             services.AddSingleton<IRideClient, RideClient>();
